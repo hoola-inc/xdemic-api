@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10.15.2"
+  - "10.16.0"
 # after_success: 
 #   - npm test
 # env:
@@ -14,17 +14,17 @@ node_js:
 #     dev: xdemic-api
 #   run:
 #   - restart
-jobs:
-  include:
-    - stage: deploy to production
-      script: skip
-      deploy:
-        provider: heroku
-        api_key: 
-          secure: "14fed160-73da-4f2a-af37-374ee9ef3970"
-        app:
-          master: xdemic-api
-        run:
-        - restart
-    - stage: test production
-      script: 'curl https://xdemic.herokuapp.com/'
+# jobs:
+#   include:
+#     - stage: deploy to production
+#       script: skip
+#       deploy:
+#         provider: heroku
+#         api_key: 
+#           secure: "14fed160-73da-4f2a-af37-374ee9ef3970"
+#         app:
+#           master: xdemic-api
+#         run:
+#         - restart
+#     - stage: test production
+#       script: 'curl https://xdemic.herokuapp.com/'
