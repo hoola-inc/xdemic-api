@@ -1,0 +1,30 @@
+language: node_js
+node_js:
+  - "10.5.0"
+# after_success: 
+#   - npm test
+# env:
+#   global: 
+#     - secure: "JSFEZWf0UxKsnU1w0gENtvNnxQFu625OUWvn2yZABXdKLvspR1OB0ChJqSDmqUtRkQLxpJpsPyXCIDid77pWPUyNcegvHBogT9wM7nP8JRjxd+TawHV+UjyoiPnbj4O8rNduyuCKu2soGXUPzCgKhUOeXyjVKX9kkqzejdG5pCwiSHmdepBYwwB8vRcQDYDlotPaBpp1mFqA6yyY2xdTEXaG59hQTBl7bPjdpuOX1k+VP3U8UKz2vCxFdbCBYmAEe2kJb559pY5bwTnyModZx+mGNbtjtOITC7pv7QqsD5cJuwKE7ddAy+ju8RZP95745rKoJC8TghLd2zcnZkp4iTRV6vc17TXr8bJJNUwNdYtgl73r4tlJC79byyxqixLoO8V4Bv13ZRhR1TNmAil7vACTIjZwE35Pf0vUCtoYW4+LUgtIWTFVTofdXBBkuEknOmpX0fsXy0KdUjdLiUyO3dBnazyquud/NHVYGSnT9IvXpDSMvp/NqiKSO/3fH+g0boueFJGV/ZvjVMpO9qm5ARf1JncOkDeO9sfyBvZANH89G5S5A08qLfceppqclh08EOYQehS8/NubHhU4CbxniGyVUBuaq/VtnjF/3dMqqO6msrjgE+IYxgRmrNy1vZoz2Ct1gLkFvHf99s3Fj+imLZ83WMhvhlpi+offlQc93gQ="
+# deploy:
+#   provider: heroku
+#   api_key: 
+#     secure: "952c9b87-eb81-497c-a950-37246d21bdfa"
+#   app:
+#     dev: xdemic-api
+#   run:
+#   - restart
+jobs:
+  include:
+    - stage: deploy to production
+      script: skip
+      deploy:
+        provider: heroku
+        api_key: 
+          secure: "14fed160-73da-4f2a-af37-374ee9ef3970"
+        app:
+          master: xdemic-api
+        run:
+        - restart
+    - stage: test production
+      script: 'curl https://xdemic.herokuapp.com/'
