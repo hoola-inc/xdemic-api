@@ -23,7 +23,7 @@ jobs:
         api_key: 
           secure: "14fed160-73da-4f2a-af37-374ee9ef3970"
         app:
-          master: xdemic-api
+          master: xdemic
         run:
         - restart
     - stage: test production
