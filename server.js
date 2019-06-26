@@ -26,7 +26,7 @@ app.use(morgan('dev'));
 // import all routes at once
 require('./src/utilities/routes.utility')(app);
 // logger 
-require('./src/config/logger.config');
+// require('./src/config/logger.config');
 
 // default route
 app.get("/", (req, res) => {
