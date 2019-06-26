@@ -4,25 +4,47 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "install": "npm run build",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hoola-inc/xdemic-api.git"
+    "url": "git+https://github.com/HamzaBinSarfraz/Xdemic-api.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hoola-inc/xdemic-api/issues"
+    "url": "https://github.com/HamzaBinSarfraz/Xdemic-api/issues"
   },
-  "homepage": "https://github.com/hoola-inc/xdemic-api#readme",
+  "homepage": "https://github.com/HamzaBinSarfraz/Xdemic-api#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "did-jwt": "^0.2.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "helmet": "^3.18.0",
-    "morgan": "^1.9.1"
+    "lodash": "^4.17.11",
+    "morgan": "^1.9.1",
+    "serverless-kms-secrets": "^1.0.4",
+    "serverless-webpack": "^5.3.1",
+    "uport-credentials": "^1.2.2",
+    "uport-transports": "^0.2.6"
+  },
+  "devDependencies": {
+    "app-root-path": "^2.2.1",
+    "clf-date": "^0.1.0",
+    "fs": "0.0.1-security",
+    "ngrok": "^3.2.1",
+    "path": "^0.12.7",
+    "prettier": "^1.18.2",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.2",
+    "winston": "^3.2.1"
   }
 }

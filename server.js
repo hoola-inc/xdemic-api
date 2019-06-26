@@ -4,7 +4,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
+// const chasqui = require('lambda-chasqui');
 
+// require('./test');
 // Create Express App
 const app = express();
 
@@ -22,17 +24,18 @@ app.use(helmet());
 app.use(morgan('dev'));
 
 // import all routes at once
-// require('./src/utilities/routes.utility')(app);
+require('./src/utilities/routes.utility')(app);
+// logger 
+require('./src/config/logger.config');
 
-
-// define a default route
+// default route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to XdemiC api" });
 });
 
-
 // server listen for requests
-let port = process.env.PORT || 5000;
+let port = process.env.PORT || 3000;
+
 app.listen(port, () => {
-    console.log("Server is listening on port " + port);
+    console.log(`server is listening on port ${port}`);
 });
