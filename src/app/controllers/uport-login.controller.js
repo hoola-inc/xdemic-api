@@ -1,4 +1,3 @@
-const ngrok = require('ngrok');
 const decodeJWT = require('did-jwt').decodeJWT;
 const { Credentials } = require('uport-credentials');
 const transports = require('uport-transports').transport;

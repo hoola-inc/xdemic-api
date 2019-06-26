@@ -5,10 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "install": "npm run build",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "tslint -p tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "tslint -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -39,7 +37,6 @@
     "app-root-path": "^2.2.1",
     "clf-date": "^0.1.0",
     "fs": "0.0.1-security",
-    "ngrok": "^3.2.1",
     "path": "^0.12.7",
     "prettier": "^1.18.2",
     "tslint": "^5.18.0",
