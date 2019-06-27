@@ -25,8 +25,12 @@ exports.uportLogin = (req, res) => {
             console.log(decodeJWT(requestToken))  //log request token to console
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' })
             console.log('URI ::: ', uri);
-            const qr = transports.ui.getImageDataURI(uri)
-            res.send(`<div><img src="${qr}"/></div>`)
+            const qr = transports.ui.getImageDataURI(uri);
+            console.log(qr);
+            res.status(200).json({
+                status: true,
+                uri: uri
+            })
         })
         .catch(err => {
             return res.status(200).json({
