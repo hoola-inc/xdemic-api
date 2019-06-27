@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const winston = require('./src/config/logger.config');
 
 // const chasqui = require('lambda-chasqui');
 
@@ -23,10 +24,19 @@ app.use(helmet());
 // HTTP request logger middleware
 app.use(morgan('dev'));
 
+// setup the winston stream 
+// app.use(morgan("combined", {
+//     stream: winston.stream
+// }));
+
 // import all routes at once
 require('./src/utilities/routes.utility')(app);
+
 // logger 
 // require('./src/config/logger.config');
+
+// if invalid route found
+// require('./src/utilities/route-handler.utility')(app);
 
 // default route
 app.get("/", (req, res) => {
