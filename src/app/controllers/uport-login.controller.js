@@ -10,8 +10,8 @@ const endpoint = require('../../constants/main.constant').BASE_URL;
 //setup Credentials object with newly created application identity.
 const credentials = new Credentials({
     appName: 'Login Example',
-    did: 'did:ethr:0x22c650129cfe54946a3fab6bde86808c78e35d94',
-    privateKey: '655fe34d37989bfcf2d2f3dba9a1879c409f0d06042e3a88fc1ac74d73e471c6'
+    did: 'did:ethr:0x31486054a6ad2c0b685cd89ce0ba018e210d504e',
+    privateKey: 'ef6a01d0d98ba08bd23ee8b0c650076c65d629560940de9935d0f46f00679e01'
 })
 
 exports.uportLogin = (req, res) => {
@@ -24,9 +24,9 @@ exports.uportLogin = (req, res) => {
         .then(requestToken => {
             console.log(decodeJWT(requestToken))  //log request token to console
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' })
-            console.log('URI ::: ', uri);
+            // console.log('URI ::: ', uri);
             const qr = transports.ui.getImageDataURI(uri);
-            console.log(qr);
+            // console.log(qr);
             res.send(`<div><img src="${qr}"/></div>`)
 
             // res.status(200).json({
@@ -43,8 +43,10 @@ exports.uportLogin = (req, res) => {
 };
 
 exports.uportLoginCallBack = (req, res) => {
-    const jwt = req.body.access_token
-    console.log(jwt);
+    console.log('Token Access ::: ');
+    console.log(req.body.access_token);
+    const jwt = req.body.access_token;
+    // console.log(jwt);
     credentials.authenticateDisclosureResponse(jwt)
         .then(credentials => {
             console.log(credentials);
