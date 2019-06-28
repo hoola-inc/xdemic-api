@@ -27,10 +27,12 @@ exports.uportLogin = (req, res) => {
             console.log('URI ::: ', uri);
             const qr = transports.ui.getImageDataURI(uri);
             console.log(qr);
-            res.status(200).json({
-                status: true,
-                uri: uri
-            })
+            res.send(`<div><img src="${qr}"/></div>`)
+
+            // res.status(200).json({
+            //     status: true,
+            //     uri: uri
+            // })
         })
         .catch(err => {
             return res.status(200).json({
