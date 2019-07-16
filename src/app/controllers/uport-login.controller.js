@@ -7,6 +7,7 @@ const SchoolSchema = require('../models/uport-login.model');
 
 exports.createNewSchool = async (req, res) => {
     const attestation = req.body.attestation;
+    console.log(attestation);
     console.log(`Decoded ::: ${JSON.stringify(decodeJWT(attestation))}`);
     return push(attestation); // *push* the notification to the user's uPort mobile app.
     // try {
