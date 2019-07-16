@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const winston = require('./src/config/logger.config');
+// const winston = require('./src/config/logger.config');
 
 // const chasqui = require('lambda-chasqui');
 
@@ -15,7 +15,9 @@ const app = express();
 app.use(cors());
 
 // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 
 // Helmet helps you secure your Express apps by setting various HTTP headers. It’s not a silver bullet, but it can help! 
 // DOC: https://helmetjs.github.io/
