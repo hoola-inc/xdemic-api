@@ -21,10 +21,10 @@ jobs:
       deploy:
         provider: heroku
         api_key: 
-          secure: "14fed160-73da-4f2a-af37-374ee9ef3970"
+          secure: "6cb0d92c-6486-4a80-a1ee-d5eefe23ef3a"
         app:
-          master: xdemic
+          master: xdemic-api
         run:
         - restart
     - stage: test production
-      script: 'curl https://xdemic.herokuapp.com/'
+      script: 'curl https://xdemic-api.herokuapp.com/'

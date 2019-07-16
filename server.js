@@ -38,15 +38,17 @@ require('./src/utilities/routes.utility')(app);
 // if invalid route found
 // require('./src/utilities/route-handler.utility')(app);
 
+require('./src/config/db.config');
+
 // default route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to XdemiC api" });
 });
 
 // server listen for requests
-let port = process.env.PORT || 3000;
+// server listen for requests
+const port = process.env.PORT;
 
 app.listen(port, () => {
-    console.log(`server is listening on port ${port}`);
+    console.log(`Server is listening on port ${port}`);
 });
-
