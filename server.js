@@ -5,9 +5,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 // const winston = require('./src/config/logger.config');
 
-// const chasqui = require('lambda-chasqui');
 
-// require('./test');
 // Create Express App
 const app = express();
 

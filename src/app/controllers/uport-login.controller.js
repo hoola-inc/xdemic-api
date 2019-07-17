@@ -9,17 +9,9 @@ exports.createNewSchool = async (req, res) => {
 
     // return push(attestation); // *push* the notification to the user's uPort mobile app.
     try {
-        // const newschool = await TestController.create(req.body);
-
-        // if (newSchool) {
-        //     return res.status(200).send({
-        //         success: true,
-        //         data: newSchool
-        //     });
-        // }
-        // let attestation = req.body.attestation;
         const encodedSchema = req.body.schema;
         const decodedSchema = JSON.stringify(decodeJWT(encodedSchema));
+        return push(decodedSchema);
         return res.status(200).json({
             success: true,
             data: decodedSchema
