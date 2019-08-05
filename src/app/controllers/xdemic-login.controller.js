@@ -1,32 +1,61 @@
-const decodeJWT = require('did-jwt').decodeJWT;
-const { Credentials } = require('uport-credentials');
-const transports = require('uport-transports').transport;
-const message = require('uport-transports').message.util;
-const endpoint = require('../../constants/main.constant').BASE_URL;
-const SchoolSchema = require('../models/xdemic-login.model');
-const path = require('path');
+const nacl = require('tweetnacl');
+const naclUtils = require('../../../node_modules/tweetnacl-util');
+const SchoolModel = require('../models/xdemic-login.model')
 
+exports.createNewSchool = (req, res) => {
 
-exports.createNewSchool = async (req, res) => {
+    // matching email ...
+    if (req.body.email.toString().trim() === 'demo@xdemic.com') {
 
-    // return push(attestation); // *push* the notification to the user's uPort mobile app.
-    try {
-        const verifyClaim = req.body.schema;
-        console.log(verifyClaim)
-        // return push(decodedSchema);
-        return res.status(200).json({
-            success: true,
-            data: decodedSchema
-        })
-    } catch (err) {
+        // generating 32 bytes random key return Uint8Array
+        const randomKey = nacl.randomBytes(32);
+        const encodedBase64 = naclUtils.encodeBase64(randomKey);
+
+        // initializing model obj
+        let newSchool = new SchoolModel({
+            random_bytes_base64: encodedBase64
+        });
+
+        // saving in db...
+        newSchool.save()
+            .then(data => {
+                return res.status(200).json({
+                    success: true,
+                    data: data
+                })
+            })
+            .catch(err => {
+                return res.status(200).json({
+                    success: false,
+                    data: err.message
+                })
+            })
+    } else {
         return res.status(200).send({
             success: false,
-            message: err.message
-        });
+            message: 'email not matched'
+        })
     }
 }
 
-exports.yo = async (req, res) => {
-    console.log(' i am hitting ...');
-    res.sendFile(path.join(__dirname + '/index.html'));
+
+exports.exposePublucKey = (req, res) => {
+    SchoolModel.find()
+        .then(data => {
+            console.log(data[0].random_bytes_base64)
+            const decodedBase64 = naclUtils.decodeBase64(data[0].random_bytes_base64);
+            const keys = nacl.box.keyPair.fromSecretKey(decodedBase64)
+            console.log(keys);
+            return res.status(200).send({
+                success: true,
+                data: naclUtils.encodeBase64(keys.publicKey)
+            })
+        })
+        .catch(err => {
+            return res.status(200).json({
+                success: false,
+                data: err.message
+            })
+        })
 }
+
