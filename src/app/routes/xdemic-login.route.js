@@ -3,4 +3,5 @@ module.exports = app => {
 
     app.post('/schoolemail', uportLoginController.createNewSchool);
     app.get('/pubkey', uportLoginController.exposePublucKey);
+    app.post('/email', uportLoginController.sendEmail);
 };

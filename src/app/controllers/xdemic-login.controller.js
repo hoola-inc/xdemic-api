@@ -1,6 +1,9 @@
 const nacl = require('tweetnacl');
 const naclUtils = require('tweetnacl-util');
-const SchoolModel = require('../models/xdemic-login.model')
+const SchoolModel = require('../models/xdemic-login.model');
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
+dotenv.config();
 
 exports.createNewSchool = (req, res, next) => {
 
@@ -48,5 +51,38 @@ exports.exposePublucKey = (req, res, next) => {
         .catch(err => {
             next(err);
         })
+}
+
+
+exports.sendEmail = (req, res, next) => {
+    const targetEmail = req.body.email;
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+        }
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: targetEmail,
+        subject: 'Selective Disclosure Request',
+        text: 'https://somedummyaddress.com'
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            next(error);
+        }
+        else {
+
+            console.log('email sent successfully...');
+            return res.status(200).send({
+                status: true,
+                message: 'Email sent '
+            })
+        }
+    });
 }
 
