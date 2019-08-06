@@ -12,7 +12,7 @@ exports.createNewSchool = (req, res, next) => {
         const encodedBase64 = naclUtils.encodeBase64(randomKey);
 
         // initializing model obj
-        let newSchool = new SchoolModel({
+        const newSchool = new SchoolModel({
             random_bytes_base64: encodedBase64
         });
 
@@ -28,7 +28,7 @@ exports.createNewSchool = (req, res, next) => {
                 next(err);  // Pass errors to Express.
             })
     } else {
-        throw new Error('Email not matched') // Express will catch this on its own.
+        throw new Error('email not found') // Express will catch this on its own.
     }
 }
 
@@ -40,7 +40,7 @@ exports.exposePublucKey = (req, res, next) => {
             const decodedBase64 = naclUtils.decodeBase64(data[0].random_bytes_base64);
             const keys = nacl.box.keyPair.fromSecretKey(decodedBase64)
             console.log(keys);
-            return res.status(200).send({
+            return res.status(200).json({
                 success: true,
                 data: naclUtils.encodeBase64(keys.publicKey)
             })
