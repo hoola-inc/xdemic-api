@@ -9,7 +9,7 @@ module.exports = app => {
         // Any request to this server will get here, and will send an HTTP
         // response with the error message 'woops'
         // res.status(error.status || 500);
-        res.json({
+        res.status(200).json({
             success: false,
             error: error.message
         })

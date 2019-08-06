@@ -1,8 +1,8 @@
 const nacl = require('tweetnacl');
-const naclUtils = require('../../../node_modules/tweetnacl-util');
+const naclUtils = require('tweetnacl-util');
 const SchoolModel = require('../models/xdemic-login.model')
 
-exports.createNewSchool = (req, res) => {
+exports.createNewSchool = (req, res, next) => {
 
     // matching email ...
     if (req.body.email.toString().trim() === 'demo@xdemic.com') {
@@ -22,24 +22,18 @@ exports.createNewSchool = (req, res) => {
                 return res.status(200).json({
                     success: true,
                     data: data
-                })
+                });
             })
             .catch(err => {
-                return res.status(200).json({
-                    success: false,
-                    data: err.message
-                })
+                next(err);  // Pass errors to Express.
             })
     } else {
-        return res.status(200).send({
-            success: false,
-            message: 'email not matched'
-        })
+        throw new Error('Email not matched') // Express will catch this on its own.
     }
 }
 
 
-exports.exposePublucKey = (req, res) => {
+exports.exposePublucKey = (req, res, next) => {
     SchoolModel.find()
         .then(data => {
             console.log(data[0].random_bytes_base64)
@@ -52,10 +46,7 @@ exports.exposePublucKey = (req, res) => {
             })
         })
         .catch(err => {
-            return res.status(200).json({
-                success: false,
-                data: err.message
-            })
+            next(err);
         })
 }
 

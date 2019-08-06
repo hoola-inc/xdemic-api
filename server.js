@@ -37,7 +37,7 @@ require('./src/utilities/routes.utility')(app);
 // require('./src/config/logger.config');
 
 // if invalid route found
-// require('./src/utilities/route-handler.utility')(app);
+require('./src/utilities/error-handler.utility')(app);
 
 require('./src/config/db.config');
 
@@ -53,13 +53,3 @@ const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
-
-
-// app.listen(port, () => {
-//     ngrok.connect(8088).then(ngrokUrl => {
-//         console.log('server is running');
-
-//         endpoint = ngrokUrl
-//         console.log(`Verification Service running, open at ${endpoint}`)
-//     })
-// })
