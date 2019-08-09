@@ -3,3 +3,6 @@ node_modules
 .prettierrc
 logs
 tslint.json
+Dockerfile
+docker-compise.yml
+heroku.yml
