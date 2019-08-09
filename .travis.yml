@@ -15,18 +15,17 @@ node_js:
 #   run:
 #   - restart
 
-# uncomment this
-# jobs:
-#   include:
-#     - stage: deploy to production
-#       script: skip
-#       deploy:
-#         provider: heroku
-#         api_key: 
-#           secure: "6cb0d92c-6486-4a80-a1ee-d5eefe23ef3a"
-#         app:
-#           master: xdemic-api
-#         run:
-#         - restart
-#     - stage: test production
-#       script: 'curl https://xdemic-api.herokuapp.com/'
+jobs:
+  include:
+    - stage: deploy to production
+      script: skip
+      deploy:
+        provider: heroku
+        api_key: 
+          secure: "6cb0d92c-6486-4a80-a1ee-d5eefe23ef3a"
+        app:
+          master: xdemic-api
+        run:
+        - restart
+    - stage: test production
+      script: 'curl https://xdemic-api.herokuapp.com/'
