@@ -4,5 +4,6 @@ node_modules
 logs
 tslint.json
 Dockerfile
-docker-compise.yml
-heroku.yml
+docker-compose
+heroku
+.travis
