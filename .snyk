@@ -1,0 +1,115 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-LODASH-450202:
+    - swagger > lodash:
+        reason: foo
+        expires: '2019-09-18T21:30:40.418Z'
+    - swagger > inquirer > lodash:
+        reason: ff
+        expires: '2019-09-18T21:30:40.419Z'
+    - swagger > swagger-test-templates > lodash:
+        reason: asd
+        expires: '2019-09-18T21:30:40.419Z'
+    - swagger-node-express > lodash:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+  SNYK-JS-LODASH-73638:
+    - swagger > lodash:
+        reason: ff
+        expires: '2019-09-18T21:30:40.418Z'
+    - swagger > swagger-test-templates > lodash:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+    - swagger-node-express > lodash:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+  SNYK-JS-LODASH-73639:
+    - swagger > lodash:
+        reason: ff
+        expires: '2019-09-18T21:30:40.418Z'
+    - swagger > inquirer > lodash:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+    - swagger > swagger-test-templates > lodash:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+    - swagger-node-express > lodash:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+  'npm:lodash:20180130':
+    - swagger-node-express > lodash:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+  SNYK-JS-MARKED-174116:
+    - uport-transports > did-jwt > jsdoc-to-markdown > dmd > marked:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+    - uport-transports > did-jwt > jsdoc-to-markdown > jsdoc-api > jsdoc > marked:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+  SNYK-JS-MARKED-451540:
+    - uport-transports > did-jwt > jsdoc-to-markdown > dmd > marked:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+    - uport-transports > did-jwt > jsdoc-to-markdown > jsdoc-api > jsdoc > marked:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+  'npm:growl:20160721':
+    - swagger > mocha > growl:
+        reason: None given
+        expires: '2019-09-18T21:30:40.419Z'
+  'npm:qs:20170213':
+    - swagger > swagger-tools > body-parser > qs:
+        reason: None given
+        expires: '2019-09-18T21:30:40.420Z'
+    - swagger > swagger-tools > qs:
+        reason: None given
+        expires: '2019-09-18T21:30:40.420Z'
+    - swagger > swagger-tools > superagent > qs:
+        reason: None given
+        expires: '2019-09-18T21:30:40.420Z'
+  'npm:string:20170907':
+    - swagger > swagger-test-templates > string:
+        reason: None given
+        expires: '2019-09-18T21:30:40.420Z'
+    - swagger > swagger-tools > string:
+        reason: None given
+        expires: '2019-09-18T21:30:40.420Z'
+  'npm:superagent:20170807':
+    - swagger > swagger-tools > superagent:
+        reason: None given
+        expires: '2019-09-18T21:30:40.420Z'
+  'npm:superagent:20181108':
+    - swagger > swagger-tools > superagent:
+        reason: None given
+        expires: '2019-09-18T21:30:40.420Z'
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - swagger > swagger-tools > body-parser > debug:
+        patched: '2019-08-19T21:28:46.524Z'
+    - swagger > mocha > debug:
+        patched: '2019-08-19T21:28:46.524Z'
+  'npm:extend:20180424':
+    - swagger > swagger-tools > superagent > extend:
+        patched: '2019-08-19T21:28:46.524Z'
+  'npm:lodash:20180130':
+    - swagger > inquirer > lodash:
+        patched: '2019-08-19T21:28:46.524Z'
+    - swagger > lodash:
+        patched: '2019-08-19T21:28:46.524Z'
+    - swagger > swagger-test-templates > lodash:
+        patched: '2019-08-19T21:28:46.524Z'
+  'npm:mime:20170907':
+    - swagger > swagger-tools > superagent > mime:
+        patched: '2019-08-19T21:28:46.524Z'
+  'npm:minimatch:20160620':
+    - swagger > mocha > glob > minimatch:
+        patched: '2019-08-19T21:28:46.524Z'
+  'npm:ms:20170412':
+    - swagger > swagger-tools > body-parser > debug > ms:
+        patched: '2019-08-19T21:28:46.524Z'
+    - swagger > mocha > debug > ms:
+        patched: '2019-08-19T21:28:46.524Z'
