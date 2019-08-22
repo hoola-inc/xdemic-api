@@ -2,8 +2,6 @@ const nacl = require('tweetnacl');
 const naclUtils = require('tweetnacl-util');
 const SchoolModel = require('../models/xdemic-login.model');
 const nodemailer = require('nodemailer');
-const dotenv = require('dotenv');
-dotenv.config();
 
 exports.createNewSchool = (req, res, next) => {
 

@@ -3,12 +3,15 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const ngrok = require('ngrok');
+const env = require('dotenv');
 // const winston = require('./src/config/logger.config');
 
 
 // Create Express App
 const app = express();
+
+// init env var
+env.config();
 
 // providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(cors());

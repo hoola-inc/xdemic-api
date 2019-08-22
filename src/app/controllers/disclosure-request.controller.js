@@ -2,8 +2,6 @@ const decodeJWT = require('did-jwt').decodeJWT;
 const { Credentials } = require('uport-credentials');
 const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
-const dotenv = require('dotenv');
-dotenv.config();
 
 const credentials = new Credentials({
     appName: 'Xdemic',
@@ -15,7 +13,7 @@ exports.showQRCode = (req, res, next) => {
     credentials.createDisclosureRequest({
         requested: ["name", "date_of_birth", "phone", "email"],
         notifications: true,
-        callbackUrl: process.env.BASE_URL.concat('qrcode/callback')
+        callbackUrl: process.env.BASE_URL.concat('/callback')
     })
         .then(requestToken => {
             console.log(decodeJWT(requestToken));  //log request token to console
