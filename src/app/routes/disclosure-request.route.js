@@ -3,5 +3,5 @@ module.exports = app => {
     const uuid = require('node-uuid');
     const randomID = uuid.v4();
     app.get('/qrcode', disclosureController.showQRCode);
-    app.post('/qrcode/callback', disclosureController.varifyClaims);
+    app.post('/callback', disclosureController.varifyClaims);
 };
