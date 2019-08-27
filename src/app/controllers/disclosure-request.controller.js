@@ -51,6 +51,7 @@ exports.varifyClaims = (req, res, next) => {
                     return push(attestation)  // *push* the notification to the user's mobile app.
                 })
                 .then(data => {
+                    console.log('sending response')
                     return res.status(200).json({
                         status: true,
                         data: data,
@@ -58,6 +59,7 @@ exports.varifyClaims = (req, res, next) => {
                     })
                 })
                 .catch(err => {
+                    console.log(err.message);
                     next(err);
                 })
         })
