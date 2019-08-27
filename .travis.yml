@@ -22,7 +22,7 @@ jobs:
       deploy:
         provider: heroku
         api_key: 
-          secure: "6cb0d92c-6486-4a80-a1ee-d5eefe23ef3a"
+          secure: "c7bf189f-fc21-470f-94c4-c76a6e5d7a46"
         app:
           master: xdemic-api
         run:
