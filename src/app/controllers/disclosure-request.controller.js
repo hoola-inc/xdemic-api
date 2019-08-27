@@ -33,6 +33,7 @@ exports.varifyClaims = (req, res, next) => {
     console.log(jwt);
     credentials.createVerification(jwt)
         .then(creds => {
+            console.log(creds.pushToken);
             const push = transports.push.send(creds.pushToken, creds.boxPub)
 
             credentials.authenticateDisclosureResponse({
