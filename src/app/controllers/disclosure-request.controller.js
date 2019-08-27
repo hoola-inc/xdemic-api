@@ -47,7 +47,8 @@ exports.varifyClaims = (req, res, next) => {
                 }
             })
                 .then(attestation => {
-                    return push(attestation)  // *push* the notification to the user's uPort mobile app.
+                    console.log('notification sent from server side');
+                    return push(attestation)  // *push* the notification to the user's mobile app.
                 })
                 .then(data => {
                     return res.status(200).json({
