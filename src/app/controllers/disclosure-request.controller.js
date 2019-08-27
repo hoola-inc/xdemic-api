@@ -13,7 +13,7 @@ exports.showQRCode = (req, res, next) => {
     credentials.createDisclosureRequest({
         requested: ["name", "date_of_birth", "phone", "email"],
         notifications: true,
-        callbackUrl: process.env.BASE_URL.concat('/callback')
+        callbackUrl: process.env.BASE_URL.concat('qrcode/callback')
     })
         .then(requestToken => {
             console.log(decodeJWT(requestToken));  //log request token to console
