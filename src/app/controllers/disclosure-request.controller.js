@@ -36,7 +36,7 @@ exports.varifyClaims = (req, res, next) => {
         // set up a push transport with the provided 
         // push token and public encryption key (boxPub)
         const push = transports.push.send(creds.pushToken, creds.boxPub)
-
+        console.log(creds);
         credentials.createVerification({
             sub: creds.did,
             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
