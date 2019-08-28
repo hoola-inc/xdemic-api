@@ -53,6 +53,10 @@ exports.varifyClaims = (req, res, next) => {
             console.log('Accept the push notification in the uPort mobile application')
             // ngrok.disconnect()
         })
+            .catch(err => {
+                console.log(err);
+                next(err.message)
+            });
     })
     // const jwt = req.body.access_token;
     // console.log(jwt);
