@@ -11,7 +11,7 @@ const credentials = new Credentials({
 
 exports.showQRCode = (req, res, next) => {
     credentials.createDisclosureRequest({
-        requested: ["name", "date_of_birth", "phone", "email"],
+        requested: ["name", "dob", "phone", "email"],
         notifications: true,
         callbackUrl: process.env.BASE_URL.concat('callback'),
         callback_url: process.env.BASE_URL.concat('callback')
@@ -40,7 +40,7 @@ exports.varifyClaims = (req, res, next) => {
         credentials.createVerification({
             sub: creds.did,
             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-            claim: { 'Identity': { 'Last Seen': `${new Date()}` } }
+            claim: { 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email }
             // Note, the above is a complex (nested) claim. 
             // Also supported are simple claims:  claim: {'Key' : 'Value'}
         }).then(attestation => {
@@ -51,7 +51,6 @@ exports.varifyClaims = (req, res, next) => {
             console.log(res)
             console.log('Push notification sent and should be recieved any moment...')
             console.log('Accept the push notification in the uPort mobile application')
-            // ngrok.disconnect()
         })
             .catch(err => {
                 console.log(err);
