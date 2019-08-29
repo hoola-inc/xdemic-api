@@ -38,7 +38,7 @@ exports.varifyClaims = (req, res, next) => {
         const push = transports.push.send(creds.pushToken, creds.boxPub)
         console.log(creds);
         credentials.createVerification({
-            sub: `you have been register with ${creds.did}`,
+            sub: creds.did,
             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
             claim: { 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email }
             // Note, the above is a complex (nested) claim. 
