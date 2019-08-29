@@ -38,7 +38,7 @@ exports.varifyClaims = (req, res, next) => {
         const push = transports.push.send(creds.pushToken, creds.boxPub)
         console.log(creds);
         credentials.createVerification({
-            sub: creds.did,
+            sub: `you have been register with ${creds.did}`,
             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
             claim: { 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email }
             // Note, the above is a complex (nested) claim. 
@@ -46,7 +46,7 @@ exports.varifyClaims = (req, res, next) => {
         }).then(attestation => {
             console.log(`Encoded JWT sent to user: ${attestation}`)
             console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`)
-            return push(attestation)  // *push* the notification to the user's uPort mobile app.
+            return push(attestation)  // *push* the notification to the user's mobile app.
         }).then(res => {
             console.log(res)
             console.log('Push notification sent and should be recieved any moment...')
