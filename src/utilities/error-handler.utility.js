@@ -15,3 +15,44 @@ module.exports = app => {
         })
     })
 }
+
+
+// //controller
+// const createUser = async (req,res) =>
+// {
+// try
+// {
+//   await checkMessageValidity(req);
+//   const userType = await checkUserType(req);
+
+  
+// }
+// catch(error)
+// {
+//     res.send({error:error});
+// }
+// }
+
+// //helper
+// const checkMessageValidity = async(req,res) =>{
+//     try {
+//         //if all good
+        
+//         //if something is wrong
+//         throw new Error('MESSAGE SENDING LIMIT EXCEEDED');
+//     } catch (error) {
+//         throw new Error(error.message);
+//     }
+// }
+
+// //helper
+// const checkUserType = async(req,res) =>{
+//     try {
+//         //if all good
+        
+//         //if something is wrong
+//         throw new Error('Unauthorized operation');
+//     } catch (error) {
+//         throw new Error(error.message);
+//     }
+// }

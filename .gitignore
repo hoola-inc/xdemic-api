@@ -7,3 +7,4 @@ Dockerfile
 docker-compose
 heroku
 .travis
+swagger-ui
