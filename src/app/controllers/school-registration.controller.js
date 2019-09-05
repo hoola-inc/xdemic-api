@@ -22,12 +22,16 @@ exports.getSchool = (req, res, next) => {
     SchoolSchema.find()
         .then(data => {
             if (data.length > 0) {
-                return status(200).json({
+                console.log('inside else');
+                return res.status(200).json({
+                    status: true,
+                    data: data
+                })
+            } else {
+                return res.status(200).json({
                     status: false,
                     message: 'no record found'
                 })
-            } else {
-                sendSchoolSchema(data);
             }
         })
         .catch(err => {
