@@ -3,6 +3,8 @@ const { Credentials } = require('uport-credentials');
 const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
 
+const pushToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1Njc1ODAzMjYsImV4cCI6MTU5OTExNjMyNiwiYXVkIjoiZGlkOmV0aHI6MHhkNzQxYTZkZDI3MTE1MjFlODc5OGZiZTkyYzEyZmNiOWQyZjQzY2YxIiwidHlwZSI6Im5vdGlmaWNhdGlvbnMiLCJ2YWx1ZSI6ImFybjphd3M6c25zOnVzLXdlc3QtMjoxMTMxOTYyMTY1NTg6ZW5kcG9pbnQvR0NNL3VQb3J0Lzc0Njk2YTE4LTE2ODctMzBiYy1hYzI3LWY1M2ViMTE0OTZiMCIsImlzcyI6ImRpZDpldGhyOjB4YTA1NmZmYmZkNjQ0ZTQ4MmFkOGQ3MjJjNGJlNGM2NmFhMDUyYWQ1YSJ9.dXjd2xOOpqjdbBip1qtuHyTuAXfqlmZjLVdyap09U1ntlq8Z84sx3STcxMlIhA2I3yetCdJGxYfyb3A84UbVtQA'
+
 const credentials = new Credentials({
     appName: 'Xdemic',
     did: 'did:ethr:0xd741a6dd2711521e8798fbe92c12fcb9d2f43cf1',
@@ -50,50 +52,11 @@ exports.varifyClaims = (req, res, next) => {
         }).then(res => {
             console.log(res)
             console.log('Push notification sent and should be recieved any moment...')
-            console.log('Accept the push notification in the uPort mobile application')
+            console.log('Accept the push notification in the xdemic mobile application')
         })
             .catch(err => {
                 console.log(err);
                 next(err.message)
             });
     })
-    // const jwt = req.body.access_token;
-    // console.log(jwt);
-    // console.log(decodeJWT(jwt));
-    // credentials.createVerification(jwt)
-    //     .then(creds => {
-    //         console.log(creds.pushToken);
-    //         const push = transports.push.send(creds.pushToken, creds.boxPub)
-
-    //         credentials.authenticateDisclosureResponse({
-    //             sub: creds.did,
-    //             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-    //             claim:
-    //             {
-    //                 "name": "Rizwan",
-    //                 "id": "Single",
-    //                 "date of birth": "01/02/1990",
-    //                 "phone_number": "0333 3333333"
-    //             }
-    //         })
-    //             .then(attestation => {
-    //                 console.log('notification sent from server side');
-    //                 return push(attestation)  // *push* the notification to the user's mobile app.
-    //             })
-    //             .then(data => {
-    //                 console.log('sending response')
-    //                 return res.status(200).json({
-    //                     status: true,
-    //                     data: data,
-    //                     message: "Push notification sent and should be recieved any moment, Accept the push notification in the uPort mobile application"
-    //                 })
-    //             })
-    //             .catch(err => {
-    //                 console.log(err.message);
-    //                 next(err);
-    //             })
-    //     })
-    //     .catch(err => {
-    //         next(err);
-    //     })
 }
