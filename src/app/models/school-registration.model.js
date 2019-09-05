@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const SchoolRegSchema = mongoose.Schema({
     schoolName: String,
     logo: String,
-    contactInfo: [String],
+    contactInfo: [],
     brandedUrl: String
 }, {
     timestamps: true
