@@ -1,9 +1,6 @@
 const SchoolSchema = require('../models/school-registration.model');
-const { Credentials } = require('uport-credentials');
-const contants = require('../../constants/main.constant');
+const sendJWt = require('../../utilities/send-signed-jwt.utility');
 
-
-const credentials = new Credentials(contants.credentials);
 
 
 exports.createNewSchool = (req, res, next) => {
@@ -27,7 +24,7 @@ exports.getSchool = (req, res, next) => {
     SchoolSchema.find()
         .then(data => {
             if (data.length > 0) {
-                sendSchoolSchema(data)
+                sendJWt.sendSchoolSchema('did:ethr:0xa056ffbfd644e482ad8d722c4be4c66aa052ad5a', data)
                     .then(signedJwt => {
                         return res.status(200).send({
                             status: true,
@@ -49,17 +46,3 @@ exports.getSchool = (req, res, next) => {
         })
 }
 
-function sendSchoolSchema(schoolData) {
-    return new Promise((resolve, reject) => {
-        credentials.createVerification({
-            sub: 'did:ethr:0xa056ffbfd644e482ad8d722c4be4c66aa052ad5a',
-            exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-            claim: schoolData
-        }).then(attestation => {
-            resolve(attestation);
-        })
-            .catch(err => {
-                reject(err.message);
-            });
-    })
-}

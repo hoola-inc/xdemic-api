@@ -4,94 +4,138 @@ version: v1.13.5
 ignore:
   SNYK-JS-LODASH-450202:
     - swagger > lodash:
-        reason: foo
-        expires: '2019-09-18T21:30:40.418Z'
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.764Z'
     - swagger > inquirer > lodash:
-        reason: ff
-        expires: '2019-09-18T21:30:40.419Z'
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.764Z'
     - swagger > swagger-test-templates > lodash:
-        reason: asd
-        expires: '2019-09-18T21:30:40.419Z'
+        reason: None given
+        expires: '2019-10-07T18:16:21.765Z'
     - swagger-node-express > lodash:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.765Z'
   SNYK-JS-LODASH-73638:
     - swagger > lodash:
-        reason: ff
-        expires: '2019-09-18T21:30:40.418Z'
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.764Z'
     - swagger > swagger-test-templates > lodash:
         reason: None given
         expires: '2019-09-18T21:30:40.419Z'
+      swagger > inquirer > lodash:
+        reason: None given
+        expires: '2019-10-07T18:16:21.764Z'
     - swagger-node-express > lodash:
         reason: None given
         expires: '2019-09-18T21:30:40.419Z'
+      swagger > swagger-test-templates > lodash:
+        reason: None given
+        expires: '2019-10-07T18:16:21.765Z'
+    - swagger-node-express > lodash:
+        reason: None given
+        expires: '2019-10-07T18:16:21.765Z'
   SNYK-JS-LODASH-73639:
     - swagger > lodash:
-        reason: ff
-        expires: '2019-09-18T21:30:40.418Z'
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.764Z'
     - swagger > inquirer > lodash:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.764Z'
     - swagger > swagger-test-templates > lodash:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.765Z'
     - swagger-node-express > lodash:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.765Z'
   'npm:lodash:20180130':
     - swagger-node-express > lodash:
         reason: None given
         expires: '2019-09-18T21:30:40.419Z'
+      swagger > swagger-test-templates > lodash:
+        reason: waitinf for package update
+        expires: '2019-10-07T18:16:21.761Z'
+    - swagger > inquirer > lodash:
+        reason: waitinf for package update
+        expires: '2019-10-07T18:16:21.761Z'
+    - swagger > lodash:
+        reason: waitinf for package update
+        expires: '2019-10-07T18:16:21.761Z'
+    - swagger-node-express > lodash:
+        reason: None given
+        expires: '2019-10-07T18:16:21.765Z'
   SNYK-JS-MARKED-174116:
     - uport-transports > did-jwt > jsdoc-to-markdown > dmd > marked:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.765Z'
     - uport-transports > did-jwt > jsdoc-to-markdown > jsdoc-api > jsdoc > marked:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.765Z'
   SNYK-JS-MARKED-451540:
     - uport-transports > did-jwt > jsdoc-to-markdown > dmd > marked:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.765Z'
     - uport-transports > did-jwt > jsdoc-to-markdown > jsdoc-api > jsdoc > marked:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.765Z'
   'npm:growl:20160721':
     - swagger > mocha > growl:
         reason: None given
-        expires: '2019-09-18T21:30:40.419Z'
+        expires: '2019-10-07T18:16:21.765Z'
   'npm:qs:20170213':
     - swagger > swagger-tools > body-parser > qs:
         reason: None given
-        expires: '2019-09-18T21:30:40.420Z'
+        expires: '2019-10-07T18:16:21.766Z'
     - swagger > swagger-tools > qs:
         reason: None given
-        expires: '2019-09-18T21:30:40.420Z'
+        expires: '2019-10-07T18:16:21.766Z'
     - swagger > swagger-tools > superagent > qs:
         reason: None given
-        expires: '2019-09-18T21:30:40.420Z'
+        expires: '2019-10-07T18:16:21.766Z'
   'npm:string:20170907':
     - swagger > swagger-test-templates > string:
         reason: None given
-        expires: '2019-09-18T21:30:40.420Z'
+        expires: '2019-10-07T18:16:21.766Z'
     - swagger > swagger-tools > string:
         reason: None given
-        expires: '2019-09-18T21:30:40.420Z'
+        expires: '2019-10-07T18:16:21.766Z'
   'npm:superagent:20170807':
     - swagger > swagger-tools > superagent:
         reason: None given
-        expires: '2019-09-18T21:30:40.420Z'
+        expires: '2019-10-07T18:16:21.766Z'
   'npm:superagent:20181108':
     - swagger > swagger-tools > superagent:
         reason: None given
-        expires: '2019-09-18T21:30:40.420Z'
+        expires: '2019-10-07T18:16:21.766Z'
+  'npm:extend:20180424':
+    - swagger > swagger-tools > superagent > extend:
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.761Z'
+  'npm:mime:20170907':
+    - swagger > swagger-tools > superagent > mime:
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.761Z'
+  'npm:minimatch:20160620':
+    - swagger > mocha > glob > minimatch:
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.762Z'
+  'npm:ms:20170412':
+    - swagger > mocha > debug > ms:
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.762Z'
+    - swagger > swagger-tools > body-parser > debug > ms:
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.762Z'
+  SNYK-JS-AUTOLINKER-73494:
+    - swagger-ui > remarkable > autolinker:
+        reason: waiting for package update
+        expires: '2019-10-07T18:16:21.762Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:debug:20170905':
     - swagger > swagger-tools > body-parser > debug:
-        patched: '2019-08-19T21:28:46.524Z'
+        patched: '2019-09-07T18:13:10.996Z'
     - swagger > mocha > debug:
-        patched: '2019-08-19T21:28:46.524Z'
+        patched: '2019-09-07T18:13:10.996Z'
   'npm:extend:20180424':
     - swagger > swagger-tools > superagent > extend:
         patched: '2019-08-19T21:28:46.524Z'
