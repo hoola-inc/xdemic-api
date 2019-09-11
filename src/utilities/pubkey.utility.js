@@ -7,12 +7,9 @@ const fs = require('fs');
 const nacl = require('tweetnacl');
 const naclUtils = require('../../node_modules/tweetnacl-util');
 const btoa = require('btoa');
-const base64 = require('base-64');
-const base32 = require('base32');
 const util= require('util');
 const resolve = require('did-resolver');
 const registerResolver = require('https-did-resolver');
-const bip39 = require('bip39');
 
 const identity = {
     did: 'did:ethr:0xd741a6dd2711521e8798fbe92c12fcb9d2f43cf1',
@@ -22,8 +19,8 @@ const identity = {
 // console.log(naclUtils.decodeBase64(identity.privateKey.toString('base64')));
 // const { publicKey, secretKey } = nacl.box.keyPair.fromSecretKey())
 
-const menemonics = bip39.generateMnemonic();
-console.log(menemonics);
+// const menemonics = bip39.generateMnemonic();
+// console.log(menemonics);
 
 
 

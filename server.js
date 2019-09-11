@@ -4,57 +4,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const env = require('dotenv');
-// swagger 
-
-// const winston = require('./src/config/logger.config');
-
-
 // Create Express App
 const app = express();
-
-
-// const subpath = express();
-
-// app.use("/v1", subpath);
-// const swagger = require('swagger-node-express').createNew(subpath);
-// app.use(express.static('./swagger-ui/dist'));
-
-// swagger.setApiInfo({
-//     title: "Xdemic API",
-//     description: "API to do something, manage something...",
-//     termsOfServiceUrl: "",
-//     contact: "yourname@something.com",
-//     license: "",
-//     licenseUrl: ""
-// });
-
-// app.get('/', function (req, res) {
-//     res.sendFile(__dirname + './dist/index.html');
-// });
-// // Set api-doc path
-
-// // swagger.configureSwaggerPaths('', 'api-docs', '');
-
-// // config api domain
-// const domain = 'localhost';
-
-// // Configure the API port
-// var portt = 9090;
-
-// // Set and display the application URL
-// var applicationUrl = 'http://' + domain + ':' + portt;
-// console.log('snapJob API running on ' + applicationUrl);
-
-
-// swagger.configure(applicationUrl, '1.0.0');
-
-
-// // Start the web server
-// app.listen(portt);
-
-
-
-
 
 
 // init env var

@@ -10,7 +10,8 @@ mongoose
     .connect(
         dbUrl,
         {
-            useNewUrlParser: true
+            useNewUrlParser: true,
+            useUnifiedTopology: true
         }
     )
     .then(() => {
