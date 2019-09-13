@@ -10,9 +10,10 @@ exports.sendSchoolSchema = (did, schoolData) => {
             sub: did,
             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
             claim: schoolData
-        }).then(attestation => {
-            resolve(attestation);
         })
+            .then(attestation => {
+                resolve(attestation);
+            })
             .catch(err => {
                 reject(err.message);
             });

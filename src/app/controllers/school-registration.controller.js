@@ -1,10 +1,20 @@
 const SchoolSchema = require('../models/school-registration.model');
 const sendJWt = require('../../utilities/send-signed-jwt.utility');
-
+const didGenerator = require('../../utilities/did-generator.utility');
 
 
 exports.createNewSchool = (req, res, next) => {
-    const newSchool = new SchoolSchema(req.body);
+    const newSchool = new SchoolSchema({
+        name: req.body.name,
+        address: req.body.address,
+        email: req.body.email,
+        subjectWebpage: req.body.subjectWebpage,
+        agentSectorType: req.body.agentSectorType,
+        agentType: req.body.agentType,
+        description: req.body.description,
+        did: didGenerator.did,
+        privateKey: didGenerator.privateKey
+    });
 
     newSchool.save()
         .then(data => {
