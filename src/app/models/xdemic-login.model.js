@@ -8,4 +8,4 @@ const SchoolSchema = mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('School', SchoolSchema);
+module.exports = mongoose.model('SchoolRandomBytes', SchoolSchema);

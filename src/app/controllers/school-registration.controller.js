@@ -4,8 +4,6 @@ const sendJWt = require('../../utilities/send-signed-jwt.utility');
 
 
 exports.createNewSchool = (req, res, next) => {
-
-    console.log(req.body);
     const newSchool = new SchoolSchema(req.body);
 
     newSchool.save()

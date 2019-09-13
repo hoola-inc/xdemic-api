@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 
 
 const SchoolRegSchema = mongoose.Schema({
-    schoolName: String,
-    logo: String,
-    contactInfo: [],
-    brandedUrl: String
+    name: String,
+    address: String,
+    email: String,
+    subjectWebpage: String,
+    agentSectorType: String,
+    agentType: String,
+    description: String
 }, {
     timestamps: true
 });
 
-module.exports = mongoose.model('SchoolRegistration', SchoolRegSchema);
+module.exports = mongoose.model('School', SchoolRegSchema);
