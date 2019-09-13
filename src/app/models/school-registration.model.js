@@ -9,8 +9,7 @@ const SchoolRegSchema = mongoose.Schema({
     agentSectorType: String,
     agentType: String,
     description: String,
-    did: String,
-    privateKey: String
+    did: String
 }, {
     timestamps: true
 });
