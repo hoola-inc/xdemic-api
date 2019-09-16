@@ -61,7 +61,7 @@ function createVerification(creds, push, next) {
         // Also supported are simple claims:  claim: {'Key' : 'Value'}
     }).then(attestation => {
         console.log(`Encoded JWT sent to user: ${attestation}`);
-        console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation.payload))}`);
+        console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
         return push(attestation); // *push* the notification to the user's mobile app.
     }).then(res => {
         console.log(res);
