@@ -10,7 +10,7 @@ const StudentSchema = mongoose.Schema({
     email: {
         type: String,
         unique: true,
-        require: true
+        required: true
     },
     pushToken: String
 }, {
