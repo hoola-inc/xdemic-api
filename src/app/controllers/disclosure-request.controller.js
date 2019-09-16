@@ -47,7 +47,7 @@ exports.varifyClaims = (req, res, next) => {
             // Also supported are simple claims:  claim: {'Key' : 'Value'}
         }).then(attestation => {
             console.log(`Encoded JWT sent to user: ${attestation}`)
-            console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`)
+            console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation.payload.claim))}`)
             return push(attestation)  // *push* the notification to the user's mobile app.
         }).then(res => {
             console.log(res)
