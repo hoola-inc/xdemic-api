@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 
 const SchoolRegSchema = mongoose.Schema({
     name: String,
-    address: String,
-    email: String,
     subjectWebpage: String,
+    address: String,
+    offers: String,
     agentSectorType: String,
     agentType: String,
-    description: String,
-    did: String
+    email: String,
+    did: String,
+    telephone: String
 }, {
     timestamps: true
 });

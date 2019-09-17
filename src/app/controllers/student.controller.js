@@ -23,7 +23,7 @@ exports.getStuentAsSignedJWT = (req, res, next) => {
     studentModel.find()
         .then(data => {
             if (data.length > 0) {
-                sendJWt.sendSchoolSchema('did:ethr:0xa056ffbfd644e482ad8d722c4be4c66aa052ad5a', data)
+                sendJWt.jwtSchema('did:ethr:0xa056ffbfd644e482ad8d722c4be4c66aa052ad5a', data)
                     .then(signedJwt => {
                         return res.status(200).send({
                             status: true,

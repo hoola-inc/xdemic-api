@@ -6,4 +6,6 @@ module.exports = app => {
     app.get('/course', courseController.getAllCourses);
 
     app.get('/httpcourse', courseController.displayCourseOnHttp);
+
+    app.get('/coursejwt', courseController.coursesWithJwt);
 };

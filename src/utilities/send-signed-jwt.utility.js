@@ -4,7 +4,7 @@ const contants = require('../constants/main.constant');
 const credentials = new Credentials(contants.credentials);
 
 
-exports.sendSchoolSchema = (did, schoolData) => {
+exports.jwtSchema = (did, schoolData) => {
     return new Promise((resolve, reject) => {
         credentials.createVerification({
             sub: did,
