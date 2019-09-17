@@ -65,7 +65,13 @@ function createVerification(creds, push, next) {
         console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
         return push(attestation); // *push* the notification to the user's mobile app.
     }).then(res => {
-        notification.sendNotification('i am working');
+        notification.sendNotification({
+            "endpoint": "https://updates.push.services.mozilla.com:443/wpush/v1/<some_id>",
+            "keys": {
+                "auth": "<some key>",
+                "p256dh": "<some key>"
+            }
+        });
         console.log(res);
         console.log('Push notification sent and should be recieved any moment...');
         console.log('Accept the push notification in the xdemic mobile application');
@@ -74,4 +80,17 @@ function createVerification(creds, push, next) {
             console.log(err);
             next(err.message);
         });
+}
+
+exports.sendNotification = (req, res, next) => {
+    const subscription = req.body;
+    res.status(201).json({});
+    const payload = JSON.stringify({ title: 'test' });
+
+    console.log(subscription);
+
+    webpush.sendNotification(subscription, payload).catch(error => {
+        console.error(error.stack);
+        next(err.message);
+    });
 }
