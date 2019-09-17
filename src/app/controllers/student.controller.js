@@ -8,7 +8,7 @@ exports.getStudents = (req, res, next) => {
                 return res.status(200).json({
                     status: true,
                     length: data.length,
-                    students: data
+                    data: data
                 })
             } else {
                 return res.status(200).json({

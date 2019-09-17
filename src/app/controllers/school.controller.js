@@ -110,7 +110,7 @@ exports.getSchool = (req, res, next) => {
                 res.status(200).json({
                     status: true,
                     length: data.length,
-                    schoolRecords: data
+                    data: data
                 })
             } else {
                 res.status(200).json({
