@@ -7,7 +7,12 @@ exports.sendNotification = (data) => {
 
     console.log(subscription);
 
-    webpush.sendNotification(subscription, payload).catch(error => {
+    webpush.sendNotification(subscription, payload)
+    .then(data => {
+        console.log('inside then i am working');
+        console.log(data)
+    })
+    .catch(error => {
         console.error(error.stack);
     });
 }
