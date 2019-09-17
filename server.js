@@ -40,7 +40,11 @@ require('./src/utilities/routes.utility')(app);
 // if invalid route found
 require('./src/utilities/error-handler.utility')(app);
 
+// db config
 require('./src/config/db.config');
+
+// notification service
+require('./src/config/webpush.config');
 
 // default route
 app.get("/", (req, res) => {

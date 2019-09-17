@@ -43,6 +43,7 @@
     "tweetnacl": "^1.0.1",
     "uport-credentials": "^1.2.2",
     "uport-transports": "^0.2.6",
+    "web-push": "^3.3.5",
     "winston": "^3.2.1"
   },
   "devDependencies": {
