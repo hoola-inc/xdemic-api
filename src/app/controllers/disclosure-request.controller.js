@@ -69,7 +69,7 @@ function createVerification(creds, push, next) {
             "endpoint": "https://updates.push.services.mozilla.com:443/wpush/v1/<some_id>",
             "keys": {
                 "auth": "<some key>",
-                "p256dh": "<some key>"
+                "p256dh": "BOMZ7klmhHKgDGPHubr85XDvtsxKenYT2jcYzEsuS_gGV3TA4_q-U6Vvujkw93JUzwn3zPVhkqmq88g4rYc6CNo"
             }
         });
         console.log(res);
