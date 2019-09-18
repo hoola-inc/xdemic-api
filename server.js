@@ -43,9 +43,6 @@ require('./src/utilities/error-handler.utility')(app);
 // db config
 require('./src/config/db.config');
 
-// notification service
-require('./src/config/webpush.config');
-
 // default route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to XdemiC api" });

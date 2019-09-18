@@ -3,7 +3,6 @@ const { Credentials } = require('uport-credentials');
 const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
-const notification = require('../../utilities/notification.utility');
 
 const pushToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1Njc1ODAzMjYsImV4cCI6MTU5OTExNjMyNiwiYXVkIjoiZGlkOmV0aHI6MHhkNzQxYTZkZDI3MTE1MjFlODc5OGZiZTkyYzEyZmNiOWQyZjQzY2YxIiwidHlwZSI6Im5vdGlmaWNhdGlvbnMiLCJ2YWx1ZSI6ImFybjphd3M6c25zOnVzLXdlc3QtMjoxMTMxOTYyMTY1NTg6ZW5kcG9pbnQvR0NNL3VQb3J0Lzc0Njk2YTE4LTE2ODctMzBiYy1hYzI3LWY1M2ViMTE0OTZiMCIsImlzcyI6ImRpZDpldGhyOjB4YTA1NmZmYmZkNjQ0ZTQ4MmFkOGQ3MjJjNGJlNGM2NmFhMDUyYWQ1YSJ9.dXjd2xOOpqjdbBip1qtuHyTuAXfqlmZjLVdyap09U1ntlq8Z84sx3STcxMlIhA2I3yetCdJGxYfyb3A84UbVtQA'
 
@@ -65,13 +64,6 @@ function createVerification(creds, push, next) {
         console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
         return push(attestation); // *push* the notification to the user's mobile app.
     }).then(res => {
-        notification.sendNotification({
-            "endpoint": "https://updates.push.services.mozilla.com:443/wpush/v1/<some_id>",
-            "keys": {
-                "auth": "<some key>",
-                "p256dh": "BOMZ7klmhHKgDGPHubr85XDvtsxKenYT2jcYzEsuS_gGV3TA4_q-U6Vvujkw93JUzwn3zPVhkqmq88g4rYc6CNo"
-            }
-        });
         console.log(res);
         console.log('Push notification sent and should be recieved any moment...');
         console.log('Accept the push notification in the xdemic mobile application');

@@ -94,6 +94,9 @@ exports.getAllCourses = (req, res, next) => {
     CourseSchema.find()
         .then(data => {
             if (data.length > 0) {
+                const mapped = data.map((e) => {
+                    console.log(e);
+                })
                 return res.status(200).json({
                     status: true,
                     data: data
@@ -106,6 +109,7 @@ exports.getAllCourses = (req, res, next) => {
             }
         })
         .catch(err => {
+            console.log(err);
             next(err.message);
         })
 }

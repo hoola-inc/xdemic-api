@@ -1,1 +1,193 @@
-{"context":{"ceterms":"http://purl.org/ctdl/terms/","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","res":"http://example.org/resources/","xsd":"http://www.w3.org/2001/XMLSchema#"},"graph":[{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:CredentialOrganization","ceterms:name":{"language":"en-US","value":"bar"},"ceterms:address":{"id":"asdas"},"ceterms:subjectWebpage":{"id":"bar"},"ceterms:offers":{"id":"asdas"}},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:PostalAddress","ceterms:addressCountry":"US","ceterms:addressRegion":"CA","ceterms:addresssLocality":"Santa Rosa","ceterms:postalCode":"95401-4395","ceterms:streetAdddess":"1501 Mendocino Ave."},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:CredentialOrganization","ceterms:name":{"language":"en-US","value":"asd"},"ceterms:address":{"id":"asdas"},"ceterms:subjectWebpage":{"id":"bar"},"ceterms:offers":{"id":"asdas"}},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:PostalAddress","ceterms:addressCountry":"US","ceterms:addressRegion":"CA","ceterms:addresssLocality":"Santa Rosa","ceterms:postalCode":"95401-4395","ceterms:streetAdddess":"1501 Mendocino Ave."},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:CredentialOrganization","ceterms:name":{"language":"en-US","value":"aasd"},"ceterms:address":{"id":"asdas"},"ceterms:subjectWebpage":{"id":"bar"},"ceterms:offers":{"id":"asdas"}},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:PostalAddress","ceterms:addressCountry":"US","ceterms:addressRegion":"CA","ceterms:addresssLocality":"Santa Rosa","ceterms:postalCode":"95401-4395","ceterms:streetAdddess":"1501 Mendocino Ave."}]}
+{
+    "context": {
+        "ceterms": "http://purl.org/ctdl/terms/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "res": "http://example.org/resources/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "graph": [
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:CredentialOrganization",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "bar"
+            },
+            "ceterms:address": {
+                "id": "asdas"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "bar"
+            },
+            "ceterms:offers": {
+                "id": "asdas"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:PostalAddress",
+            "ceterms:addressCountry": "US",
+            "ceterms:addressRegion": "CA",
+            "ceterms:addresssLocality": "Santa Rosa",
+            "ceterms:postalCode": "95401-4395",
+            "ceterms:streetAdddess": "1501 Mendocino Ave."
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:CredentialOrganization",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "asd"
+            },
+            "ceterms:address": {
+                "id": "asdas"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "bar"
+            },
+            "ceterms:offers": {
+                "id": "asdas"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:PostalAddress",
+            "ceterms:addressCountry": "US",
+            "ceterms:addressRegion": "CA",
+            "ceterms:addresssLocality": "Santa Rosa",
+            "ceterms:postalCode": "95401-4395",
+            "ceterms:streetAdddess": "1501 Mendocino Ave."
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:CredentialOrganization",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "aasd"
+            },
+            "ceterms:address": {
+                "id": "asdas"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "bar"
+            },
+            "ceterms:offers": {
+                "id": "asdas"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:PostalAddress",
+            "ceterms:addressCountry": "US",
+            "ceterms:addressRegion": "CA",
+            "ceterms:addresssLocality": "Santa Rosa",
+            "ceterms:postalCode": "95401-4395",
+            "ceterms:streetAdddess": "1501 Mendocino Ave."
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:CredentialOrganization",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "zxczx"
+            },
+            "ceterms:address": {
+                "id": "asdas"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "bar"
+            },
+            "ceterms:offers": {
+                "id": "asdas"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:PostalAddress",
+            "ceterms:addressCountry": "US",
+            "ceterms:addressRegion": "CA",
+            "ceterms:addresssLocality": "Santa Rosa",
+            "ceterms:postalCode": "95401-4395",
+            "ceterms:streetAdddess": "1501 Mendocino Ave."
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:CredentialOrganization",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "zxczx"
+            },
+            "ceterms:address": {
+                "id": "asdas"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "bar"
+            },
+            "ceterms:offers": {
+                "id": "asdas"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:PostalAddress",
+            "ceterms:addressCountry": "US",
+            "ceterms:addressRegion": "CA",
+            "ceterms:addresssLocality": "Santa Rosa",
+            "ceterms:postalCode": "95401-4395",
+            "ceterms:streetAdddess": "1501 Mendocino Ave."
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:CredentialOrganization",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "Rizwan"
+            },
+            "ceterms:address": {
+                "id": "asdas"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "bar"
+            },
+            "ceterms:offers": {
+                "id": "asdas"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:PostalAddress",
+            "ceterms:addressCountry": "US",
+            "ceterms:addressRegion": "CA",
+            "ceterms:addresssLocality": "Santa Rosa",
+            "ceterms:postalCode": "95401-4395",
+            "ceterms:streetAdddess": "1501 Mendocino Ave."
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:CredentialOrganization",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "ttt"
+            },
+            "ceterms:address": {
+                "id": "asdas"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "bar"
+            },
+            "ceterms:offers": {
+                "id": "asdas"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:PostalAddress",
+            "ceterms:addressCountry": "US",
+            "ceterms:addressRegion": "CA",
+            "ceterms:addresssLocality": "Santa Rosa",
+            "ceterms:postalCode": "95401-4395",
+            "ceterms:streetAdddess": "1501 Mendocino Ave."
+        }
+    ]
+}

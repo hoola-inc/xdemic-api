@@ -14,10 +14,33 @@ exports.createSchool = async (req, res, next) => {
                 message: 'school already exist'
             })
         } else {
-            const newSchool = new SchoolSchema(req.body);
-            newSchool.save()
+            const did = didGenerator.did;
+            const prvKey = didGenerator.privateKey;
+            const creatNewCredentials = new CredentialSchema({
+                did: did,
+                privateKey: prvKey
+            });
+
+            creatNewCredentials.save()
                 .then(data => {
-                    writeToFile(data, res);
+                    const newSchool = new SchoolSchema({
+                        name: req.body.name,
+                        subjectWebpage: req.body.subjectWebpage,
+                        address: req.body.address,
+                        offers: req.body.offers,
+                        agentSectorType: req.body.agentSectorType,
+                        agentType: req.body.agentType,
+                        email: req.body.email,
+                        did: did,
+                        telephone: req.body.telephone
+                    });
+                    newSchool.save()
+                        .then(data => {
+                            writeToFile(data, res);
+                        })
+                        .catch(err => {
+                            next(err.message);
+                        })
                 })
                 .catch(err => {
                     next(err.message);
