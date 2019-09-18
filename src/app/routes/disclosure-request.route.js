@@ -3,5 +3,5 @@ module.exports = app => {
     app.get('/qrcode', disclosureController.showQRCode);
     app.post('/callback', disclosureController.varifyClaims);
 
-    app.post('/notificationsubscription', disclosureController.sendNotification);
+    // app.post('/notificationsubscription', disclosureController.sendNotification);
 };

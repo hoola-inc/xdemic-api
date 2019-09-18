@@ -3,4 +3,6 @@ module.exports = app => {
 
     app.get('/student', studentController.getStudents);
     app.get('/studentjwt', studentController.getStuentAsSignedJWT);
+
+    app.post('/credentials', studentController.sendCredentials);
 };

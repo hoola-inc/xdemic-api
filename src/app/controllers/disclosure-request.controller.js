@@ -74,15 +74,3 @@ function createVerification(creds, push, next) {
         });
 }
 
-exports.sendNotification = (req, res, next) => {
-    const subscription = req.body;
-    res.status(201).json({});
-    const payload = JSON.stringify({ title: 'test' });
-
-    console.log(subscription);
-
-    webpush.sendNotification(subscription, payload).catch(error => {
-        console.error(error.stack);
-        next(err.message);
-    });
-}
