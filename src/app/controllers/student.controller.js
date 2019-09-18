@@ -76,8 +76,8 @@ exports.sendCredentials = (req, res, next) => {
                 console.log(`Encoded JWT sent to user: ${attestation}`);
                 // console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
                 return push(attestation); // *push* the notification to the user's mobile app.
-            }).then(res => {
-                console.log(res);
+            }).then(not => {
+                console.log(not);
                 console.log('Push notification sent and should be recieved any moment...');
                 console.log('Accept the push notification in the xdemic mobile application');
                 return res.status(200).json({
