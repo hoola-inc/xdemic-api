@@ -94,13 +94,14 @@ exports.getAllCourses = (req, res, next) => {
     CourseSchema.find()
         .then(data => {
             if (data.length > 0) {
+                // todo change here ...
                 data.map((e) => {
-                    e.courseCode = "123",
-                    e.courseGrade = "80",
-                    e.courseGPA = "3",
-                    e.coursePercentage = "99.99%",
-                    e.schoolName = "Hoola"
+                    e.courseGrade = "C",
+                    e.courseGPA = "2",
+                    e.coursePercentage = "50.55%",
+                    e.schoolName = " US National School"
                 })
+                // end here ...
                 return res.status(200).json({
                     status: true,
                     length: data.length,
