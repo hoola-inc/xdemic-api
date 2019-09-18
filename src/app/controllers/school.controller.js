@@ -82,7 +82,7 @@ const writeToFile = (schoolData, res) => {
                     } else {
                         return res.status(200).json({
                             status: true,
-                            schoolsData: schoolData,
+                            data: schoolData,
                             schoolHostURL: process.env.BASE_URL + "httpschool",
                             message: "Successfully created and write to file"
                         })
