@@ -80,6 +80,10 @@ exports.sendCredentials = (req, res, next) => {
                 console.log(res);
                 console.log('Push notification sent and should be recieved any moment...');
                 console.log('Accept the push notification in the xdemic mobile application');
+                return res.status(200).json({
+                    status: true,
+                    message: "Notification sent"
+                })
             })
                 .catch(err => {
                     console.log(err);
