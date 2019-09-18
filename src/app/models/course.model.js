@@ -9,10 +9,30 @@ const CourseSchema = mongoose.Schema({
         subjectWebpage: String,
         prerequisite: String,
         uri: String,
-        hasChild: String
+        hasChild: String,
+        courseCode: {
+                type: String,
+                default: ''
+        },
+        courseGrade: {
+                type: String,
+                default: ''
+        },
+        courseGPA: {
+                type: String,
+                default: ''
+        },
+        coursePercentage: {
+                type: String,
+                default: ''
+        },
+        schoolName: {
+                type: String,
+                default: ''
+        }
 }, {
-                timestamps: true
+        timestamps: true
 
-        });
+});
 
 module.exports = mongoose.model('Course', CourseSchema);
