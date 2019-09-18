@@ -69,22 +69,19 @@ function createVerification(creds, push, next) {
         console.log('Push notification sent and should be recieved any moment...');
         console.log('Accept the push notification in the xdemic mobile application');
         console.log('sending trigger to web app');
-        trigger();
+
+        //socket 
+        io.on('connection', (client) => {
+            client.on('subscribeToTimer', (interval) => {
+                console.log('client is subscribing to timer with interval ', interval);
+                setInterval(() => {
+                    client.emit('timer', new Date());
+                }, interval);
+            });
+        });
     })
         .catch(err => {
             console.log(err);
             next(err.message);
         });
-}
-
-
-const trigger = () => {
-    io.on('connection', (client) => {
-        client.on('subscribeToTimer', (interval) => {
-            console.log('client is subscribing to timer with interval ', interval);
-            setInterval(() => {
-                client.emit('timer', new Date());
-            }, interval);
-        });
-    });
 }
