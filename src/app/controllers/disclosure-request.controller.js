@@ -79,6 +79,8 @@ function createVerification(creds, push, next) {
                 }, interval);
             });
         });
+
+        io.close();
     })
         .catch(err => {
             console.log(err);
