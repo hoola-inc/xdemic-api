@@ -110,7 +110,7 @@ exports.getAllCourses = (req, res, next) => {
             } else {
                 return res.status(200).json({
                     status: false,
-                    data: 'record not found'
+                    message: 'record not found'
                 })
             }
         })
