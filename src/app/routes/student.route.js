@@ -5,4 +5,6 @@ module.exports = app => {
     app.get('/studentjwt', studentController.getStuentAsSignedJWT);
 
     app.post('/credentials', studentController.sendCredentials);
+
+    app.post('/studentmobile', studentController.addStudentFromMobile);
 };

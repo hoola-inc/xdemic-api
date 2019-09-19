@@ -2,6 +2,7 @@ const studentModel = require('../models/student.model');
 const sendJWt = require('../../utilities/send-signed-jwt.utility');
 const transports = require('uport-transports').transport;
 const { Credentials } = require('uport-credentials');
+const StudentSchooolModel = require('../models/student-school-bridge.model');
 
 exports.getStudents = (req, res, next) => {
     studentModel.find()
@@ -94,4 +95,26 @@ exports.sendCredentials = (req, res, next) => {
             console.log(err);
             next(err.message);
         })
+}
+
+exports.addStudentFromMobile = (req, res, next) => {
+
+    const schoolName = req.body.schoolName;
+    const studentName = req.body.studentName;
+
+    if(typeof schoolName == 'string' && typeof studentName == 'string') {
+        const create = new StudentSchooolModel(req.body);
+
+        create.save()
+        .then(data => {
+            return res.status(200).json({
+                status: true,
+                data: data
+            })
+        })
+        .catch(err => {
+            next(err.message);
+        })
+    }
+
 }
