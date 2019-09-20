@@ -8,12 +8,10 @@ const StudentSchema = mongoose.Schema({
     dob: String,
     phone: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     email: {
-        type: String,
-        unique: true
+        type: String
     },
     pushToken: String
 }, {
