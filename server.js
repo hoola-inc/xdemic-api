@@ -4,10 +4,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const env = require('dotenv');
-const socketIo = require("socket.io");
-
+const http = require("http");
 // Create Express App
 const app = express();
+const server = http.createServer(app);
+const socketIo = require("socket.io");
+const io = socketIo(server); // < Interesting!
 
 
 // init env var
@@ -52,8 +54,19 @@ app.get("/", (req, res) => {
 
 // server listen for requests
 // server listen for requests
-const port = process.env.PORT;
+// const port = process.env.PORT;
 
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
+// app.listen(port, () => {
+//     console.log(`Server is listening on port ${port}`);
+// });
+
+// socket 
+
+
+const socketPort = process.env.PORT || 5500;
+server.listen(socketPort, () => console.log(`Server is listening on port ${socketPort}`));
+
+
+module.exports = {
+    io: io
+}

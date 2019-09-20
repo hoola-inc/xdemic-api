@@ -68,10 +68,36 @@ function createVerification(creds, push, next) {
         console.log(res);
         console.log('Push notification sent and should be recieved any moment...');
         console.log('Accept the push notification in the xdemic mobile application');
-        console.log('sending trigger to web app');
+        sendNotification(creds);
     })
         .catch(err => {
             console.log(err);
             next(err.message);
         });
+}
+
+
+function sendNotification(creds) {
+    const io = require('../../../server').io;
+    const getApiAndEmit = async socket => {
+        try {
+            socket.emit("StudentRequest", {
+                'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
+            }); // Emitting a new message. It will be consumed by the client
+        } catch (error) {
+            console.error(`Error: ${error.message}`);
+        }
+    };
+
+    let interval;
+    io.on("connection", socket => {
+        console.log("New client connected");
+        if (interval) {
+            clearInterval(interval);
+        }
+        interval = setInterval(() => getApiAndEmit(socket), 10000);
+        socket.on("disconnect", () => {
+            console.log("Client disconnected");
+        });
+    });
 }
