@@ -81,6 +81,7 @@ function sendNotification(creds) {
     const io = require('../../../server').io;
     const getApiAndEmit = async socket => {
         try {
+            console.log('sending push notification using socket io');
             socket.emit("StudentRequest", {
                 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
             }); // Emitting a new message. It will be consumed by the client
