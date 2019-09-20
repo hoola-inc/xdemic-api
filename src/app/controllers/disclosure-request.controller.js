@@ -68,7 +68,7 @@ function createVerification(creds, push, next) {
         console.log(res);
         console.log('Push notification sent and should be recieved any moment...');
         console.log('Accept the push notification in the xdemic mobile application');
-        // sendNotification(creds);
+        sendNotification(creds);
     })
         .catch(err => {
             console.log(err);
