@@ -78,18 +78,9 @@ function createVerification(creds, push, next) {
 
 
 function sendNotification(creds) {
+    
     const io = require('../../../server').io;
-    const getApiAndEmit = async socket => {
-        try {
-            console.log('sending push notification using socket io');
-            socket.emit("StudentRequest", {
-                'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
-            }); // Emitting a new message. It will be consumed by the client
-        } catch (error) {
-            console.error(`Error: ${error.message}`);
-        }
-    };
-
+    console.log('sending push notification using socket io');
     let interval;
     io.on("connection", socket => {
         console.log("New client connected");
@@ -101,4 +92,14 @@ function sendNotification(creds) {
             console.log("Client disconnected");
         });
     });
+    const getApiAndEmit = async socket => {
+        try {
+            
+            socket.emit("StudentRequest", {
+                'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
+            }); // Emitting a new message. It will be consumed by the client
+        } catch (error) {
+            console.error(`Error: ${error.message}`);
+        }
+    };
 }

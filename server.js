@@ -66,7 +66,6 @@ app.get("/", (req, res) => {
 const socketPort = process.env.PORT || 5500;
 server.listen(socketPort, () => console.log(`Server is listening on port ${socketPort}`));
 
-
 module.exports = {
     io: io
 }
