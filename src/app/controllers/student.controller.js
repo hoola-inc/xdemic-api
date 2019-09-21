@@ -79,6 +79,7 @@ exports.sendCredentials = (req, res, next) => {
                 return push(attestation); // *push* the notification to the user's mobile app.
             }).then(not => {
                 console.log(not);
+                console.log(`Notification sent to user ::: ${data[0].name}`)
                 console.log('Push notification sent and should be recieved any moment...');
                 console.log('Accept the push notification in the xdemic mobile application');
                 return res.status(200).json({
