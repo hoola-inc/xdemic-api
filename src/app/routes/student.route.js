@@ -7,4 +7,6 @@ module.exports = app => {
     app.post('/credentials', studentController.sendCredentials);
 
     app.post('/studentmobile', studentController.addStudentFromMobile);
+
+    app.get('/student/:id', studentController.getStudentById);
 };

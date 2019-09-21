@@ -8,4 +8,6 @@ module.exports = app => {
     app.get('/httpcourse', courseController.displayCourseOnHttp);
 
     app.get('/coursejwt', courseController.coursesWithJwt);
+
+    app.get('/course/:id', courseController.getCourseById);
 };

@@ -159,3 +159,25 @@ exports.coursesWithJwt = (req, res, next) => {
             next(err.message);
         })
 }
+
+exports.getCourseById = (req, res, next) => {
+    CourseSchema.find({
+        _id: req.params.id
+    })
+    .then(data => {
+        if(data.length > 0) {
+            return res.status(200).json({
+                status: true,
+                data: data
+            })
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'no record found'
+            })
+        }
+    })
+    .catch(err => {
+        next(err.message);
+    })
+}

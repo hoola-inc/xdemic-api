@@ -13,7 +13,8 @@ const StudentSchema = mongoose.Schema({
     email: {
         type: String
     },
-    pushToken: String
+    pushToken: String,
+    courseId: mongoose.Schema.Types.ObjectId
 }, {
     timestamps: true
 });
