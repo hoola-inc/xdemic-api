@@ -64,7 +64,7 @@ exports.sendCredentials = (req, res, next) => {
             const newData = data.reverse();
             const pushToken = newData[0].pushToken;
             const boxPub = newData[0].boxPub;
-            const courseUrl = req.body.courseUrl;
+            const courseUrl = req.body.vc[0];
 
             console.log(pushToken);
 
@@ -87,8 +87,7 @@ exports.sendCredentials = (req, res, next) => {
                 console.log('Accept the push notification in the xdemic mobile application');
                 return res.status(200).json({
                     status: true,
-                    message: "Notification sent", 
-                    data: data
+                    message: "Notification sent"
                 })
             })
                 .catch(err => {
