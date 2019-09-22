@@ -171,3 +171,26 @@ exports.updateStudents = (req, res, next) => {
         next(err.message);
     })
 }
+
+
+exports.getEnrollStudents = (req, res, next) => {
+    studentModel.find({
+        courseId: req.params.id
+    })
+    .then(data => {
+        if(data.length > 0) {
+            return res.status(200).json({
+                status: true,
+                data: data
+            })
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'no enroll student'
+            })
+        }
+    })
+    .catch(err => {
+        next(err.message)
+    })
+}
