@@ -97,9 +97,9 @@ exports.getAllCourses = (req, res, next) => {
                 // todo change here ...
                 data.map((e) => {
                     e.courseGrade = "C",
-                    e.courseGPA = "2",
-                    e.coursePercentage = "50.55%",
-                    e.schoolName = " US National School"
+                        e.courseGPA = "2",
+                        e.coursePercentage = "50.55%",
+                        e.schoolName = " US National School"
                 })
                 // end here ...
                 return res.status(200).json({
@@ -164,20 +164,20 @@ exports.getCourseById = (req, res, next) => {
     CourseSchema.find({
         _id: req.params.id
     })
-    .then(data => {
-        if(data.length > 0) {
-            return res.status(200).json({
-                status: true,
-                data: data
-            })
-        } else {
-            return res.status(200).json({
-                status: false,
-                message: 'no record found'
-            })
-        }
-    })
-    .catch(err => {
-        next(err.message);
-    })
+        .then(data => {
+            if (data.length > 0) {
+                return res.status(200).json({
+                    status: true,
+                    data: data
+                })
+            } else {
+                return res.status(200).json({
+                    status: false,
+                    message: 'no record found'
+                })
+            }
+        })
+        .catch(err => {
+            next(err.message);
+        })
 }

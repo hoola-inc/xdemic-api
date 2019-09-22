@@ -14,7 +14,10 @@ const StudentSchema = mongoose.Schema({
         type: String
     },
     pushToken: String,
-    courseId: mongoose.Schema.Types.ObjectId
+    courseId: {
+        type: String,
+        default: ''
+    }
 }, {
     timestamps: true
 });

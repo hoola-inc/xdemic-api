@@ -48,8 +48,8 @@ require('./src/utilities/error-handler.utility')(app);
 require('./src/config/db.config');
 
 // default route
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to XdemiC api" });
+app.get("/", (req, res, next) => {
+    return res.status(200).json({ message: "Welcome to XdemiC api" });
 });
 
 // server listen for requests

@@ -144,3 +144,30 @@ exports.getStudentById = (req, res, next) => {
         next(err.message);
     })
 }
+
+exports.updateStudents = (req, res, next) => {
+    console.log(req.body.courseId);
+    studentModel.update({
+        _id: req.params.id
+    }, 
+    {
+        $set: {
+        courseId: req.body.course
+    }})
+    .then(data => {
+        if(data) {
+            return res.status(200).json({
+                status: true,
+                message: 'user updated successfully'
+            })
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'user not updated'
+            })
+        }
+    })
+    .catch(err => {
+        next(err.message);
+    })
+}

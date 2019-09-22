@@ -9,4 +9,6 @@ module.exports = app => {
     app.post('/studentmobile', studentController.addStudentFromMobile);
 
     app.get('/student/:id', studentController.getStudentById);
+
+    app.put('/student/:id', studentController.updateStudents);
 };
