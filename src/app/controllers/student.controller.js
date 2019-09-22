@@ -152,7 +152,7 @@ exports.updateStudents = (req, res, next) => {
     }, 
     {
         $set: {
-        courseId: req.body.course
+        courseId: req.body.courseId
     }})
     .then(data => {
         if(data) {
