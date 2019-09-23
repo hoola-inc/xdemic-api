@@ -210,7 +210,7 @@ exports.sendTranscript = (req, res, next) => {
         from: process.env.EMAIL,
         to: targetEmail,
         subject: 'Transcript',
-        text: process.env.BASE_URL.concat('qrcode') + '<br></br>' + 'Code: 95942'
+        text: process.env.Student_Transcript_URL + ', Code: 95942'
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
