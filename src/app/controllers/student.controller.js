@@ -3,6 +3,7 @@ const sendJWt = require('../../utilities/send-signed-jwt.utility');
 const transports = require('uport-transports').transport;
 const { Credentials } = require('uport-credentials');
 const StudentSchooolModel = require('../models/student-school-bridge.model');
+const nodemailer = require('nodemailer');
 
 exports.getStudents = (req, res, next) => {
     studentModel.find()
@@ -193,4 +194,36 @@ exports.getEnrollStudents = (req, res, next) => {
     .catch(err => {
         next(err.message)
     })
+}
+
+exports.sendTranscript = (req, res, next) => {
+    const targetEmail = req.body.email;
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+        }
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: targetEmail,
+        subject: 'Transcript',
+        text: process.env.BASE_URL.concat('qrcode') + '<br></br>' + 'Code: 95942'
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            next(error);
+        }
+        else {
+
+            console.log('email sent successfully...');
+            return res.status(200).send({
+                status: true,
+                message: 'Email sent '
+            })
+        }
+    });
 }

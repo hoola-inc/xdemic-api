@@ -13,4 +13,6 @@ module.exports = app => {
     app.put('/student/:id', studentController.updateStudents);
 
     app.get('/enrollstudents/:id', studentController.getEnrollStudents);
+
+    app.post('/transscipt', studentController.sendTranscript);
 };
