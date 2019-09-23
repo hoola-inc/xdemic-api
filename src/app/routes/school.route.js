@@ -6,4 +6,6 @@ module.exports = app => {
     app.get('/schoolwithjwt', schoolController.getSchoolWithSignedJWT);
 
     app.get('/httpschool', schoolController.displaySchoolOnHttp);
+
+    app.get('/schoolwithstudentenroll', schoolController.getSchoolWithStudent);
 };

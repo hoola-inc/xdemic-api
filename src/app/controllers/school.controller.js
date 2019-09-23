@@ -2,6 +2,7 @@ const SchoolSchema = require('../models/school.model');
 const CredentialSchema = require('../models/credentials.model');
 const sendJWt = require('../../utilities/send-signed-jwt.utility');
 const didGenerator = require('../../utilities/did-generator.utility');
+const studentModal = require('../models/student.model');
 const fs = require('fs');
 
 
@@ -144,6 +145,42 @@ exports.getSchool = (req, res, next) => {
         })
         .catch(err => {
             next(err.message)
+        })
+}
+
+
+exports.getSchoolWithStudent = (req, res, next) => {
+    studentModal.find()
+        .then(students => {
+            console.log(students);
+            if (students.length > 0) {
+                SchoolSchema.find()
+                    .then(data => {
+                        if (data.length > 0) {
+                            res.status(200).json({
+                                status: true,
+                                length: data.length,
+                                data: data
+                            })
+                        } else {
+                            res.status(200).json({
+                                status: false,
+                                message: 'no school found'
+                            })
+                        }
+                    })
+                    .catch(err => {
+                        next(err.message)
+                    })
+            } else {
+                return res.status(200).json({
+                    status: false,
+                    message: 'no student found'
+                })
+            }
+        })
+        .catch(err => {
+            next(err.message);
         })
 }
 
