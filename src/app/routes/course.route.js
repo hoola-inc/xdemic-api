@@ -10,4 +10,6 @@ module.exports = app => {
     app.get('/coursejwt', courseController.coursesWithJwt);
 
     app.get('/course/:id', courseController.getCourseById);
+
+    app.put('/course/:id', courseController.updateCourseGrade);
 };

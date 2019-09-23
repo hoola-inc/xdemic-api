@@ -15,7 +15,7 @@ const CourseSchema = mongoose.Schema({
                 default: ''
         },
         courseGrade: {
-                type: String,
+                type: String, 
                 default: ''
         },
         courseGPA: {

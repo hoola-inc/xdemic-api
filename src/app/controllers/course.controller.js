@@ -181,3 +181,30 @@ exports.getCourseById = (req, res, next) => {
             next(err.message);
         })
 }
+
+exports.updateCourseGrade = (req, res, next) => {
+    CourseSchema.update({
+        _id: req.params.id
+    },
+        {
+            $set: {
+                courseGrade: req.body.courseGrade
+            }
+        })
+        .then(data => {
+            if (data) {
+                return res.status(200).json({
+                    status: true,
+                    message: 'course grade updated successfully'
+                })
+            } else {
+                return res.status(200).json({
+                    status: false,
+                    message: 'course grade not updated'
+                })
+            }
+        })
+        .catch(err => {
+            next(err.message);
+        })
+}
