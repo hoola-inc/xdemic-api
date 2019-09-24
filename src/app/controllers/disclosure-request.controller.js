@@ -112,5 +112,27 @@ function sendNotification(creds) {
 }
 
 function updateStudnetArrayInSchool(studentData) {
-    console.log(studentData);
+    const studentDID = studentData.did;
+    console.log('Student DID ::: ', studentDID);
+
+    schoolSchema.find()
+    .then(data => {
+        if(data.length > 0) {
+            const schoolId = data[0]._id;
+
+            schoolSchema.update({
+                _id: schoolId
+            }, { 
+                $push: { 
+                    student: studentDID 
+                } 
+            })
+        }
+    })
+    .then(updatedStudent => {
+        console.log('student updated');
+    })
+    .catch(err => {
+        console.log('an error occured while updating student ', err.message);
+    })
 }
