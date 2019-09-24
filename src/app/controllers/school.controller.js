@@ -15,8 +15,8 @@ exports.createSchool = async (req, res, next) => {
                 message: 'school already exist'
             })
         } else {
-            const did = didGenerator.did;
-            const prvKey = didGenerator.privateKey;
+            let did = didGenerator.did;
+            let prvKey = didGenerator.privateKey;
             const creatNewCredentials = new CredentialSchema({
                 did: did,
                 privateKey: prvKey

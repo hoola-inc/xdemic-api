@@ -1,6 +1,6 @@
 const { Credentials } = require('uport-credentials');
 
-const { did, privateKey } = Credentials.createIdentity();
+let { did, privateKey } = Credentials.createIdentity();
 
 module.exports = {
     did: did,
