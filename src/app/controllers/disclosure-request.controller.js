@@ -126,7 +126,7 @@ function updateStudnetArrayInSchool(studentData) {
                     const schoolId = data[0]._id;
                     console.log('School Id ::: ', schoolId);
                     schoolSchema.update({
-                        _id: mongoose.Types.ObjectId(schoolId)
+                        _id: schoolId
                     }, {
                         $push: {
                             student: {
@@ -149,38 +149,38 @@ function updateStudnetArrayInSchool(studentData) {
     })
 }
 
-var mongoose = require('mongoose');
-exports.updateFoo = (req, res, next) => {
-    const studentDID = 'did:asdasdasd';
-    console.log('Student DID ::: ', studentDID);
 
-    schoolSchema.find()
-        .then(data => {
-            if (data.length > 0) {
-                const schoolId = data[0]._id;
-                console.log('School Id ::: ', schoolId);
-                schoolSchema.update({
-                    _id: mongoose.Types.ObjectId(schoolId)
-                }, {
-                    $push: {
-                        student: {
-                            'studentDID': studentDID
-                        }
-                    }
-                })
-                    .then(updated => {
-                        console.log('updated')
-                    })
-                    .catch(err => {
-                        console.log(err.message)
-                    })
-            }
-        })
-        .then(updatedStudent => {
-            console.log('find all response')
-        })
-        .catch(err => {
-            console.log(err.message)
-        })
+// exports.updateFoo = (req, res, next) => {
+//     const studentDID = 'did:cccccc';
+//     console.log('Student DID ::: ', studentDID);
 
-}
+//     schoolSchema.find()
+//         .then(data => {
+//             if (data.length > 0) {
+//                 const schoolId = data[0]._id;
+//                 console.log('School Id ::: ', schoolId);
+//                 schoolSchema.update({
+//                     _id: schoolId
+//                 }, {
+//                     $push: {
+//                         student: {
+//                             'studentDID': studentDID
+//                         }
+//                     }
+//                 })
+//                     .then(updated => {
+//                         console.log('updated')
+//                     })
+//                     .catch(err => {
+//                         console.log(err.message)
+//                     })
+//             }
+//         })
+//         .then(updatedStudent => {
+//             console.log('find all response')
+//         })
+//         .catch(err => {
+//             console.log(err.message)
+//         })
+
+// }
