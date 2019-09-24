@@ -46,6 +46,9 @@ exports.varifyClaims = (req, res, next) => {
                 console.log('student created');
                 createVerification(creds, push, next);
             })
+            .then(data => {
+                console.log('updating school students array');
+            })
             .catch(err => {
                 console.log('An error occured: ', err.message);
                 next(err.message);
@@ -76,6 +79,8 @@ function createVerification(creds, push, next) {
             next(err.message);
         });
 }
+
+
 
 
 function sendNotification(creds) {
