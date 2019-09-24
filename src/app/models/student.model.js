@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 
 const StudentSchema = mongoose.Schema({
-    did: String,
+    did: {
+        type: String,
+        unique: true
+    },
     boxPub: String,
     name: String,
     dob: String,
