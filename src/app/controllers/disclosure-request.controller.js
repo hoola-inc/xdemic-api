@@ -4,6 +4,7 @@ const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
 const io = require('socket.io');
+const schoolSchema = require('../models/school.model');
 
 const pushToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1Njc1ODAzMjYsImV4cCI6MTU5OTExNjMyNiwiYXVkIjoiZGlkOmV0aHI6MHhkNzQxYTZkZDI3MTE1MjFlODc5OGZiZTkyYzEyZmNiOWQyZjQzY2YxIiwidHlwZSI6Im5vdGlmaWNhdGlvbnMiLCJ2YWx1ZSI6ImFybjphd3M6c25zOnVzLXdlc3QtMjoxMTMxOTYyMTY1NTg6ZW5kcG9pbnQvR0NNL3VQb3J0Lzc0Njk2YTE4LTE2ODctMzBiYy1hYzI3LWY1M2ViMTE0OTZiMCIsImlzcyI6ImRpZDpldGhyOjB4YTA1NmZmYmZkNjQ0ZTQ4MmFkOGQ3MjJjNGJlNGM2NmFhMDUyYWQ1YSJ9.dXjd2xOOpqjdbBip1qtuHyTuAXfqlmZjLVdyap09U1ntlq8Z84sx3STcxMlIhA2I3yetCdJGxYfyb3A84UbVtQA'
 
@@ -44,10 +45,13 @@ exports.varifyClaims = (req, res, next) => {
         newStudent.save()
             .then(data => {
                 console.log('student created');
-                createVerification(creds, push, next);
             })
             .then(data => {
                 console.log('updating school students array');
+                updateStudnetArrayInSchool(data);
+            })
+            .then(() => {
+                createVerification(creds, push, next);
             })
             .catch(err => {
                 console.log('An error occured: ', err.message);
@@ -84,7 +88,7 @@ function createVerification(creds, push, next) {
 
 
 function sendNotification(creds) {
-    
+
     const io = require('../../../server').io;
     console.log('sending push notification using socket io');
     let interval;
@@ -100,7 +104,7 @@ function sendNotification(creds) {
     });
     const getApiAndEmit = async socket => {
         try {
-            
+
             socket.emit("StudentRequest", {
                 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
             }); // Emitting a new message. It will be consumed by the client
@@ -108,4 +112,8 @@ function sendNotification(creds) {
             console.error(`Error: ${error.message}`);
         }
     };
+}
+
+function updateStudnetArrayInSchool(studentData) {
+    console.log(studentData);
 }
