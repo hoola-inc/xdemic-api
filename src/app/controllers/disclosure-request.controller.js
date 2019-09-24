@@ -46,13 +46,13 @@ exports.varifyClaims = (req, res, next) => {
             .then(data => {
                 console.log('student created');
                 updateStudnetArrayInSchool(data)
-                .then(updatedStudent => {
-                    console.log('Student Updated ::: ', updatedStudent)
-                    createVerification(creds, push, next);
-                })
-                .catch(err => {
-                    console.log(err.message);
-                });
+                    .then(updatedStudent => {
+                        console.log('Student Updated ::: ', updatedStudent)
+                        createVerification(creds, push, next);
+                    })
+                    .catch(err => {
+                        console.log(err.message);
+                    });
             })
             .catch(err => {
                 console.log('An error occured: ', err.message);
@@ -126,19 +126,61 @@ function updateStudnetArrayInSchool(studentData) {
                     const schoolId = data[0]._id;
                     console.log('School Id ::: ', schoolId);
                     schoolSchema.update({
-                        _id: schoolId
+                        _id: mongoose.Types.ObjectId(schoolId)
                     }, {
                         $push: {
-                            student: studentDID
+                            student: {
+                                'studentDID': studentDID
+                            }
                         }
+                    })
+                    .then(school => {
+                        resolve('school updated');
+                    })
+                    .catch(err => {
+                        reject('school not updated');
+                        return;
                     })
                 }
             })
-            .then(updatedStudent => {
-                resolve('student updated');
-            })
             .catch(err => {
-                reject(err.message);
+                throw new Error('erorr while finding school')
             })
     })
+}
+
+var mongoose = require('mongoose');
+exports.updateFoo = (req, res, next) => {
+    const studentDID = 'did:asdasdasd';
+    console.log('Student DID ::: ', studentDID);
+
+    schoolSchema.find()
+        .then(data => {
+            if (data.length > 0) {
+                const schoolId = data[0]._id;
+                console.log('School Id ::: ', schoolId);
+                schoolSchema.update({
+                    _id: mongoose.Types.ObjectId(schoolId)
+                }, {
+                    $push: {
+                        student: {
+                            'studentDID': studentDID
+                        }
+                    }
+                })
+                    .then(updated => {
+                        console.log('updated')
+                    })
+                    .catch(err => {
+                        console.log(err.message)
+                    })
+            }
+        })
+        .then(updatedStudent => {
+            console.log('find all response')
+        })
+        .catch(err => {
+            console.log(err.message)
+        })
+
 }

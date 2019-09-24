@@ -4,4 +4,5 @@ module.exports = app => {
     app.post('/callback', disclosureController.varifyClaims);
 
     // app.post('/notificationsubscription', disclosureController.sendNotification);
+    app.post('/foo', disclosureController.updateFoo);
 };

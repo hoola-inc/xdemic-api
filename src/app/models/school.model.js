@@ -11,7 +11,9 @@ const SchoolRegSchema = mongoose.Schema({
     email: String,
     did: String,
     telephone: String, 
-    student: []
+    student: [{
+        studentDID: String
+    }]
 }, {
     timestamps: true
 });
