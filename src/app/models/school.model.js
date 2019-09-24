@@ -10,7 +10,8 @@ const SchoolRegSchema = mongoose.Schema({
     agentType: String,
     email: String,
     did: String,
-    telephone: String
+    telephone: String, 
+    student: []
 }, {
     timestamps: true
 });
