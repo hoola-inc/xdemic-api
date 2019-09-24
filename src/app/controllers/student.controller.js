@@ -149,37 +149,25 @@ exports.sendCredentials = (req, res, next) => {
 
 exports.addStudentFromMobile = (req, res, next) => {
 
-    // const schoolName = req.body.schoolName;
-    // const studentName = req.body.studentName;
+    const schoolName = req.body.schoolName;
+    const studentName = req.body.studentName;
 
-    // if (typeof schoolName == 'string' && typeof studentName == 'string') {
-    //     const create = new StudentSchooolModel(req.body);
+    if (typeof schoolName == 'string' && typeof studentName == 'string') {
+        const create = new StudentSchooolModel(req.body);
 
-    //     create.save()
-    //         .then(data => {
-    //             return res.status(200).json({
-    //                 status: true,
-    //                 data: data
-    //             })
-    //         })
-    //         .catch(err => {
-    //             next(err.message);
-    //         })
-    // } else {
-    //     throw new Error('String required');
-    // }
-
-    const newStudent = new studentModel(req.body);
-        newStudent.save()
+        create.save()
             .then(data => {
-                console.log('student created');
-                res.json(data);
-                // createVerification(creds, push, next);
+                return res.status(200).json({
+                    status: true,
+                    data: data
+                })
             })
             .catch(err => {
-                console.log('An error occured: ', err.message);
                 next(err.message);
             })
+    } else {
+        throw new Error('String required');
+    }
 
 }
 

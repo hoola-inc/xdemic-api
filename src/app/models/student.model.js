@@ -30,13 +30,13 @@ const StudentSchema = mongoose.Schema({
 
 
 StudentSchema.pre("save", function(next) {
-    var self = this;
+    const self = this;
 
     mongoose.models["Student"].findOne({did : this.did}, function(err, results) {
         if(err) {
             next(err);
         } else if(results) {
-            console.warn('results');
+            console.log('did must be unique');
             self.invalidate("did", "did must be unique");
             next(new Error("did must be unique"));
         } else {

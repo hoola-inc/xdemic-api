@@ -47,7 +47,8 @@ exports.varifyClaims = (req, res, next) => {
                 createVerification(creds, push, next);
             })
             .catch(err => {
-                console.log('An error occured: ', err.message)
+                console.log('An error occured: ', err.message);
+                next(err.message);
             })
 
     })
