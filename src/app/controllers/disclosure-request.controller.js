@@ -45,9 +45,6 @@ exports.varifyClaims = (req, res, next) => {
         newStudent.save()
             .then(data => {
                 console.log('student created');
-            })
-            .then(data => {
-                console.log('updating school students array');
                 updateStudnetArrayInSchool(data);
             })
             .then(() => {
