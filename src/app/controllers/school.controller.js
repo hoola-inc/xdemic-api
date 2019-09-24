@@ -150,32 +150,21 @@ exports.getSchool = (req, res, next) => {
 
 
 exports.getSchoolWithStudent = (req, res, next) => {
-    studentModal.find()
-        .then(students => {
-            console.log(students);
-            if (students.length > 0) {
-                SchoolSchema.find()
-                    .then(data => {
-                        if (data.length > 0) {
-                            res.status(200).json({
-                                status: true,
-                                length: data.length,
-                                data: data
-                            })
-                        } else {
-                            res.status(200).json({
-                                status: false,
-                                message: 'no school found'
-                            })
-                        }
-                    })
-                    .catch(err => {
-                        next(err.message)
-                    })
+    console.log(req.params.did);
+    SchoolSchema.find({
+        "student.studentDID": req.params.did
+    })
+        .then(data => {
+            console.log(data);
+            if (data.length > 0) {
+                return res.status(200).json({
+                    status: true,
+                    data: data
+                })
             } else {
                 return res.status(200).json({
                     status: false,
-                    message: 'no student found'
+                    message: 'no student enroll with school yet'
                 })
             }
         })

@@ -7,5 +7,5 @@ module.exports = app => {
 
     app.get('/httpschool', schoolController.displaySchoolOnHttp);
 
-    app.get('/schoolwithstudentenroll', schoolController.getSchoolWithStudent);
+    app.get('/schoolwithstudentenroll/:did', schoolController.getSchoolWithStudent);
 };
