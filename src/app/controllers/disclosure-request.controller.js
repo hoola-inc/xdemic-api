@@ -45,10 +45,14 @@ exports.varifyClaims = (req, res, next) => {
         newStudent.save()
             .then(data => {
                 console.log('student created');
-                updateStudnetArrayInSchool(data);
-            })
-            .then(() => {
-                createVerification(creds, push, next);
+                updateStudnetArrayInSchool(data)
+                .then(updatedStudent => {
+                    console.log('Student Updated ::: ', updatedStudent)
+                    createVerification(creds, push, next);
+                })
+                .catch(err => {
+                    console.log(err.message);
+                });
             })
             .catch(err => {
                 console.log('An error occured: ', err.message);
@@ -112,27 +116,29 @@ function sendNotification(creds) {
 }
 
 function updateStudnetArrayInSchool(studentData) {
-    const studentDID = studentData.did;
-    console.log('Student DID ::: ', studentDID);
+    return new Promise((resolve, reject) => {
+        const studentDID = studentData.did;
+        console.log('Student DID ::: ', studentDID);
 
-    schoolSchema.find()
-    .then(data => {
-        if(data.length > 0) {
-            const schoolId = data[0]._id;
-
-            schoolSchema.update({
-                _id: schoolId
-            }, { 
-                $push: { 
-                    student: studentDID 
-                } 
+        schoolSchema.find()
+            .then(data => {
+                if (data.length > 0) {
+                    const schoolId = data[0]._id;
+                    console.log('School Id ::: ', schoolId);
+                    schoolSchema.update({
+                        _id: schoolId
+                    }, {
+                        $push: {
+                            student: studentDID
+                        }
+                    })
+                }
             })
-        }
-    })
-    .then(updatedStudent => {
-        console.log('student updated');
-    })
-    .catch(err => {
-        console.log('an error occured while updating student ', err.message);
+            .then(updatedStudent => {
+                resolve('student updated');
+            })
+            .catch(err => {
+                reject(err.message);
+            })
     })
 }
