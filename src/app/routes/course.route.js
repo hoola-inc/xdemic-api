@@ -5,6 +5,8 @@ module.exports = app => {
 
     app.get('/courses/:did', courseController.getAllCourses);
 
+    app.get('/courses', courseController.getCoursesForDashboard)
+
     app.get('/httpcourse', courseController.displayCourseOnHttp);
 
     app.get('/coursejwt', courseController.coursesWithJwt);

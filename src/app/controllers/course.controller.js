@@ -99,6 +99,36 @@ const writeObjToFile = (obj, courseData) => {
     obj.graph.push(courseFileObj);
 }
 
+exports.getCoursesForDashboard = (req, res, next) => {
+    CourseSchema.find()
+        .then(data => {
+            if (data.length > 0) {
+                // todo change here ...
+                data.map((e) => {
+                    e.courseGrade = "C",
+                        e.courseGPA = "2",
+                        e.coursePercentage = "50.55%",
+                        e.schoolName = " US National School"
+                })
+                // end here ...
+                return res.status(200).json({
+                    status: true,
+                    length: data.length,
+                    data: data
+                })
+            } else {
+                return res.status(200).json({
+                    status: false,
+                    message: 'record not found'
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            next(err.message);
+        })
+}
+
 exports.getAllCourses = (req, res, next) => {
 
     console.log(req.params.did);
