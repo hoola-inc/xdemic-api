@@ -17,14 +17,14 @@ exports.createNewCourse = async (req, res, next) => {
             newCourse.save()
                 .then(data => {
                     updateCourseArrayInSchool(data)
-                    .then(school => {
-                        console.log('school updated ::: ', school);
-                        writeToFile(data, res);
-                    })
-                    .catch(err => {
-                        next(err.message);
-                    })
-                    
+                        .then(school => {
+                            console.log('school updated ::: ', school);
+                            writeToFile(data, res);
+                        })
+                        .catch(err => {
+                            next(err.message);
+                        })
+
                 })
                 .catch(err => {
                     next(err.message);
@@ -100,31 +100,51 @@ const writeObjToFile = (obj, courseData) => {
 }
 
 exports.getAllCourses = (req, res, next) => {
-    CourseSchema.find()
+
+    console.log(req.params.did);
+    schoolSchema.find({
+        "student.studentDID": req.params.did
+    })
         .then(data => {
+            console.log(data);
             if (data.length > 0) {
-                // todo change here ...
-                data.map((e) => {
-                    e.courseGrade = "C",
-                        e.courseGPA = "2",
-                        e.coursePercentage = "50.55%",
-                        e.schoolName = " US National School"
-                })
-                // end here ...
-                return res.status(200).json({
-                    status: true,
-                    length: data.length,
-                    data: data
-                })
+
+                CourseSchema.find()
+                    .then(data => {
+                        if (data.length > 0) {
+                            // todo change here ...
+                            data.map((e) => {
+                                e.courseGrade = "C",
+                                    e.courseGPA = "2",
+                                    e.coursePercentage = "50.55%",
+                                    e.schoolName = " US National School"
+                            })
+                            // end here ...
+                            return res.status(200).json({
+                                status: true,
+                                length: data.length,
+                                data: data
+                            })
+                        } else {
+                            return res.status(200).json({
+                                status: false,
+                                message: 'record not found'
+                            })
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        next(err.message);
+                    })
+
             } else {
                 return res.status(200).json({
                     status: false,
-                    message: 'record not found'
+                    message: 'student is not enroll with school yet'
                 })
             }
         })
         .catch(err => {
-            console.log(err);
             next(err.message);
         })
 }
@@ -238,13 +258,13 @@ function updateCourseArrayInSchool(courseData) {
                             }
                         }
                     })
-                    .then(school => {
-                        resolve('course ID updated');
-                    })
-                    .catch(err => {
-                        reject('course ID not updated');
-                        return;
-                    })
+                        .then(school => {
+                            resolve('course ID updated');
+                        })
+                        .catch(err => {
+                            reject('course ID not updated');
+                            return;
+                        })
                 }
             })
             .catch(err => {

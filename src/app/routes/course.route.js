@@ -3,7 +3,7 @@ module.exports = app => {
 
     app.post('/course', courseController.createNewCourse);
 
-    app.get('/courses', courseController.getAllCourses);
+    app.get('/courses/:did', courseController.getAllCourses);
 
     app.get('/httpcourse', courseController.displayCourseOnHttp);
 
