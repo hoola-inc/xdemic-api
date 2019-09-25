@@ -1,4 +1,5 @@
 const CourseSchema = require('../models/course.model');
+const schoolSchema = require('../models/school.model');
 const fs = require('fs');
 const sendJWt = require('../../utilities/send-signed-jwt.utility');
 
@@ -15,7 +16,15 @@ exports.createNewCourse = async (req, res, next) => {
             const newCourse = new CourseSchema(req.body);
             newCourse.save()
                 .then(data => {
-                    writeToFile(data, res);
+                    updateCourseArrayInSchool(data)
+                    .then(school => {
+                        console.log('school updated ::: ', school);
+                        writeToFile(data, res);
+                    })
+                    .catch(err => {
+                        next(err.message);
+                    })
+                    
                 })
                 .catch(err => {
                     next(err.message);
@@ -207,4 +216,39 @@ exports.updateCourseGrade = (req, res, next) => {
         .catch(err => {
             next(err.message);
         })
+}
+
+
+function updateCourseArrayInSchool(courseData) {
+    return new Promise((resolve, reject) => {
+        const courseID = courseData._id;
+        console.log('Course id ::: ', courseID);
+
+        schoolSchema.find()
+            .then(data => {
+                if (data.length > 0) {
+                    const schoolId = data[0]._id;
+                    console.log('School Id ::: ', schoolId);
+                    schoolSchema.update({
+                        _id: schoolId
+                    }, {
+                        $push: {
+                            courses: {
+                                'courseID': courseID
+                            }
+                        }
+                    })
+                    .then(school => {
+                        resolve('course ID updated');
+                    })
+                    .catch(err => {
+                        reject('course ID not updated');
+                        return;
+                    })
+                }
+            })
+            .catch(err => {
+                throw new Error('erorr while finding school')
+            })
+    })
 }

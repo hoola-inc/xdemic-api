@@ -13,6 +13,9 @@ const SchoolRegSchema = mongoose.Schema({
     telephone: String, 
     student: [{
         studentDID: String
+    }],
+    courses: [{
+        courseId: String
     }]
 }, {
     timestamps: true
