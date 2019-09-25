@@ -234,7 +234,7 @@ function updateCourseArrayInSchool(courseData) {
                     }, {
                         $push: {
                             courses: {
-                                'courseID': courseID
+                                'courseId': courseID
                             }
                         }
                     })
