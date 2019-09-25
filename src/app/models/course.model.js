@@ -29,7 +29,10 @@ const CourseSchema = mongoose.Schema({
         schoolName: {
                 type: String,
                 default: ''
-        }
+        }, 
+        students: [{
+                studentDID: String
+        }]
 }, {
         timestamps: true
 

@@ -4,6 +4,7 @@ const transports = require('uport-transports').transport;
 const { Credentials } = require('uport-credentials');
 const StudentSchooolModel = require('../models/student-school-bridge.model');
 const nodemailer = require('nodemailer');
+const courseSchema = require('../models/course.model');
 
 exports.getStudents = (req, res, next) => {
     studentModel.find()
@@ -65,86 +66,78 @@ exports.sendCredentials = (req, res, next) => {
             const newData = data.reverse();
             const pushToken = newData[0].pushToken;
             const boxPub = newData[0].boxPub;
-            const courseUrl = {
-            "status": true,
-                "data": {
-                "context": {
-                    "ceterms": "http://purl.org/ctdl/terms/",
-                        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-                            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-                                "res": "http://example.org/resources/",
-                                    "xsd": "http://www.w3.org/2001/XMLSchema#"
-                },
-                "graph": [
-                    {
-                        "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
-                        "type": "ceterms:Course",
-                        "creditUnitType": "school",
-                        "ceterms:creditUnitValue": "123",
-                        "ceterms:ctid": "4321",
-                        "ceterms:prerequisite": "qweqwe",
-                        "ceasn:hasChild": "String",
-                        "ceterms:name": {
-                            "language": "en-US",
-                            "value": "schaool"
-                        },
-                        "ceterms:subjectWebpage": {
-                            "id": "qweqw"
-                        }
-                    },
-                    {
-                        "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
-                        "type": "ceterms:Course",
-                        "creditUnitType": "school",
-                        "ceterms:creditUnitValue": "123",
-                        "ceterms:ctid": "4321",
-                        "ceterms:prerequisite": "qweqwe",
-                        "ceasn:hasChild": "String",
-                        "ceterms:name": {
-                            "language": "en-US",
-                            "value": "schaaool"
-                        },
-                        "ceterms:subjectWebpage": {
-                            "id": "qweqw"
-                        }
-                    }
-                ]
-            }
-        };
+            const courseUrl = courseDocumentData();
 
-            console.log(pushToken);
+            const studentDID = newData[0].did;
 
-    const push = transports.push.send(pushToken, boxPub);
+            const push = transports.push.send(pushToken, boxPub);
 
-    credentials.createVerification({
-        sub: 'Course Credentials',
-        exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-        claim: courseUrl
-        // Note, the above is a complex (nested) claim. 
-        // Also supported are simple claims:  claim: {'Key' : 'Value'}
-    }).then(attestation => {
-        console.log(`Encoded JWT sent to user: ${attestation}`);
-        // console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
-        return push(attestation); // *push* the notification to the user's mobile app.
-    }).then(not => {
-        console.log(not);
-        console.log(`Notification sent to user ::: ${newData[0].name}`)
-        console.log('Push notification sent and should be recieved any moment...');
-        console.log('Accept the push notification in the xdemic mobile application');
-        return res.status(200).json({
-            status: true,
-            message: "Notification sent"
+            credentials.createVerification({
+                sub: 'Course Credentials',
+                exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+                claim: courseUrl
+                // Note, the above is a complex (nested) claim. 
+                // Also supported are simple claims:  claim: {'Key' : 'Value'}
+            }).then(attestation => {
+                console.log(`Encoded JWT sent to user: ${attestation}`);
+                // console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
+                return push(attestation); // *push* the notification to the user's mobile app.
+            }).then(not => {
+                console.log(not);
+                console.log(`Notification sent to user ::: ${newData[0].name}`)
+                console.log('Push notification sent and should be recieved any moment...');
+                console.log('Accept the push notification in the xdemic mobile application');
+                updateStudentArray(studentDID)
+                .then(updateStudent => {
+                    return res.status(200).json({
+                        status: true,
+                        message: "Notification sent"
+                    })
+                })
+                .catch(err => {
+                    console.log(err.message);
+                })
+            })
+                .catch(err => {
+                    console.log(err);
+                });
+
         })
-    })
         .catch(err => {
             console.log(err);
-        });
+            next(err.message);
+        })
+}
 
-})
-        .catch (err => {
-    console.log(err);
-    next(err.message);
-})
+function updateStudentArray(studentDID) {
+    return new Promise((resolve, reject) => {
+        courseSchema.find()
+            .then(data => {
+                if (data.length > 0) {
+                    const courseID = data[0]._id;
+                    console.log('School Id ::: ', courseID);
+                    courseSchema.update({
+                        _id: courseID
+                    }, {
+                        $push: {
+                            students: {
+                                'studentDID': studentDID
+                            }
+                        }
+                    })
+                        .then(school => {
+                            resolve('course student updated');
+                        })
+                        .catch(err => {
+                            reject('school not updated');
+                            return;
+                        })
+                }
+            })
+            .catch(err => {
+                throw new Error('erorr while finding school')
+            })
+    })
 }
 
 exports.addStudentFromMobile = (req, res, next) => {
@@ -274,4 +267,53 @@ exports.sendTranscript = (req, res, next) => {
             })
         }
     });
+}
+
+function courseDocumentData() {
+    return {
+        "status": true,
+        "data": {
+            "context": {
+                "ceterms": "http://purl.org/ctdl/terms/",
+                "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+                "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+                "res": "http://example.org/resources/",
+                "xsd": "http://www.w3.org/2001/XMLSchema#"
+            },
+            "graph": [
+                {
+                    "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+                    "type": "ceterms:Course",
+                    "creditUnitType": "school",
+                    "ceterms:creditUnitValue": "123",
+                    "ceterms:ctid": "4321",
+                    "ceterms:prerequisite": "qweqwe",
+                    "ceasn:hasChild": "String",
+                    "ceterms:name": {
+                        "language": "en-US",
+                        "value": "schaool"
+                    },
+                    "ceterms:subjectWebpage": {
+                        "id": "qweqw"
+                    }
+                },
+                {
+                    "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+                    "type": "ceterms:Course",
+                    "creditUnitType": "school",
+                    "ceterms:creditUnitValue": "123",
+                    "ceterms:ctid": "4321",
+                    "ceterms:prerequisite": "qweqwe",
+                    "ceasn:hasChild": "String",
+                    "ceterms:name": {
+                        "language": "en-US",
+                        "value": "schaaool"
+                    },
+                    "ceterms:subjectWebpage": {
+                        "id": "qweqw"
+                    }
+                }
+            ]
+        }
+    };
 }

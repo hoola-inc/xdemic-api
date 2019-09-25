@@ -138,27 +138,42 @@ exports.getAllCourses = (req, res, next) => {
         .then(data => {
             console.log(data);
             if (data.length > 0) {
-
-                CourseSchema.find()
-                    .then(data => {
-                        if (data.length > 0) {
-                            // todo change here ...
-                            data.map((e) => {
-                                e.courseGrade = "C",
-                                    e.courseGPA = "2",
-                                    e.coursePercentage = "50.55%",
-                                    e.schoolName = " US National School"
-                            })
-                            // end here ...
-                            return res.status(200).json({
-                                status: true,
-                                length: data.length,
-                                data: data
-                            })
+                CourseSchema.find({
+                    "students.studentDID": req.params.did
+                })
+                    .then(studentCourse => {
+                        if (studentCourse.length > 0) {
+                            CourseSchema.find()
+                                .then(data => {
+                                    if (data.length > 0) {
+                                        // todo change here ...
+                                        data.map((e) => {
+                                            e.courseGrade = "C",
+                                                e.courseGPA = "2",
+                                                e.coursePercentage = "50.55%",
+                                                e.schoolName = " US National School"
+                                        })
+                                        // end here ...
+                                        return res.status(200).json({
+                                            status: true,
+                                            length: data.length,
+                                            data: data
+                                        })
+                                    } else {
+                                        return res.status(200).json({
+                                            status: false,
+                                            message: 'record not found'
+                                        })
+                                    }
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    next(err.message);
+                                })
                         } else {
                             return res.status(200).json({
                                 status: false,
-                                message: 'record not found'
+                                message: 'no studnet enroll'
                             })
                         }
                     })
@@ -166,6 +181,7 @@ exports.getAllCourses = (req, res, next) => {
                         console.log(err);
                         next(err.message);
                     })
+
 
             } else {
                 return res.status(200).json({
