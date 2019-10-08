@@ -6,48 +6,52 @@ const StudentSchooolModel = require('../models/student-school-bridge.model');
 const nodemailer = require('nodemailer');
 const courseSchema = require('../models/course.model');
 
-exports.getStudents = (req, res, next) => {
-    studentModel.find()
-        .then(data => {
-            if (data.length > 0) {
-                return res.status(200).json({
-                    status: true,
-                    length: data.length,
-                    data: data.reverse()
-                })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'student not found'
-                })
-            }
-        })
+exports.getAllStudents = async (req, res, next) => {
+    try {
+        const allStudentsRecord = await studentModel.find();
+        if (allStudentsRecord.length > 0) {
+            return res.status(200).json({
+                status: true,
+                length: allStudentsRecord.length,
+                data: allStudentsRecord
+            });
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'student not found'
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
 }
 
-exports.getStuentAsSignedJWT = (req, res, next) => {
-    studentModel.find()
-        .then(data => {
-            if (data.length > 0) {
-                sendJWt.jwtSchema('did:ethr:0xa056ffbfd644e482ad8d722c4be4c66aa052ad5a', data)
-                    .then(signedJwt => {
-                        return res.status(200).send({
-                            status: true,
-                            data: signedJwt
-                        })
-                    })
-                    .catch(err => {
-                        next(err.message)
-                    })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'no record found'
+
+exports.getAllStudentsJWT = async (req, res, next) => {
+
+    try {
+        const allStudentsRecord = await studentModel.find();
+        if (allStudentsRecord.length > 0) {
+            //todo DID required ...
+            const jwtHash = await sendJWt.jwtSchema('', allStudentsRecord);
+            if (jwtHash) {
+                return res.status(200).send({
+                    status: true,
+                    data: jwtHash
                 });
+            } else {
+                throw new Error('An error occured while creating jwt hash');
             }
-        })
-        .catch(err => {
-            next(err.message);
-        })
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'student not found'
+            });
+        }
+    } catch (error) {
+        console.log('i am here ...', error);
+        next(error);
+    }
 }
 
 
@@ -88,15 +92,15 @@ exports.sendCredentials = (req, res, next) => {
                 console.log('Push notification sent and should be recieved any moment...');
                 console.log('Accept the push notification in the xdemic mobile application');
                 updateStudentArray(studentDID)
-                .then(updateStudent => {
-                    return res.status(200).json({
-                        status: true,
-                        message: "Notification sent"
+                    .then(updateStudent => {
+                        return res.status(200).json({
+                            status: true,
+                            message: "Notification sent"
+                        })
                     })
-                })
-                .catch(err => {
-                    console.log(err.message);
-                })
+                    .catch(err => {
+                        console.log(err.message);
+                    })
             })
                 .catch(err => {
                     console.log(err);

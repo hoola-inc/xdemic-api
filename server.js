@@ -1,15 +1,18 @@
 const express = require('express');
+const compression = require('compression');
+const chalk = require('chalk');
 const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const multer = require('multer');
 const env = require('dotenv');
 const http = require("http");
 // Create Express App
 const app = express();
 const server = http.createServer(app);
 const socketIo = require("socket.io");
-const io = socketIo(server); // < Interesting!
+const io = socketIo(server);
 
 
 // init env var
@@ -17,6 +20,8 @@ env.config();
 
 // providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(cors());
+
+app.use(compression());
 
 // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,22 +40,24 @@ app.use(morgan('dev'));
 //     stream: winston.stream
 // }));
 
+// default route
+app.get("/", (req, res, next) => {
+    return res.status(200).json({ message: "Welcome to XdemiC api" });
+});
+
 // import all routes at once
 require('./src/utilities/routes.utility')(app);
 
 // logger 
 // require('./src/config/logger.config');
 
-// if invalid route found
+// Handling non-existing routes
 require('./src/utilities/error-handler.utility')(app);
 
 // db config
 require('./src/config/db.config');
 
-// default route
-app.get("/", (req, res, next) => {
-    return res.status(200).json({ message: "Welcome to XdemiC api" });
-});
+
 
 // server listen for requests
 // server listen for requests
@@ -64,7 +71,7 @@ app.get("/", (req, res, next) => {
 
 
 const socketPort = process.env.PORT || 5500;
-server.listen(socketPort, () => console.log(`Server is listening on port ${socketPort}`));
+server.listen(socketPort, () => console.log(`%s Server is listening on port ${socketPort}`, chalk.green('✓')));
 
 module.exports = {
     io: io
