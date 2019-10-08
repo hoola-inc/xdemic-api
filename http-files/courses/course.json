@@ -1,1 +1,107 @@
-{"context":{"ceterms":"http://purl.org/ctdl/terms/","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","res":"http://example.org/resources/","xsd":"http://www.w3.org/2001/XMLSchema#"},"graph":[{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:Course","creditUnitType":"school","ceterms:creditUnitValue":"123","ceterms:ctid":"4321","ceterms:prerequisite":"qweqwe","ceasn:hasChild":"String","ceterms:name":{"language":"en-US","value":"schaool"},"ceterms:subjectWebpage":{"id":"qweqw"}},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:Course","creditUnitType":"school","ceterms:creditUnitValue":"123","ceterms:ctid":"4321","ceterms:prerequisite":"qweqwe","ceasn:hasChild":"String","ceterms:name":{"language":"en-US","value":"schaaool"},"ceterms:subjectWebpage":{"id":"qweqw"}},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:Course","creditUnitType":"school","ceterms:creditUnitValue":"123","ceterms:ctid":"4321","ceterms:prerequisite":"qweqwe","ceasn:hasChild":"String","ceterms:name":{"language":"en-US","value":"asd"},"ceterms:subjectWebpage":{"id":"qweqw"}},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:Course","creditUnitType":"school","ceterms:creditUnitValue":"123","ceterms:ctid":"4321","ceterms:prerequisite":"qweqwe","ceasn:hasChild":"String","ceterms:name":{"language":"en-US","value":"asd"},"ceterms:subjectWebpage":{"id":"qweqw"}},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:Course","creditUnitType":"school","ceterms:creditUnitValue":"123","ceterms:ctid":"4321","ceterms:prerequisite":"qweqwe","ceasn:hasChild":"String","ceterms:name":{"language":"en-US","value":"qweqweqwe"},"ceterms:subjectWebpage":{"id":"qweqw"}},{"id":"did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7","type":"ceterms:Course","creditUnitType":"school","ceterms:creditUnitValue":"123","ceterms:ctid":"4321","ceterms:prerequisite":"qweqwe","ceasn:hasChild":"String","ceterms:name":{"language":"en-US","value":"asdasdasdasdsadsad"},"ceterms:subjectWebpage":{"id":"qweqw"}}]}
+{
+    "context": {
+        "ceterms": "http://purl.org/ctdl/terms/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "res": "http://example.org/resources/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "graph": [
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:Course",
+            "creditUnitType": "school",
+            "ceterms:creditUnitValue": "123",
+            "ceterms:ctid": "4321",
+            "ceterms:prerequisite": "qweqwe",
+            "ceasn:hasChild": "String",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "schaool"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "qweqw"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:Course",
+            "creditUnitType": "school",
+            "ceterms:creditUnitValue": "123",
+            "ceterms:ctid": "4321",
+            "ceterms:prerequisite": "qweqwe",
+            "ceasn:hasChild": "String",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "schaaool"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "qweqw"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:Course",
+            "creditUnitType": "school",
+            "ceterms:creditUnitValue": "123",
+            "ceterms:ctid": "4321",
+            "ceterms:prerequisite": "qweqwe",
+            "ceasn:hasChild": "String",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "asd"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "qweqw"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:Course",
+            "creditUnitType": "school",
+            "ceterms:creditUnitValue": "123",
+            "ceterms:ctid": "4321",
+            "ceterms:prerequisite": "qweqwe",
+            "ceasn:hasChild": "String",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "asd"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "qweqw"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:Course",
+            "creditUnitType": "school",
+            "ceterms:creditUnitValue": "123",
+            "ceterms:ctid": "4321",
+            "ceterms:prerequisite": "qweqwe",
+            "ceasn:hasChild": "String",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "qweqweqwe"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "qweqw"
+            }
+        },
+        {
+            "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
+            "type": "ceterms:Course",
+            "creditUnitType": "school",
+            "ceterms:creditUnitValue": "123",
+            "ceterms:ctid": "4321",
+            "ceterms:prerequisite": "qweqwe",
+            "ceasn:hasChild": "String",
+            "ceterms:name": {
+                "language": "en-US",
+                "value": "asdasdasdasdsadsad"
+            },
+            "ceterms:subjectWebpage": {
+                "id": "qweqw"
+            }
+        }
+    ]
+}
