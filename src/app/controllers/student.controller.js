@@ -1,10 +1,63 @@
 const studentModel = require('../models/student.model');
-const sendJWt = require('../../utilities/send-signed-jwt.utility');
+const jwtSigner = require('../../utilities/send-signed-jwt.utility');
 const transports = require('uport-transports').transport;
 const { Credentials } = require('uport-credentials');
 const StudentSchooolModel = require('../models/student-school-bridge.model');
 const nodemailer = require('nodemailer');
 const courseSchema = require('../models/course.model');
+const CredentialsModel = require('../models/credentials.model');
+
+
+exports.addStudent = async (req, res, next) => {
+    try {
+        const { did, privateKey } = Credentials.createIdentity();
+        const credentials = await saveCredentials(did, privateKey);
+        if (credentials) {
+            const addNewStudent = new studentModel({
+                fullName: req.body.fullName,
+                givenName: req.body.givenName,
+                familyName: req.body.familyName,
+                email: req.body.email,
+                mobile: req.body.mobile,
+                URL: req.body.URL,
+                birthDate: req.body.birthDate,
+                sourcedId: req.body.sourcedId,
+                did: did
+            });
+
+            const createStudent = await addNewStudent.save();
+            if (createStudent) {
+                return res.status(200).json({
+                    status: true,
+                    data: createStudent
+                });
+            }
+            throw new Error('An error occured while creating student');
+
+        }
+        throw new Error('An error occured while creating credentials');
+
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+saveCredentials = async (did, privateKey) => {
+    try {
+        const addNewCredentials = new CredentialsModel({
+            did: did,
+            privateKey: privateKey
+        });
+
+        const createNewCredentials = await addNewCredentials.save();
+
+        return createNewCredentials ? true : false
+
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
 exports.getAllStudents = async (req, res, next) => {
     try {
@@ -33,7 +86,8 @@ exports.getAllStudentsJWT = async (req, res, next) => {
         const allStudentsRecord = await studentModel.find();
         if (allStudentsRecord.length > 0) {
             //todo DID required ...
-            const jwtHash = await sendJWt.jwtSchema('', allStudentsRecord);
+            const jwtHash = await jwtSigner.jwtSchema('', allStudentsRecord);
+            // console.log(jwtHash);
             if (jwtHash) {
                 return res.status(200).send({
                     status: true,
@@ -49,7 +103,6 @@ exports.getAllStudentsJWT = async (req, res, next) => {
             });
         }
     } catch (error) {
-        console.log('i am here ...', error);
         next(error);
     }
 }

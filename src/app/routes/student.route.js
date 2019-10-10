@@ -1,6 +1,8 @@
 module.exports = app => {
     const studentController = require('../controllers/student.controller');
 
+    app.post('/student', studentController.addStudent);
+
     app.get('/students', studentController.getAllStudents);
 
     app.get('/studentjwt', studentController.getAllStudentsJWT);

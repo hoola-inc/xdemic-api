@@ -1,15 +1,19 @@
 const mongoose = require('mongoose');
 
 const StudentSchema = mongoose.Schema({
-    did: {
-        type: String,
-        required: true,
-        unique: true
-    },
+
+    fullName: String,
+    givenName: String,
+    familyName: String,
+    URL: String,
+    pushToken: String,
     boxPub: String,
-    name: String,
-    dob: String,
-    phone: {
+    birthDate: String,
+    sourcedId: {
+        type: String,
+        default: ''
+    },
+    mobile: {
         type: String,
         required: true
     },
@@ -17,7 +21,16 @@ const StudentSchema = mongoose.Schema({
         type: String,
         lowercase: true
     },
-    pushToken: String,
+    did: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    type: {
+        type: String,
+        default: 'Person'
+    },
+
     courseId: {
         type: String,
         default: ''
@@ -28,13 +41,13 @@ const StudentSchema = mongoose.Schema({
 
 
 
-StudentSchema.pre("save", function(next) {
+StudentSchema.pre("save", function (next) {
     const self = this;
 
-    mongoose.models["Student"].findOne({did : this.did}, function(err, results) {
-        if(err) {
+    mongoose.models["Student"].findOne({ did: this.did }, function (err, results) {
+        if (err) {
             next(err);
-        } else if(results) {
+        } else if (results) {
             console.log('did must be unique');
             self.invalidate("did", "did must be unique");
             next(new Error("did must be unique"));
