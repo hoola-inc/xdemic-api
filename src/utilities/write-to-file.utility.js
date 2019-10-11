@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 
 exports.writeToFile = (did, dirName, data) => {
     return new Promise((resolve, reject) => {
