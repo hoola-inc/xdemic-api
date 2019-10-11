@@ -1,11 +1,12 @@
 const studentModel = require('../models/student.model');
-const jwtSigner = require('../../utilities/send-signed-jwt.utility');
+const jwtSigner = require('../../utilities/jwt-signature-generator');
 const transports = require('uport-transports').transport;
 const { Credentials } = require('uport-credentials');
 const StudentSchooolModel = require('../models/student-school-bridge.model');
 const nodemailer = require('nodemailer');
 const courseSchema = require('../models/course.model');
 const CredentialsModel = require('../models/credentials.model');
+const writeFile = require('../../utilities/write-to-file.utility');
 
 
 exports.addStudent = async (req, res, next) => {
@@ -27,17 +28,20 @@ exports.addStudent = async (req, res, next) => {
 
             const createStudent = await addNewStudent.save();
             if (createStudent) {
-                return res.status(200).json({
-                    status: true,
-                    data: createStudent
-                });
+                const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
+                console.log(isWritten);
+                if (isWritten) {
+                    return res.status(200).json({
+                        status: true,
+                        data: createStudent
+                    })
+                }
+            } else {
+                throw new Error('An error occured while creating student');
             }
-            throw new Error('An error occured while creating student');
-
+        } else {
+            throw new Error('An error occured while creating credentials');
         }
-        throw new Error('An error occured while creating credentials');
-
-
     } catch (error) {
         next(error);
     }
@@ -68,10 +72,34 @@ exports.getAllStudents = async (req, res, next) => {
                 length: allStudentsRecord.length,
                 data: allStudentsRecord
             });
+        }
+        return res.status(200).json({
+            status: false,
+            message: 'student not found'
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.getSingleStudent = async (req, res, next) => {
+    try {
+        const did = req.params.did;
+        const getStudentReacord = await studentModel.find({
+            did: did
+        });
+        if (getStudentReacord) {
+            const jwtSignature = await jwtSigner.jwtSchema(did, getStudentReacord);
+            if (jwtSignature) {
+                return res.status(200).json({
+                    status: true,
+                    data: jwtSignature
+                });
+            }
         } else {
             return res.status(200).json({
                 status: false,
-                message: 'student not found'
+                message: `no student found with did ${did}`
             });
         }
     } catch (error) {

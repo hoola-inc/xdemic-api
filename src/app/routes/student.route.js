@@ -3,6 +3,8 @@ module.exports = app => {
 
     app.post('/student', studentController.addStudent);
 
+    app.get('/student/:did', studentController.getSingleStudent);
+
     app.get('/students', studentController.getAllStudents);
 
     app.get('/studentjwt', studentController.getAllStudentsJWT);

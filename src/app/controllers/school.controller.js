@@ -1,6 +1,6 @@
 const SchoolSchema = require('../models/school.model');
 const CredentialSchema = require('../models/credentials.model');
-const sendJWt = require('../../utilities/send-signed-jwt.utility');
+const sendJWt = require('../../utilities/jwt-signature-generator');
 // const didGenerator = require('../../utilities/did-generator.utility');
 const studentModal = require('../models/student.model');
 const fs = require('fs');

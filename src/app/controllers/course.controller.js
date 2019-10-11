@@ -1,7 +1,7 @@
 const CourseSchema = require('../models/course.model');
 const schoolSchema = require('../models/school.model');
 const fs = require('fs');
-const sendJWt = require('../../utilities/send-signed-jwt.utility');
+const sendJWt = require('../../utilities/jwt-signature-generator');
 
 
 exports.createNewCourse = async (req, res, next) => {
