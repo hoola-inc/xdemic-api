@@ -8,6 +8,7 @@ const courseSchema = require('../models/course.model');
 const CredentialsModel = require('../models/credentials.model');
 const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
+const fs = require('fs');
 
 exports.addStudent = async (req, res, next) => {
     try {
@@ -32,7 +33,12 @@ exports.addStudent = async (req, res, next) => {
                 if (isWritten) {
                     const path = require('path').join(__dirname, `../../../http-files/students/${did}.json`);
                     const fileHash = await addToIPFS.addFileIPFS(did, path);
-                    console.log(fileHash);
+
+                    return res.status(200).json({
+                        status: true,
+                        data: createStudent,
+                        hash: fileHash
+                    });
                 }
             } else {
                 throw new Error('An error occured while creating student');
