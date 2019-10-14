@@ -151,9 +151,12 @@ exports.getSchool = (req, res, next) => {
 
 exports.getSchoolWithStudent = (req, res, next) => {
     console.log(req.params.did);
-    SchoolSchema.find({
-        "student.studentDID": req.params.did
-    })
+
+    // todo cahnge here 
+    // SchoolSchema.find({
+    //     "student.studentDID": req.params.did
+    // })
+    SchoolSchema.find()
         .then(data => {
             console.log(data);
             if (data.length > 0) {
