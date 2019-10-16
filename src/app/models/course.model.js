@@ -107,6 +107,10 @@ const CourseSchema = mongoose.Schema({
                         type: String,
                         default: 'Intro'
                 }
+        }],
+        studentDID: [{
+                type: String,
+                ref: 'Student'
         }]
 }, {
         timestamps: true

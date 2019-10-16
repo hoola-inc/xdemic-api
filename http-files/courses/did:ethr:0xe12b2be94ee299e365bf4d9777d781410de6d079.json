@@ -1,0 +1,19 @@
+{ issuer:
+   { id: 'did:ethr:0xe12b2be94ee299e365bf4d9777d781410de6d079' },
+  level:
+   { type:
+      { type: 'DefinedTerm',
+        name: 'SCQF Level 7',
+        inDefinedTermSet: 'https://www.sqa.org.uk/sqa/71377.html' } },
+  requirement: { id: '', type: '', narrative: '' },
+  type: 'Achievement',
+  specialization: 'Basic Technical Literacy',
+  studentDID: [],
+  _id: 5da76b0d0b653223a91d7890,
+  name: 'PHysics 101',
+  alignments: [],
+  resultDescriptions: [],
+  tags: [],
+  createdAt: 2019-10-16T19:10:05.732Z,
+  updatedAt: 2019-10-16T19:10:05.732Z,
+  __v: 0 }

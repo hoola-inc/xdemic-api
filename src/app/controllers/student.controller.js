@@ -39,6 +39,8 @@ exports.addStudent = async (req, res, next) => {
                         data: createStudent,
                         hash: fileHash
                     });
+                } else {
+                    throw new Erorr('An error occured while writing student to the file');
                 }
             } else {
                 throw new Error('An error occured while creating student');

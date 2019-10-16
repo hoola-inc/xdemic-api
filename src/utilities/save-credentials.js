@@ -1,7 +1,7 @@
 const CredentialModel = require('../app/models/credentials.model');
 const { Credentials } = require('uport-credentials');
 
-exports.saveCredentials = async () => {
+exports.saveNewCredentials = async () => {
     try {
         const { did, privateKey } = Credentials.createIdentity();
         if (did && privateKey) {

@@ -37,7 +37,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 
 // setup the winston stream 
-app.use(morgan('combined', { "stream": winston.stream.write }));
+// app.use(morgan('combined', { "stream": winston.stream.write }));
 
 // default route
 app.get("/", (req, res, next) => {
@@ -48,7 +48,7 @@ app.get("/", (req, res, next) => {
 require('./src/utilities/routes.utility')(app);
 
 // logger 
-require('./src/config/logger.config');
+// require('./src/config/logger.config');
 
 // Handling non-existing routes
 require('./src/utilities/error-handler.utility')(app);

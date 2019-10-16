@@ -12,5 +12,5 @@ exports.writeToFile = (did, dirName, data) => {
                 resolve(true);
             }
         });
-    })
-}
+    });
+};

@@ -3,19 +3,44 @@ const schoolSchema = require('../models/school.model');
 const fs = require('fs');
 const sendJWt = require('../../utilities/jwt-signature-generator');
 const saveCredentials = require('../../utilities/save-credentials');
+const writeFile = require('../../utilities/write-to-file.utility');
+const addToIPFS = require('../../utilities/ipfs-add-file.utility');
+const ipfsLink = require('../../constants/main.constant').ipfsLink;
 
 
 exports.createNewCourse = async (req, res, next) => {
     try {
+        //saving did and prvKey in credentials collection
+        const newCredentials = await saveCredentials.saveNewCredentials();
+        const did = newCredentials.did;
+        // creating new course obj
         const newCourse = new CourseSchema(req.body);
+        // setting issuer did
+        newCourse.issuer.id = did;
+        // saving new course
         const createNewCourse = await newCourse.save();
         if (createNewCourse) {
-            const newCredentials = await saveCredentials.saveCredentials();
-            return res.status(200).json({
-                foo: newCredentials
-            })
+            // waiting to write file with new course data
+            const isWritten = await writeFile.writeToFile(did, 'courses', createNewCourse);
+            if (isWritten) {
+                // hosting to ipfs 
+                const path = require('path').join(__dirname, `../../../http-files/courses/${did}.json`);
+                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+                if (fileHash) {
+                    console.log(ipfsLink.ipfsURL);
+                    return res.status(200).json({
+                        status: true,
+                        data: createNewCourse,
+                        ipfs: ipfsLink.ipfsURL + ipfsFileHash
+                    })
+                } else {
+                    throw new Error('An error occured while hosting file to ipfs');
+                }
+            } else {
+                throw new Error('An error occured while writing course to the file');
+            }
         } else {
-
+            throw new Error('An error occured while creating new course');
         }
     } catch (error) {
         next(error);
