@@ -35,7 +35,8 @@ exports.showQRCode = (req, res, next) => {
 
 exports.varifyClaims = (req, res, next) => {
 
-    const jwt = req.body.access_token
+    const jwt = req.body.access_token;
+    console.log('JWT ::: ', jwt);
     credentials.authenticateDisclosureResponse(jwt).then(creds => {
         // take this time to perform custom authorization steps... then,
         // set up a push transport with the provided 
