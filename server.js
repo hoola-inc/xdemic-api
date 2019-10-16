@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const compression = require('compression');
 const chalk = require('chalk');
@@ -8,11 +9,11 @@ const helmet = require('helmet');
 const multer = require('multer');
 const env = require('dotenv');
 const http = require("http");
-// Create Express App
 const app = express();
 const server = http.createServer(app);
 const socketIo = require("socket.io");
 const io = socketIo(server);
+const winston = require('winston');
 
 
 // init env var
@@ -36,9 +37,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 
 // setup the winston stream 
-// app.use(morgan("combined", {
-//     stream: winston.stream
-// }));
+app.use(morgan('combined', { "stream": winston.stream.write }));
 
 // default route
 app.get("/", (req, res, next) => {
@@ -49,7 +48,7 @@ app.get("/", (req, res, next) => {
 require('./src/utilities/routes.utility')(app);
 
 // logger 
-// require('./src/config/logger.config');
+require('./src/config/logger.config');
 
 // Handling non-existing routes
 require('./src/utilities/error-handler.utility')(app);

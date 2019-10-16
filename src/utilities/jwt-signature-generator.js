@@ -19,4 +19,4 @@ exports.jwtSchema = (did, data) => {
             reject(error);
         }
     });
-}
+};

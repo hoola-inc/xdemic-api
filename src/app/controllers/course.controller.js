@@ -2,53 +2,25 @@ const CourseSchema = require('../models/course.model');
 const schoolSchema = require('../models/school.model');
 const fs = require('fs');
 const sendJWt = require('../../utilities/jwt-signature-generator');
+const saveCredentials = require('../../utilities/save-credentials');
 
 
 exports.createNewCourse = async (req, res, next) => {
-    const course = await courseExist(req);
     try {
-        if (course) {
+        const newCourse = new CourseSchema(req.body);
+        const createNewCourse = await newCourse.save();
+        if (createNewCourse) {
+            const newCredentials = await saveCredentials.saveCredentials();
             return res.status(200).json({
-                status: false,
-                message: 'course already exist'
+                foo: newCredentials
             })
         } else {
-            const newCourse = new CourseSchema(req.body);
-            newCourse.save()
-                .then(data => {
-                    updateCourseArrayInSchool(data)
-                        .then(school => {
-                            console.log('school updated ::: ', school);
-                            writeToFile(data, res);
-                        })
-                        .catch(err => {
-                            next(err.message);
-                        })
 
-                })
-                .catch(err => {
-                    next(err.message);
-                })
         }
     } catch (error) {
-        next(error.message);
+        next(error);
     }
-}
-
-const courseExist = async (req) => {
-    try {
-        const checkCourse = await CourseSchema.find({
-            name: req.body.name
-        });
-        if (checkCourse.length > 0) {
-            return true
-        } else {
-            return false;
-        }
-    } catch (error) {
-        throw new Error('an error occured while fetching courses from db', error.message);
-    }
-}
+};
 
 const writeToFile = (courseData, res) => {
     try {

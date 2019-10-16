@@ -15,16 +15,19 @@ const StudentSchema = mongoose.Schema({
     },
     mobile: {
         type: String,
-        required: true
+        required: [true, 'Why no mobile?']
     },
     email: {
         type: String,
-        lowercase: true
+        lowercase: true,
+        trim: true,
+        required: [true, 'Why no email?']
     },
     did: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'Why no DID?'],
+        unique: true,
+        index: true
     },
     type: {
         type: String,
