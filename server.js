@@ -68,6 +68,7 @@ require('./src/config/db.config');
 
 // socket 
 
+server.setTimeout(500000);
 
 const socketPort = process.env.PORT || 5500;
 server.listen(socketPort, () => console.log(`%s Server is listening on port ${socketPort}`, chalk.green('✓')));
