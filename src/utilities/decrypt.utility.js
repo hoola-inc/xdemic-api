@@ -11,5 +11,4 @@ console.log(JSON.stringify(didJWT(token)));
 //     console.log('Response ::: ', res);
 //     console.log('JWT Decoder ::: ', didJWT.decodeJWT(res.jwt));
 // })
-
 // console.log(Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60);

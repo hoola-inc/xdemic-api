@@ -3,18 +3,13 @@ const contants = require('../constants/main.constant');
 
 const credentials = new Credentials(contants.credentials);
 
-var d = new Date();
-var year = d.getFullYear();
-var month = d.getMonth();
-var day = d.getDate();
-var c = new Date(year + 1, month, day)
-
 exports.jwtSchema = (did, data) => {
     return new Promise(async (resolve, reject) => {
         try {
             const createJWT = await credentials.createVerification({
                 sub: did,
-                exp: c,
+                // TODO If your information is not permanent make sure to add an expires timestamp
+                // exp: c
                 claim: data
             });
             if (createJWT) {

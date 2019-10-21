@@ -14,23 +14,59 @@ const credentials = new Credentials({
     privateKey: '8986bea04ec687c45be90c5a6e259dbf125291f3a8ede0b595442c39d3322875'
 });
 
-exports.showQRCode = (req, res, next) => {
-    credentials.createDisclosureRequest({
-        requested: ["name", "dob", "phone", "email"],
-        notifications: true,
-        callbackUrl: process.env.BASE_URL.concat('callback'),
-        callback_url: process.env.BASE_URL.concat('callback')
-    })
-        .then(requestToken => {
+// exports.showQRCode = (req, res, next) => {
+//     credentials.createDisclosureRequest({
+//         requested: ["name", "dob", "phone", "email"],
+//         notifications: true,
+//         callbackUrl: process.env.BASE_URL.concat('callback'),
+//         callback_url: process.env.BASE_URL.concat('callback')
+//     })
+//         .then(requestToken => {
+//             console.log(decodeJWT(requestToken));  //log request token to console
+//             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
+//             const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
+//             console.log(qr);
+//             res.send(`<div><img src="${qr}"/></div>`);
+//         })
+//         .catch(err => {
+//             next(err);
+//         });
+// };
+
+exports.showQRCode = async (req, res, next) => {
+    try {
+        const requestToken = await credentials.createDisclosureRequest({
+            requested: ["fullName", "givenName", "familyName", "email", "mobile", "birthDate"],
+            notifications: true,
+            callbackUrl: process.env.BASE_URL.concat('callback'),
+            callback_url: process.env.BASE_URL.concat('callback')
+        });
+
+        if (requestToken) {
             console.log(decodeJWT(requestToken));  //log request token to console
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
             const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
             console.log(qr);
             res.send(`<div><img src="${qr}"/></div>`);
-        })
-        .catch(err => {
-            next(err);
-        });
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+exports.verifyClaim = async (req, res, next) => {
+    const jwt = req.body.access_token;
+
+    const push = transports.push.send(creds.pushToken, creds.boxPub);
+    const newStudent = new StudentSchema(creds);
+
+    const createNewStudent = await newStudent.save();
+
+    if(createNewStudent) {
+
+    }
+
 }
 
 exports.varifyClaims = (req, res, next) => {
@@ -134,13 +170,13 @@ function updateStudnetArrayInSchool(studentData) {
                             }
                         }
                     })
-                    .then(school => {
-                        resolve('school updated');
-                    })
-                    .catch(err => {
-                        reject('school not updated');
-                        return;
-                    })
+                        .then(school => {
+                            resolve('school updated');
+                        })
+                        .catch(err => {
+                            reject('school not updated');
+                            return;
+                        })
                 }
             })
             .catch(err => {
