@@ -90,7 +90,18 @@ const SchoolRegSchema = mongoose.Schema({
         revokedAssertions: [String]
     },
     sourcedId: String,
-    url: String
+    url: String,
+    verfication: {
+        id: String,
+        type: {
+            type: String,
+            default: 'Hosted'
+        },
+        allowedOrigins: [String],
+        creator: String,
+        startsWith: [String],
+        verificationProperty: String
+    }
 }, {
     timestamps: true
 });
