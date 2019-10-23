@@ -1,7 +1,7 @@
 
 const mongoose = require("mongoose");
 const chalk = require('chalk');
-const dbUrl = `${process.env.DB_URL}`
+const dbUrl = process.env.DB_URL;
 mongoose.Promise = global.Promise;
 
 mongoose.set("useCreateIndex", true);
