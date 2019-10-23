@@ -1,7 +1,9 @@
 const nacl = require('tweetnacl');
-const naclUtils = require('../../node_modules/tweetnacl-util');
+const naclUtils = require('tweetnacl-util');
 
-export const ASYNC_ENC_ALGORITHM = 'x25519-xsalsa20-poly1305'
+const BLOCK_SIZE = process.env.BLOCK_SIZE;
+
+export const ASYNC_ENC_ALGORITHM = process.env.ASYNC_ENC_ALGORITHM;
 
 exports.encryptMessage = async (message, boxPub) => {
     const secret = nacl.randomBytes(32);
