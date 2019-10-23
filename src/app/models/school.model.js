@@ -106,4 +106,20 @@ const SchoolRegSchema = mongoose.Schema({
     timestamps: true
 });
 
+SchoolRegSchema.pre("save", function (next) {
+    const self = this;
+
+    mongoose.models["School"].findOne({ name: this.name }, function (err, results) {
+        if (err) {
+            next(err);
+        } else if (results) {
+            self.invalidate("school name", "school name must be unique");
+            next(new Error("school name must be unique"));
+        } else {
+            next();
+        }
+    });
+});
+
+
 module.exports = mongoose.model('School', SchoolRegSchema);

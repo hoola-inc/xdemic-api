@@ -1,71 +1,109 @@
 const SchoolSchema = require('../models/school.model');
 const CredentialSchema = require('../models/credentials.model');
 const sendJWt = require('../../utilities/jwt-signature-generator');
-// const didGenerator = require('../../utilities/did-generator.utility');
+const saveCredentials = require('../../utilities/save-credentials');
+const writeFile = require('../../utilities/write-to-file.utility');
+const addToIPFS = require('../../utilities/ipfs-add-file.utility');
+const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const studentModal = require('../models/student.model');
 const fs = require('fs');
 
-
 exports.createSchool = async (req, res, next) => {
-    const school = await schoolExist(req);
-    try {
-        if (school) {
-            return res.status(200).json({
-                status: false,
-                message: 'school already exist'
-            })
-        } else {
-            let did = didGenerator.did;
-            let prvKey = didGenerator.privateKey;
-            const creatNewCredentials = new CredentialSchema({
-                did: did,
-                privateKey: prvKey
-            });
 
-            creatNewCredentials.save()
-                .then(data => {
-                    const newSchool = new SchoolSchema({
-                        name: req.body.name,
-                        subjectWebpage: req.body.subjectWebpage,
-                        address: req.body.address,
-                        offers: req.body.offers,
-                        agentSectorType: req.body.agentSectorType,
-                        agentType: req.body.agentType,
-                        email: req.body.email,
-                        did: did,
-                        telephone: req.body.telephone
-                    });
-                    newSchool.save()
-                        .then(data => {
-                            writeToFile(data, res);
-                        })
-                        .catch(err => {
-                            next(err.message);
-                        })
-                })
-                .catch(err => {
-                    next(err.message);
-                })
+    try {
+        //saving did and prvKey in credentials collection
+        const newCredentials = await saveCredentials.saveNewCredentials();
+        const did = newCredentials.did;
+
+        const newSchool = new SchoolSchema(req.body);
+
+        // setting school did
+        newSchool.did = did;
+        const createNewSchool = await newSchool.save();
+        if (createNewSchool) {
+            console.log('School created');
+
+            // waiting to write file with new school data
+            const isWritten = await writeFile.writeToFile(did, 'schools', createNewSchool);
+            if (isWritten) {
+                // hosting to ipfs 
+                const path = require('path').join(__dirname, `../../../http-files/schools/${did}.json`);
+                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+                if (ipfsFileHash) {
+                    return res.status(200).json({
+                        status: true,
+                        data: createNewSchool,
+                        ipfs: ipfsLink.ipfsURL + ipfsFileHash
+                    })
+                }
+            }
+
         }
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 }
 
-const schoolExist = async (req) => {
-    try {
-        const checkschool = await SchoolSchema.find({
-            name: req.body.name
-        });
-        if (checkschool.length > 0) {
-            return true
-        } else {
-            return false;
-        }
-    } catch (error) {
-        throw new Error('an error occured while fetching school from db', error.message);
-    }
-}
+// exports.createSchool = async (req, res, next) => {
+//     const school = await schoolExist(req);
+//     try {
+//         if (school) {
+//             return res.status(200).json({
+//                 status: false,
+//                 message: 'school already exist'
+//             })
+//         } else {
+//             let did = didGenerator.did;
+//             let prvKey = didGenerator.privateKey;
+//             const creatNewCredentials = new CredentialSchema({
+//                 did: did,
+//                 privateKey: prvKey
+//             });
+
+//             creatNewCredentials.save()
+//                 .then(data => {
+//                     const newSchool = new SchoolSchema({
+//                         name: req.body.name,
+//                         subjectWebpage: req.body.subjectWebpage,
+//                         address: req.body.address,
+//                         offers: req.body.offers,
+//                         agentSectorType: req.body.agentSectorType,
+//                         agentType: req.body.agentType,
+//                         email: req.body.email,
+//                         did: did,
+//                         telephone: req.body.telephone
+//                     });
+//                     newSchool.save()
+//                         .then(data => {
+//                             writeToFile(data, res);
+//                         })
+//                         .catch(err => {
+//                             next(err.message);
+//                         })
+//                 })
+//                 .catch(err => {
+//                     next(err.message);
+//                 })
+//         }
+//     } catch (error) {
+//         next(error.message);
+//     }
+// }
+
+// const schoolExist = async (req) => {
+//     try {
+//         const checkschool = await SchoolSchema.find({
+//             name: req.body.name
+//         });
+//         if (checkschool.length > 0) {
+//             return true
+//         } else {
+//             return false;
+//         }
+//     } catch (error) {
+//         throw new Error('an error occured while fetching school from db', error.message);
+//     }
+// }
 
 const writeToFile = (schoolData, res) => {
     try {
