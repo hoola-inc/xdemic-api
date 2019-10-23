@@ -31,7 +31,7 @@ exports.addStudent = async (req, res, next) => {
             if (createStudent) {
                 const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
                 if (isWritten) {
-                    const path = require('path').join(__dirname, `../../../http-files/students/${did}.json`);
+                    const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
                     const fileHash = await addToIPFS.addFileIPFS(did, path);
 
                     return res.status(200).json({

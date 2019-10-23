@@ -27,7 +27,7 @@ exports.createSchool = async (req, res, next) => {
             const isWritten = await writeFile.writeToFile(did, 'schools', createNewSchool);
             if (isWritten) {
                 // hosting to ipfs 
-                const path = require('path').join(__dirname, `../../../http-files/schools/${did}.json`);
+                const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
                 const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
                 if (ipfsFileHash) {
                     return res.status(200).json({
@@ -283,7 +283,7 @@ function createNewSchool(req, schoolDid, res, next) {
 }
 
 exports.displaySchoolOnHttp = (req, res, next) => {
-    const path = require('path').join(__dirname, '../../../http-files/schools/school.json');
+    const path = require('path').join(__dirname, '../../../public/files/schools/school.json');
     const fileContents = fs.readFileSync(path, 'utf8');
     try {
         const data = JSON.parse(fileContents);

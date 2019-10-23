@@ -2,7 +2,7 @@ const fs = require('fs');
 
 exports.writeToFile = (did, dirName, data) => {
     return new Promise((resolve, reject) => {
-        const path = require('path').join(__dirname, `../../http-files/${dirName}/${did}.json`);
+        const path = require('path').join(__dirname, `../../public/files/${dirName}/${did}.json`);
         console.log(path);
         fs.writeFile(path, data, (err) => {
             if (err) {
