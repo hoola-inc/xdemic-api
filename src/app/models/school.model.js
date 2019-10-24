@@ -101,7 +101,13 @@ const SchoolRegSchema = mongoose.Schema({
         creator: String,
         startsWith: [String],
         verificationProperty: String
-    }
+    },
+    students: [{
+        studentDID: String
+    }],
+    courses: [{
+        courseId: String
+    }]
 }, {
     timestamps: true
 });

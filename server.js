@@ -10,11 +10,12 @@ const multer = require('multer');
 const env = require('dotenv');
 const http = require("http");
 const app = express();
-const server = http.createServer(app);
+// const server = http.createServer(app);
 const socketIo = require("socket.io");
-const io = socketIo(server);
+// const io = socketIo(server);
 const winston = require('winston');
 const cool = require('cool-ascii-faces');
+const timeout = require('connect-timeout')
 
 // init env var
 env.config();
@@ -44,6 +45,16 @@ app.get("/", (req, res, next) => {
     return res.status(200).json({ message: "Welcome to XdemiC api", cheers: cool() });
 });
 
+app.use(timeout('15s'));
+
+// app.use(haltOnTimedout)
+
+// // Add your routes here, etc.
+
+// function haltOnTimedout(req, res, next) {
+//     if (!req.timedout) next()
+// }
+
 // import all routes at once
 require('./src/utilities/routes.utility')(app);
 
@@ -68,11 +79,10 @@ require('./src/config/db.config');
 
 // socket 
 
-server.setTimeout(500000);
 
 const socketPort = process.env.PORT || 5500;
-server.listen(socketPort, () => console.log(`%s Server is listening on port ${socketPort}`, chalk.green('✓')));
+app.listen(socketPort, () => console.log(`%s Server is listening on port ${socketPort}`, chalk.green('✓')));
 
-module.exports = {
-    io: io
-}
+// module.exports = {
+//     io: io
+// }

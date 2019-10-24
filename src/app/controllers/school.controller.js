@@ -1,3 +1,5 @@
+'use strict'
+
 const SchoolSchema = require('../models/school.model');
 const CredentialSchema = require('../models/credentials.model');
 const sendJWt = require('../../utilities/jwt-signature-generator');

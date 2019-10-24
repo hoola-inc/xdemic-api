@@ -1,71 +1,44 @@
+'use strict'
+
 const studentModel = require('../models/student.model');
 const jwtSigner = require('../../utilities/jwt-signature-generator');
 const transports = require('uport-transports').transport;
 const { Credentials } = require('uport-credentials');
 const StudentSchooolModel = require('../models/student-school-bridge.model');
 const nodemailer = require('nodemailer');
+const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const courseSchema = require('../models/course.model');
-const CredentialsModel = require('../models/credentials.model');
 const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
-const fs = require('fs');
+const saveCredentials = require('../../utilities/save-credentials');
 
 exports.addStudent = async (req, res, next) => {
     try {
-        const { did, privateKey } = Credentials.createIdentity();
-        const credentials = await saveCredentials(did, privateKey);
-        if (credentials) {
-            const addNewStudent = new studentModel({
-                fullName: req.body.fullName,
-                givenName: req.body.givenName,
-                familyName: req.body.familyName,
-                email: req.body.email,
-                mobile: req.body.mobile,
-                URL: req.body.URL,
-                birthDate: req.body.birthDate,
-                sourcedId: req.body.sourcedId,
-                did: did
-            });
+        //saving did and prvKey in credentials collection
+        const newCredentials = await saveCredentials.saveNewCredentials();
+        const did = newCredentials.did;
 
-            const createStudent = await addNewStudent.save();
-            if (createStudent) {
-                const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
-                if (isWritten) {
-                    const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
-                    const fileHash = await addToIPFS.addFileIPFS(did, path);
 
-                    return res.status(200).json({
-                        status: true,
-                        data: createStudent,
-                        hash: fileHash
-                    });
-                } else {
-                    throw new Erorr('An error occured while writing student to the file');
-                }
-            } else {
-                throw new Error('An error occured while creating student');
+        const addNewStudent = new studentModel(req.body);
+        addNewStudent.did = did;
+
+        const createStudent = await addNewStudent.save();
+        if (createStudent) {
+            const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
+            if (isWritten) {
+                const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
+                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+
+                return res.status(200).json({
+                    status: true,
+                    data: createStudent,
+                    ipfs: ipfsLink.ipfsURL + ipfsFileHash
+                });
             }
-        } else {
-            throw new Error('An error occured while creating credentials');
         }
+
     } catch (error) {
         next(error);
-    }
-}
-
-saveCredentials = async (did, privateKey) => {
-    try {
-        const addNewCredentials = new CredentialsModel({
-            did: did,
-            privateKey: privateKey
-        });
-
-        const createNewCredentials = await addNewCredentials.save();
-
-        return createNewCredentials ? true : false
-
-    } catch (error) {
-        throw new Error(error);
     }
 }
 
