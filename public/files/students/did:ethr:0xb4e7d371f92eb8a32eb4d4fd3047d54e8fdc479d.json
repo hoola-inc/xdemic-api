@@ -1,0 +1,17 @@
+{
+  "sourcedId": "0123456789",
+  "type": "Person",
+  "courseId": "",
+  "_id": "5db1a926133e79204716293d",
+  "fullName": "Madison Williams",
+  "givenName": "Madison",
+  "familyName": "Williams",
+  "email": "mwilliams@example.org",
+  "mobile": "0000000000",
+  "URL": "http://example.org/mwilliams",
+  "birthDate": "1989-01-01",
+  "did": "did:ethr:0xb4e7d371f92eb8a32eb4d4fd3047d54e8fdc479d",
+  "createdAt": "2019-10-24T13:37:42.716Z",
+  "updatedAt": "2019-10-24T13:37:42.716Z",
+  "__v": 0
+}
