@@ -14,7 +14,7 @@ const server = http.createServer(app);
 const socketIo = require("socket.io");
 const io = socketIo(server);
 const winston = require('winston');
-
+const cool = require('cool-ascii-faces');
 
 // init env var
 env.config();
@@ -41,7 +41,7 @@ app.use(morgan('dev'));
 
 // default route
 app.get("/", (req, res, next) => {
-    return res.status(200).json({ message: "Welcome to XdemiC api" });
+    return res.status(200).json({ message: "Welcome to XdemiC api", cheers: cool() });
 });
 
 // import all routes at once
