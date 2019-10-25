@@ -15,6 +15,6 @@ const upload = multer({
 }, {
     limits: 1024 * 1024 * 5
 });
-const type = upload.single('image');
+const uploadImage = upload.single('image');
 
-module.exports = type;
+module.exports = uploadImage;

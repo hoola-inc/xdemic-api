@@ -7,7 +7,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const multer = require('multer');
-const env = require('dotenv');
 const http = require("http");
 const app = express();
 // const server = http.createServer(app);
@@ -15,10 +14,9 @@ const socketIo = require("socket.io");
 // const io = socketIo(server);
 const winston = require('winston');
 const cool = require('cool-ascii-faces');
-const timeout = require('connect-timeout')
+const timeout = require('connect-timeout');
+require('dotenv').config();
 
-// init env var
-env.config();
 
 // providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(cors());
@@ -55,6 +53,11 @@ app.use(timeout('15s'));
 //     if (!req.timedout) next()
 // }
 
+const publicDir = require('path').join(__dirname,'./public');
+console.log(publicDir);
+app.use(express.static(publicDir));
+
+
 // import all routes at once
 require('./src/utilities/routes.utility')(app);
 
@@ -66,8 +69,6 @@ require('./src/utilities/error-handler.utility')(app);
 
 // db config
 require('./src/config/db.config');
-
-
 
 // server listen for requests
 // server listen for requests
