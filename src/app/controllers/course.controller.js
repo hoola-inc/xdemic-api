@@ -1,3 +1,4 @@
+'use strict'
 const CourseSchema = require('../models/course.model');
 const schoolSchema = require('../models/school.model');
 const saveCredentials = require('../../utilities/save-credentials');
@@ -5,6 +6,7 @@ const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const jwtSigner = require('../../utilities/jwt-signature-generator');
+const courseProof = require('../../constants/main.constant').proof;
 
 
 exports.createNewCourse = async (req, res, next) => {
@@ -19,18 +21,32 @@ exports.createNewCourse = async (req, res, next) => {
         // saving new course
         const createNewCourse = await newCourse.save();
         if (createNewCourse) {
-            // waiting to write file with new course data
-            const isWritten = await writeFile.writeToFile(did, 'courses', createNewCourse);
-            if (isWritten) {
-                // hosting to ipfs 
-                const path = require('path').join(__dirname, `../../../public/files/courses/${did}.json`);
-                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
-                if (ipfsFileHash) {
-                    return res.status(200).json({
-                        status: true,
-                        data: createNewCourse,
-                        ipfs: ipfsLink.ipfsURL + ipfsFileHash
-                    })
+            console.log(createNewCourse);
+            // creating course document proof
+            const courseProofSignature = await jwtSigner.jwtSchema(did, createNewCourse);
+            if (courseProofSignature) {
+
+                courseProof.proof.created =  new Date().toLocaleString()
+                courseProof.proof.verificationMethod = did;
+                courseProof.proof.jws = courseProofSignature;
+                // appending proof with JWS in recently created course
+                let assign = Object.assign(courseProof, createNewCourse);
+
+                console.log('YO ::: ', assign);
+
+                // waiting to write file with new course data
+                const isWritten = await writeFile.writeToFile(did, 'courses', assign);
+                if (isWritten) {
+                    // hosting to ipfs 
+                    const path = require('path').join(__dirname, `../../../public/files/courses/${did}.json`);
+                    const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+                    if (ipfsFileHash) {
+                        return res.status(200).json({
+                            status: true,
+                            data: assign,
+                            ipfs: ipfsLink.ipfsURL + ipfsFileHash
+                        });
+                    }
                 }
             }
         }
@@ -47,12 +63,12 @@ exports.getAllCourses = async (req, res, next) => {
                 status: true,
                 length: allCourses.length,
                 data: allCourses.reverse()
-            })
+            });
         } else {
             return res.status(200).json({
                 status: false,
                 message: 'no record found'
-            })
+            });
         }
     } catch (error) {
         next(error);
@@ -68,7 +84,7 @@ exports.getCourseByDID = async (req, res, next) => {
 
         if (getCourse.length > 0) {
             const jwtSignature = await jwtSigner.jwtSchema(did, getCourse);
-            if(jwtSignature) {
+            if (jwtSignature) {
                 return res.status(200).json({
                     status: true,
                     data: jwtSignature

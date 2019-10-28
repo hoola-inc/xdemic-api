@@ -1,0 +1,106 @@
+{
+  "proof": {
+    "type": "ES256K",
+    "created": "2017-06-18T21:19:10Z",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "did:ethr:0x20f117d0c0f00ef5a613245988afe571ae311c67",
+    "jws": "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1NzIyNDk4MDEsInN1YiI6ImRpZDpldGhyOjB4MjBmMTE3ZDBjMGYwMGVmNWE2MTMyNDU5ODhhZmU1NzFhZTMxMWM2NyIsImNsYWltIjp7Imlzc3VlciI6eyJpZCI6ImRpZDpldGhyOjB4MjBmMTE3ZDBjMGYwMGVmNWE2MTMyNDU5ODhhZmU1NzFhZTMxMWM2NyJ9LCJsZXZlbCI6eyJ0eXBlIjp7InR5cGUiOiJEZWZpbmVkVGVybSIsIm5hbWUiOiJTQ1FGIExldmVsIDciLCJpbkRlZmluZWRUZXJtU2V0IjoiaHR0cHM6Ly93d3cuc3FhLm9yZy51ay9zcWEvNzEzNzcuaHRtbCJ9fSwicmVxdWlyZW1lbnQiOnsiaWQiOiIiLCJ0eXBlIjoiIiwibmFycmF0aXZlIjoiIn0sInR5cGUiOiJBY2hpZXZlbWVudCIsInNwZWNpYWxpemF0aW9uIjoiQmFzaWMgVGVjaG5pY2FsIExpdGVyYWN5Iiwic3R1ZGVudERJRCI6W10sIl9pZCI6IjVkYjZhMGM5MWE3MWE1MzliN2I5OGFlNyIsIm5hbWUiOiJQSHlzaWNzIDk4NzYiLCJhbGlnbm1lbnRzIjpbXSwicmVzdWx0RGVzY3JpcHRpb25zIjpbXSwidGFncyI6W10sImNyZWF0ZWRBdCI6IjIwMTktMTAtMjhUMDg6MDM6MjEuMDQ1WiIsInVwZGF0ZWRBdCI6IjIwMTktMTAtMjhUMDg6MDM6MjEuMDQ1WiIsIl9fdiI6MH0sImlzcyI6ImRpZDpldGhyOjB4ZDc0MWE2ZGQyNzExNTIxZTg3OThmYmU5MmMxMmZjYjlkMmY0M2NmMSJ9.6YT6R7ZflGCoA4oNF3WPxAJyL-r5lsET3MiCoqo2ma-td4zp27zk5BLmXEopr317axkZcI9mwlF8eWcQBZQTYAE"
+  },
+  "$__": {
+    "strictMode": true,
+    "inserting": true,
+    "getters": {
+      "issuer": { "id": "did:ethr:0x20f117d0c0f00ef5a613245988afe571ae311c67" },
+      "level": {
+        "type": {
+          "type": "DefinedTerm",
+          "name": "SCQF Level 7",
+          "inDefinedTermSet": "https://www.sqa.org.uk/sqa/71377.html"
+        }
+      },
+      "requirement": {
+        "id": "",
+        "type": "",
+        "narrative": "",
+        "additionalProp1": {}
+      }
+    },
+    "_id": "5db6a0c91a71a539b7b98ae7",
+    "wasPopulated": false,
+    "scope": {
+      "issuer": { "id": "did:ethr:0x20f117d0c0f00ef5a613245988afe571ae311c67" },
+      "level": {
+        "type": {
+          "type": "DefinedTerm",
+          "name": "SCQF Level 7",
+          "inDefinedTermSet": "https://www.sqa.org.uk/sqa/71377.html"
+        }
+      },
+      "requirement": { "id": "", "type": "", "narrative": "" },
+      "type": "Achievement",
+      "specialization": "Basic Technical Literacy",
+      "studentDID": [],
+      "_id": "5db6a0c91a71a539b7b98ae7",
+      "name": "PHysics 9876",
+      "alignments": [],
+      "resultDescriptions": [],
+      "tags": [],
+      "createdAt": "2019-10-28T08:03:21.045Z",
+      "updatedAt": "2019-10-28T08:03:21.045Z",
+      "__v": 0
+    },
+    "activePaths": {
+      "paths": { "name": "require" },
+      "states": {
+        "ignore": {},
+        "default": {},
+        "init": {},
+        "modify": {},
+        "require": { "name": true }
+      },
+      "stateNames": ["require", "modify", "init", "default", "ignore"]
+    },
+    "pathsToScopes": {},
+    "cachedRequired": {},
+    "session": null,
+    "$setCalled": {},
+    "emitter": { "_events": {}, "_eventsCount": 0, "_maxListeners": 0 },
+    "$options": {},
+    "nestedPath": "requirement",
+    "$versionError": {
+      "message": "No matching document found for id \"5db6a0c91a71a539b7b98ae7\" version 0 modifiedPaths \"name, issuer, issuer.id\"",
+      "name": "VersionError",
+      "version": 0,
+      "modifiedPaths": ["name", "issuer", "issuer.id"]
+    }
+  },
+  "isNew": false,
+  "_doc": {
+    "issuer": { "id": "did:ethr:0x20f117d0c0f00ef5a613245988afe571ae311c67" },
+    "level": {
+      "type": {
+        "type": "DefinedTerm",
+        "name": "SCQF Level 7",
+        "inDefinedTermSet": "https://www.sqa.org.uk/sqa/71377.html"
+      }
+    },
+    "requirement": {
+      "id": "",
+      "type": "",
+      "narrative": "",
+      "additionalProp1": {}
+    },
+    "type": "Achievement",
+    "specialization": "Basic Technical Literacy",
+    "studentDID": [],
+    "_id": "5db6a0c91a71a539b7b98ae7",
+    "name": "PHysics 9876",
+    "alignments": [],
+    "resultDescriptions": [],
+    "tags": [],
+    "createdAt": "2019-10-28T08:03:21.045Z",
+    "updatedAt": "2019-10-28T08:03:21.045Z",
+    "__v": 0
+  },
+  "$locals": {}
+}
