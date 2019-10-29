@@ -1,6 +1,6 @@
 const AdminModel = require('../models/admin.model');
 const decodeJWT = require('did-jwt').decodeJWT;
-const serverCredentials = require('../../utilities/server-credentials.utility').credentials;
+const serverCredentials = require('../../utilities/create-credentials.utility').credentials;
 const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
 

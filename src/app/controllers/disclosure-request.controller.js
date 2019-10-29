@@ -3,35 +3,13 @@ const { Credentials } = require('uport-credentials');
 const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
-const io = require('socket.io');
 const schoolSchema = require('../models/school.model');
-
-const pushToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NkstUiJ9.eyJpYXQiOjE1Njc1ODAzMjYsImV4cCI6MTU5OTExNjMyNiwiYXVkIjoiZGlkOmV0aHI6MHhkNzQxYTZkZDI3MTE1MjFlODc5OGZiZTkyYzEyZmNiOWQyZjQzY2YxIiwidHlwZSI6Im5vdGlmaWNhdGlvbnMiLCJ2YWx1ZSI6ImFybjphd3M6c25zOnVzLXdlc3QtMjoxMTMxOTYyMTY1NTg6ZW5kcG9pbnQvR0NNL3VQb3J0Lzc0Njk2YTE4LTE2ODctMzBiYy1hYzI3LWY1M2ViMTE0OTZiMCIsImlzcyI6ImRpZDpldGhyOjB4YTA1NmZmYmZkNjQ0ZTQ4MmFkOGQ3MjJjNGJlNGM2NmFhMDUyYWQ1YSJ9.dXjd2xOOpqjdbBip1qtuHyTuAXfqlmZjLVdyap09U1ntlq8Z84sx3STcxMlIhA2I3yetCdJGxYfyb3A84UbVtQA'
 
 const credentials = new Credentials({
     appName: 'Xdemic',
     did: 'did:ethr:0xd741a6dd2711521e8798fbe92c12fcb9d2f43cf1',
     privateKey: '8986bea04ec687c45be90c5a6e259dbf125291f3a8ede0b595442c39d3322875'
 });
-
-// exports.showQRCode = (req, res, next) => {
-//     credentials.createDisclosureRequest({
-//         requested: ["name", "dob", "phone", "email"],
-//         notifications: true,
-//         callbackUrl: process.env.BASE_URL.concat('callback'),
-//         callback_url: process.env.BASE_URL.concat('callback')
-//     })
-//         .then(requestToken => {
-//             console.log(decodeJWT(requestToken));  //log request token to console
-//             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
-//             const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
-//             console.log(qr);
-//             res.send(`<div><img src="${qr}"/></div>`);
-//         })
-//         .catch(err => {
-//             next(err);
-//         });
-// };
 
 exports.showQRCode = async (req, res, next) => {
     try {
@@ -53,21 +31,6 @@ exports.showQRCode = async (req, res, next) => {
         next(error);
     }
 };
-
-
-exports.verifyClaim = async (req, res, next) => {
-    const jwt = req.body.access_token;
-
-    const push = transports.push.send(creds.pushToken, creds.boxPub);
-    const newStudent = new StudentSchema(creds);
-
-    const createNewStudent = await newStudent.save();
-
-    if(createNewStudent) {
-
-    }
-
-}
 
 exports.varifyClaims = (req, res, next) => {
 
@@ -94,7 +57,6 @@ exports.varifyClaims = (req, res, next) => {
                 console.log('An error occured: ', err.message);
                 next(err.message);
             })
-
     })
 }
 
@@ -150,73 +112,3 @@ function sendNotification(creds) {
         }
     };
 }
-
-function updateStudnetArrayInSchool(studentData) {
-    return new Promise((resolve, reject) => {
-        const studentDID = studentData.did;
-        console.log('Student DID ::: ', studentDID);
-
-        schoolSchema.find()
-            .then(data => {
-                if (data.length > 0) {
-                    const schoolId = data[0]._id;
-                    console.log('School Id ::: ', schoolId);
-                    schoolSchema.update({
-                        _id: schoolId
-                    }, {
-                        $push: {
-                            student: {
-                                'studentDID': studentDID
-                            }
-                        }
-                    })
-                        .then(school => {
-                            resolve('school updated');
-                        })
-                        .catch(err => {
-                            reject('school not updated');
-                            return;
-                        })
-                }
-            })
-            .catch(err => {
-                throw new Error('erorr while finding school')
-            })
-    })
-}
-
-
-// exports.updateFoo = (req, res, next) => {
-//     const studentDID = 'did:cccccc';
-//     console.log('Student DID ::: ', studentDID);
-
-//     schoolSchema.find()
-//         .then(data => {
-//             if (data.length > 0) {
-//                 const schoolId = data[0]._id;
-//                 console.log('School Id ::: ', schoolId);
-//                 schoolSchema.update({
-//                     _id: schoolId
-//                 }, {
-//                     $push: {
-//                         student: {
-//                             'studentDID': studentDID
-//                         }
-//                     }
-//                 })
-//                     .then(updated => {
-//                         console.log('updated')
-//                     })
-//                     .catch(err => {
-//                         console.log(err.message)
-//                     })
-//             }
-//         })
-//         .then(updatedStudent => {
-//             console.log('find all response')
-//         })
-//         .catch(err => {
-//             console.log(err.message)
-//         })
-
-// }

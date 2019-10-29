@@ -34,7 +34,8 @@ const logger = winston.createLogger({
     transports: [
         new winston.transports.File(options.infofile),
         new winston.transports.File(options.errorfile)
-    ]
+    ],
+    exitOnError: false, // do not exit on handled exceptions
 });
 
 // create a stream object with a 'write' function that will be used by `morgan`. This stream is based on node.js stream https://nodejs.org/api/stream.html.
