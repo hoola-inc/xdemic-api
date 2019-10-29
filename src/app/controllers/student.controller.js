@@ -14,6 +14,8 @@ const saveCredentials = require('../../utilities/save-credentials');
 
 exports.addStudent = async (req, res, next) => {
     try {
+        // TODO change here for req timeout...
+        req.setTimeout(120000);
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;

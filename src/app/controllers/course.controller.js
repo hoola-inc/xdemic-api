@@ -6,11 +6,13 @@ const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const jwtSigner = require('../../utilities/jwt-signature-generator');
-const courseProof = require('../../constants/main.constant').proof;
 
 
 exports.createNewCourse = async (req, res, next) => {
     try {
+
+        // TODO change here for req timeout...
+        req.setTimeout(120000);
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
@@ -18,24 +20,20 @@ exports.createNewCourse = async (req, res, next) => {
         const newCourse = new CourseSchema(req.body);
         // setting issuer did
         newCourse.issuer.id = did;
-        // saving new course
-        const createNewCourse = await newCourse.save();
-        if (createNewCourse) {
-            console.log(createNewCourse);
-            // creating course document proof
-            const courseProofSignature = await jwtSigner.jwtSchema(did, createNewCourse);
-            if (courseProofSignature) {
 
-                courseProof.proof.created =  new Date().toLocaleString()
-                courseProof.proof.verificationMethod = did;
-                courseProof.proof.jws = courseProofSignature;
-                // appending proof with JWS in recently created course
-                let assign = Object.assign(courseProof, createNewCourse);
+        // creating course document proof
+        const courseProofSignature = await jwtSigner.jwtSchema(did, newCourse);
 
-                console.log('YO ::: ', assign);
+        newCourse.proof.verificationMethod = did;
+        newCourse.proof.jws = courseProofSignature;
+
+        if (courseProofSignature) {
+            // saving new course
+            const createNewCourse = await newCourse.save();
+            if (createNewCourse) {
 
                 // waiting to write file with new course data
-                const isWritten = await writeFile.writeToFile(did, 'courses', assign);
+                const isWritten = await writeFile.writeToFile(did, 'courses', createNewCourse);
                 if (isWritten) {
                     // hosting to ipfs 
                     const path = require('path').join(__dirname, `../../../public/files/courses/${did}.json`);
@@ -43,11 +41,12 @@ exports.createNewCourse = async (req, res, next) => {
                     if (ipfsFileHash) {
                         return res.status(200).json({
                             status: true,
-                            data: assign,
+                            data: createNewCourse,
                             ipfs: ipfsLink.ipfsURL + ipfsFileHash
                         });
                     }
                 }
+
             }
         }
     } catch (error) {

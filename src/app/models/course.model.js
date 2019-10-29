@@ -111,7 +111,23 @@ const CourseSchema = mongoose.Schema({
         studentDID: [{
                 type: String,
                 ref: 'Student'
-        }]
+        }],
+        proof: {
+                type: {
+                        type: String,
+                        default: 'ES256K'
+                },
+                created: {
+                        type: Date,
+                        default: new Date().toLocaleString()
+                },
+                proofPurpose: {
+                        type: String,
+                        default: 'assertionMethod'
+                },
+                verificationMethod: String,
+                jws: String
+        }
 }, {
         timestamps: true
 

@@ -106,7 +106,7 @@ const SchoolRegSchema = mongoose.Schema({
         studentDID: String
     }],
     courses: [{
-        courseId: String
+        courseDID: String
     }]
 }, {
     timestamps: true

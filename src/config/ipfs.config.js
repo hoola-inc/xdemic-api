@@ -1,11 +1,10 @@
 const ipfsClient = require('ipfs-http-client');
 
 const ipfs = new ipfsClient({
-    host: 'localhost',
+    host: 'ipfs.infura.io',
     port: 5001,
-    protocol: 'http'
+    protocol: 'https'
 });
-
 
 module.exports = {
     ipfs: ipfs

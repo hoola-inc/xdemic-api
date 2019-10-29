@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const multer = require('multer');
 const app = express();
-const winston = require('./src/config/winston-stream.config');
+// const winston = require('./src/config/winston-stream.config');
 const cool = require('cool-ascii-faces');
 require('dotenv').config();
 

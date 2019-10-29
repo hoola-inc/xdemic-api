@@ -13,6 +13,8 @@ const fs = require('fs');
 exports.createSchool = async (req, res, next) => {
 
     try {
+        // TODO change here for req timeout...
+        req.setTimeout(500000);
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
@@ -284,16 +286,3 @@ function createNewSchool(req, schoolDid, res, next) {
         });
 }
 
-exports.displaySchoolOnHttp = (req, res, next) => {
-    const path = require('path').join(__dirname, '../../../public/files/schools/school.json');
-    const fileContents = fs.readFileSync(path, 'utf8');
-    try {
-        const data = JSON.parse(fileContents);
-        return res.status(200).json({
-            status: true,
-            data: data
-        })
-    } catch (err) {
-        next(err.message);
-    }
-}
