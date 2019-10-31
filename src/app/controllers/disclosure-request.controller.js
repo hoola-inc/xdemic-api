@@ -3,13 +3,10 @@ const { Credentials } = require('uport-credentials');
 const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
-const schoolSchema = require('../models/school.model');
+const serverCredentials = require('../../constants/main.constant').credentials;
+const updateStudentArray = require('../../utilities/helpers/update-array.helper');
 
-const credentials = new Credentials({
-    appName: 'Xdemic',
-    did: 'did:ethr:0xd741a6dd2711521e8798fbe92c12fcb9d2f43cf1',
-    privateKey: '8986bea04ec687c45be90c5a6e259dbf125291f3a8ede0b595442c39d3322875'
-});
+const credentials = new Credentials(serverCredentials);
 
 exports.showQRCode = async (req, res, next) => {
     try {
@@ -32,32 +29,31 @@ exports.showQRCode = async (req, res, next) => {
     }
 };
 
-exports.varifyClaims = (req, res, next) => {
+exports.verifyClaims = async (req, res, next) => {
 
-    const jwt = req.body.access_token
-    credentials.authenticateDisclosureResponse(jwt).then(creds => {
-        // take this time to perform custom authorization steps... then,
-        // set up a push transport with the provided 
-        // push token and public encryption key (boxPub)
-        const push = transports.push.send(creds.pushToken, creds.boxPub);
-        const newStudent = new StudentSchema(creds);
-        newStudent.save()
-            .then(data => {
-                console.log('student created');
-                updateStudnetArrayInSchool(data)
-                    .then(updatedStudent => {
-                        console.log('Student Updated ::: ', updatedStudent)
-                        createVerification(creds, push, next);
-                    })
-                    .catch(err => {
-                        console.log(err.message);
-                    });
-            })
-            .catch(err => {
-                console.log('An error occured: ', err.message);
-                next(err.message);
-            })
-    })
+    try {
+        const jwt = req.body.access_token;
+        const creds = await credentials.authenticateDisclosureResponse(jwt);
+        if (creds) {
+            // take this time to perform custom authorization steps... then,
+            // set up a push transport with the provided 
+            // push token and public encryption key (boxPub)
+            const push = transports.push.send(creds.pushToken, creds.boxPub);
+            const newStudent = new StudentSchema(creds);
+            const createStudent = await newStudent.save();
+            if (createStudent) {
+                console.log('Student Created');
+                // update student array
+                
+                const updateStudentArray = await updateStudentArray.addStudentInSchool(creds.did);
+                if (updateStudentArray) {
+                    createVerification(creds, push, next);
+                }
+            }
+        }
+    } catch (error) {
+        next(error);
+    }
 }
 
 function createVerification(creds, push, next) {
