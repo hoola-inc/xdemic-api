@@ -1,8 +1,13 @@
 module.exports = app => {
     const studentController = require('../controllers/student.controller');
 
-    app.get('/student', studentController.getStudents);
-    app.get('/studentjwt', studentController.getStuentAsSignedJWT);
+    app.post('/student', studentController.addStudent);
+
+    app.get('/student/:did', studentController.getSingleStudent);
+
+    app.get('/students', studentController.getAllStudents);
+
+    app.get('/studentjwt', studentController.getAllStudentsJWT);
 
     app.post('/credentials', studentController.sendCredentials);
 

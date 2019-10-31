@@ -1,6 +1,7 @@
 
 const mongoose = require("mongoose");
-const dbUrl = `${process.env.DB_URL}`
+const chalk = require('chalk');
+const dbUrl = process.env.DB_URL;
 mongoose.Promise = global.Promise;
 
 mongoose.set("useCreateIndex", true);
@@ -15,9 +16,9 @@ mongoose
         }
     )
     .then(() => {
-        console.log("Successfully connected to the database");
+        console.log("%s Successfully connected to the database", chalk.green('✓'));
     })
     .catch(err => {
-        console.log("Could not connect to the database. Exiting now...", err.message);
+        console.log("Could not connect to the database", chalk.red(err.message));
         process.exit();
     });

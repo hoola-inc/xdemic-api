@@ -1,238 +1,103 @@
+'use strict'
 const CourseSchema = require('../models/course.model');
 const schoolSchema = require('../models/school.model');
-const fs = require('fs');
-const sendJWt = require('../../utilities/send-signed-jwt.utility');
+const saveCredentials = require('../../utilities/save-credentials');
+const writeFile = require('../../utilities/write-to-file.utility');
+const addToIPFS = require('../../utilities/ipfs-add-file.utility');
+const ipfsLink = require('../../constants/main.constant').ipfsLink;
+const jwtSigner = require('../../utilities/jwt-signature-generator');
 
 
 exports.createNewCourse = async (req, res, next) => {
-    const course = await courseExist(req);
     try {
-        if (course) {
-            return res.status(200).json({
-                status: false,
-                message: 'course already exist'
-            })
-        } else {
-            const newCourse = new CourseSchema(req.body);
-            newCourse.save()
-                .then(data => {
-                    updateCourseArrayInSchool(data)
-                        .then(school => {
-                            console.log('school updated ::: ', school);
-                            writeToFile(data, res);
-                        })
-                        .catch(err => {
-                            next(err.message);
-                        })
 
-                })
-                .catch(err => {
-                    next(err.message);
-                })
-        }
-    } catch (error) {
-        next(error.message);
-    }
-}
+        // TODO change here for req timeout...
+        req.setTimeout(120000);
+        //saving did and prvKey in credentials collection
+        const newCredentials = await saveCredentials.saveNewCredentials();
+        const did = newCredentials.did;
+        // creating new course obj
+        const newCourse = new CourseSchema(req.body);
+        // setting issuer did
+        newCourse.issuer.id = did;
 
-const courseExist = async (req) => {
-    try {
-        const checkCourse = await CourseSchema.find({
-            name: req.body.name
-        });
-        if (checkCourse.length > 0) {
-            return true
-        } else {
-            return false;
-        }
-    } catch (error) {
-        throw new Error('an error occured while fetching courses from db', error.message);
-    }
-}
+        // creating course document proof
+        const courseProofSignature = await jwtSigner.jwtSchema(did, newCourse);
 
-const writeToFile = (courseData, res) => {
-    try {
-        const path = require('path').join(__dirname, '../../../http-files/courses/course.json');
-        fs.readFile(path, 'utf8', function readFileCallback(err, data) {
-            if (err) {
-                console.log(err);
-            } else {
-                obj = JSON.parse(data); //now it an object
-                writeObjToFile(obj, courseData);
-                json = JSON.stringify(obj); //convert it back to json
-                fs.writeFile(path, json, 'utf8', (err) => {
-                    if (err) {
-                        throw new Error('Error occured while writing to file')
-                    } else {
+        newCourse.proof.verificationMethod = did;
+        newCourse.proof.jws = courseProofSignature;
+
+        if (courseProofSignature) {
+            // saving new course
+            const createNewCourse = await newCourse.save();
+            if (createNewCourse) {
+
+                // waiting to write file with new course data
+                const isWritten = await writeFile.writeToFile(did, 'courses', createNewCourse);
+                if (isWritten) {
+                    // hosting to ipfs 
+                    const path = require('path').join(__dirname, `../../../public/files/courses/${did}.json`);
+                    const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+                    if (ipfsFileHash) {
                         return res.status(200).json({
                             status: true,
-                            courseData: courseData,
-                            courseHostURL: process.env.BASE_URL + "httpcourse",
-                            message: "Successfully created and write to file"
-                        })
+                            data: createNewCourse,
+                            ipfs: ipfsLink.ipfsURL + ipfsFileHash
+                        });
                     }
-                }); // write it back
+                }
+
             }
-        });
-    } catch (error) {
-        throw new Error('an error occured while parsing json course file', error.message);
-    }
-}
-
-const writeObjToFile = (obj, courseData) => {
-    let courseFileObj = {
-        "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
-        "type": "ceterms:Course",
-        "creditUnitType": courseData.creditUnitType,
-        "ceterms:creditUnitValue": courseData.creditUniteValue,
-        "ceterms:ctid": courseData.ctid,
-        "ceterms:prerequisite": courseData.prerequisite,
-        "ceasn:hasChild": courseData.hasChild,
-        "ceterms:name": {
-            "language": "en-US",
-            "value": courseData.name
-        },
-        "ceterms:subjectWebpage": {
-            "id": courseData.subjectWebpage
         }
+    } catch (error) {
+        next(error);
     }
-    obj.graph.push(courseFileObj);
+};
+
+exports.getAllCourses = async (req, res, next) => {
+    try {
+        const allCourses = await CourseSchema.find();
+        if (allCourses.length > 0) {
+            return res.status(200).json({
+                status: true,
+                length: allCourses.length,
+                data: allCourses.reverse()
+            });
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'no record found'
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
 }
 
-exports.getCoursesForDashboard = (req, res, next) => {
-    CourseSchema.find()
-        .then(data => {
-            if (data.length > 0) {
-                // todo change here ...
-                data.map((e) => {
-                    e.courseGrade = "C",
-                        e.courseGPA = "2",
-                        e.coursePercentage = "50.55%",
-                        e.schoolName = " US National School"
-                })
-                // end here ...
+exports.getCourseByDID = async (req, res, next) => {
+    try {
+        const did = req.params.did;
+        const getCourse = await CourseSchema.find({
+            'issuer.id': did
+        });
+
+        if (getCourse.length > 0) {
+            const jwtSignature = await jwtSigner.jwtSchema(did, getCourse);
+            if (jwtSignature) {
                 return res.status(200).json({
                     status: true,
-                    length: data.length,
-                    data: data
-                })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'record not found'
-                })
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            next(err.message);
-        })
-}
-
-exports.getAllCourses = (req, res, next) => {
-
-    console.log(req.params.did);
-    schoolSchema.find({
-        "student.studentDID": req.params.did
-    })
-        .then(data => {
-            console.log(data);
-            if (data.length > 0) {
-                CourseSchema.find({
-                    "students.studentDID": req.params.did
-                })
-                    .then(studentCourse => {
-                        if (studentCourse.length > 0) {
-                            CourseSchema.find()
-                                .then(data => {
-                                    if (data.length > 0) {
-                                        // todo change here ...
-                                        data.map((e) => {
-                                            e.courseGrade = "C",
-                                                e.courseGPA = "2",
-                                                e.coursePercentage = "50.55%",
-                                                e.schoolName = " US National School"
-                                        })
-                                        // end here ...
-                                        return res.status(200).json({
-                                            status: true,
-                                            length: data.length,
-                                            data: data
-                                        })
-                                    } else {
-                                        return res.status(200).json({
-                                            status: false,
-                                            message: 'record not found'
-                                        })
-                                    }
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                    next(err.message);
-                                })
-                        } else {
-                            return res.status(200).json({
-                                status: false,
-                                message: 'no studnet enroll'
-                            })
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        next(err.message);
-                    })
-
-
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'student is not enroll with school yet'
-                })
-            }
-        })
-        .catch(err => {
-            next(err.message);
-        })
-}
-
-exports.displayCourseOnHttp = (req, res, next) => {
-    const path = require('path').join(__dirname, '../../../http-files/courses/course.json');
-    const fileContents = fs.readFileSync(path, 'utf8');
-    try {
-        const data = JSON.parse(fileContents);
-        return res.status(200).json({
-            status: true,
-            data: data
-        })
-    } catch (err) {
-        next(err.message);
-    }
-}
-
-exports.coursesWithJwt = (req, res, next) => {
-    CourseSchema.find()
-        .then(data => {
-            if (data.length > 0) {
-                sendJWt.jwtSchema('did:ethr:0xa056ffbfd644e482ad8d722c4be4c66aa052ad5a', data)
-                    .then(signedJwt => {
-                        return res.status(200).send({
-                            status: true,
-                            data: signedJwt
-                        })
-                    })
-                    .catch(err => {
-                        next(err.message)
-                    })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'no record found'
+                    data: jwtSignature
                 });
             }
-        })
-        .catch(err => {
-            next(err.message);
-        })
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'no record found with did: ' + did
+            });
+        }
+    } catch (error) {
+        next(error)
+    }
 }
 
 exports.getCourseById = (req, res, next) => {

@@ -3,15 +3,15 @@ module.exports = app => {
 
     app.post('/course', courseController.createNewCourse);
 
-    app.get('/courses/:did', courseController.getAllCourses);
+    app.get('/course/:did', courseController.getCourseByDID);
 
-    app.get('/courses', courseController.getCoursesForDashboard)
+    app.get('/courses', courseController.getAllCourses)
 
-    app.get('/httpcourse', courseController.displayCourseOnHttp);
+    // app.get('/httpcourse', courseController.displayCourseOnHttp);
 
-    app.get('/coursejwt', courseController.coursesWithJwt);
+    // app.get('/coursejwt', courseController.coursesWithJwt);
 
-    app.get('/course/:id', courseController.getCourseById);
+    // app.get('/course/:id', courseController.getCourseById);
 
-    app.put('/course/:id', courseController.updateCourseGrade);
+    // app.put('/course/:id', courseController.updateCourseGrade);
 };

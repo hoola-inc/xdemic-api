@@ -1,53 +1,120 @@
+'use strict'
+
 const studentModel = require('../models/student.model');
-const sendJWt = require('../../utilities/send-signed-jwt.utility');
+const jwtSigner = require('../../utilities/jwt-signature-generator');
 const transports = require('uport-transports').transport;
 const { Credentials } = require('uport-credentials');
 const StudentSchooolModel = require('../models/student-school-bridge.model');
 const nodemailer = require('nodemailer');
+const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const courseSchema = require('../models/course.model');
+const writeFile = require('../../utilities/write-to-file.utility');
+const addToIPFS = require('../../utilities/ipfs-add-file.utility');
+const saveCredentials = require('../../utilities/save-credentials');
+const encryptMessage = require('../../utilities/encryption.utility');
 
-exports.getStudents = (req, res, next) => {
-    studentModel.find()
-        .then(data => {
-            if (data.length > 0) {
+exports.addStudent = async (req, res, next) => {
+    try {
+        // TODO change here for req timeout...
+        req.setTimeout(120000);
+        //saving did and prvKey in credentials collection
+        const newCredentials = await saveCredentials.saveNewCredentials();
+        const did = newCredentials.did;
+
+
+        const addNewStudent = new studentModel(req.body);
+        addNewStudent.did = did;
+
+        const createStudent = await addNewStudent.save();
+        if (createStudent) {
+            const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
+            if (isWritten) {
+                const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
+                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+
                 return res.status(200).json({
                     status: true,
-                    length: data.length,
-                    data: data.reverse()
-                })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'student not found'
-                })
-            }
-        })
-}
-
-exports.getStuentAsSignedJWT = (req, res, next) => {
-    studentModel.find()
-        .then(data => {
-            if (data.length > 0) {
-                sendJWt.jwtSchema('did:ethr:0xa056ffbfd644e482ad8d722c4be4c66aa052ad5a', data)
-                    .then(signedJwt => {
-                        return res.status(200).send({
-                            status: true,
-                            data: signedJwt
-                        })
-                    })
-                    .catch(err => {
-                        next(err.message)
-                    })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'no record found'
+                    data: createStudent,
+                    ipfs: ipfsLink.ipfsURL + ipfsFileHash
                 });
             }
-        })
-        .catch(err => {
-            next(err.message);
-        })
+        }
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.getAllStudents = async (req, res, next) => {
+    try {
+        const allStudentsRecord = await studentModel.find();
+        if (allStudentsRecord.length > 0) {
+            return res.status(200).json({
+                status: true,
+                length: allStudentsRecord.length,
+                data: allStudentsRecord
+            });
+        }
+        return res.status(200).json({
+            status: false,
+            message: 'student not found'
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.getSingleStudent = async (req, res, next) => {
+    try {
+        const did = req.params.did;
+        const getStudentReacord = await studentModel.find({
+            did: did
+        });
+        if (getStudentReacord) {
+            const jwtSignature = await jwtSigner.jwtSchema(did, getStudentReacord);
+            if (jwtSignature) {
+                return res.status(200).json({
+                    status: true,
+                    data: jwtSignature
+                });
+            }
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: `no student found with did ${did}`
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+exports.getAllStudentsJWT = async (req, res, next) => {
+
+    try {
+        const allStudentsRecord = await studentModel.find();
+        if (allStudentsRecord.length > 0) {
+            //todo DID required ...
+            const jwtHash = await jwtSigner.jwtSchema('', allStudentsRecord);
+            // console.log(jwtHash);
+            if (jwtHash) {
+                return res.status(200).send({
+                    status: true,
+                    data: jwtHash
+                });
+            } else {
+                throw new Error('An error occured while creating jwt hash');
+            }
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'student not found'
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
 }
 
 
@@ -88,15 +155,15 @@ exports.sendCredentials = (req, res, next) => {
                 console.log('Push notification sent and should be recieved any moment...');
                 console.log('Accept the push notification in the xdemic mobile application');
                 updateStudentArray(studentDID)
-                .then(updateStudent => {
-                    return res.status(200).json({
-                        status: true,
-                        message: "Notification sent"
+                    .then(updateStudent => {
+                        return res.status(200).json({
+                            status: true,
+                            message: "Notification sent"
+                        })
                     })
-                })
-                .catch(err => {
-                    console.log(err.message);
-                })
+                    .catch(err => {
+                        console.log(err.message);
+                    })
             })
                 .catch(err => {
                     console.log(err);
