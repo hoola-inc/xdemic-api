@@ -44,7 +44,7 @@ exports.verifyClaims = async (req, res, next) => {
             if (createStudent) {
                 console.log('Student Created');
                 // update student array
-                
+
                 const updateStudentArray = await updateStudentArray.addStudentInSchool(creds.did);
                 if (updateStudentArray) {
                     createVerification(creds, push, next);
@@ -63,16 +63,17 @@ function createVerification(creds, push, next) {
         claim: { 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email }
         // Note, the above is a complex (nested) claim. 
         // Also supported are simple claims:  claim: {'Key' : 'Value'}
-    }).then(attestation => {
-        console.log(`Encoded JWT sent to user: ${attestation}`);
-        console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
-        return push(attestation); // *push* the notification to the user's mobile app.
-    }).then(res => {
-        console.log(res);
-        console.log('Push notification sent and should be recieved any moment...');
-        console.log('Accept the push notification in the xdemic mobile application');
-        sendNotification(creds);
     })
+        .then(attestation => {
+            console.log(`Encoded JWT sent to user: ${attestation}`);
+            console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
+            return push(attestation); // *push* the notification to the user's mobile app.
+        })
+        .then(res => {
+            console.log(res);
+            console.log('Push notification sent and should be recieved any moment...');
+            console.log('Accept the push notification in the xdemic mobile application');
+        })
         .catch(err => {
             console.log(err);
             next(err.message);
@@ -82,29 +83,29 @@ function createVerification(creds, push, next) {
 
 
 
-function sendNotification(creds) {
+// function sendNotification(creds) {
 
-    const io = require('../../../server').io;
-    console.log('sending push notification using socket io');
-    let interval;
-    io.on("connection", socket => {
-        console.log("New client connected");
-        if (interval) {
-            clearInterval(interval);
-        }
-        interval = setInterval(() => getApiAndEmit(socket), 10000);
-        socket.on("disconnect", () => {
-            console.log("Client disconnected");
-        });
-    });
-    const getApiAndEmit = async socket => {
-        try {
+//     const io = require('../../../server').io;
+//     console.log('sending push notification using socket io');
+//     let interval;
+//     io.on("connection", socket => {
+//         console.log("New client connected");
+//         if (interval) {
+//             clearInterval(interval);
+//         }
+//         interval = setInterval(() => getApiAndEmit(socket), 10000);
+//         socket.on("disconnect", () => {
+//             console.log("Client disconnected");
+//         });
+//     });
+//     const getApiAndEmit = async socket => {
+//         try {
 
-            socket.emit("StudentRequest", {
-                'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
-            }); // Emitting a new message. It will be consumed by the client
-        } catch (error) {
-            console.error(`Error: ${error.message}`);
-        }
-    };
-}
+//             socket.emit("StudentRequest", {
+//                 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
+//             }); // Emitting a new message. It will be consumed by the client
+//         } catch (error) {
+//             console.error(`Error: ${error.message}`);
+//         }
+//     };
+// }

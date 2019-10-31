@@ -3,7 +3,7 @@ const naclUtils = require('tweetnacl-util');
 
 const BLOCK_SIZE = process.env.BLOCK_SIZE;
 
-export const ASYNC_ENC_ALGORITHM = process.env.ASYNC_ENC_ALGORITHM;
+const ASYNC_ENC_ALGORITHM = process.env.ASYNC_ENC_ALGORITHM;
 
 exports.encryptMessage = async (message, boxPub) => {
     const secret = nacl.randomBytes(32);
@@ -22,7 +22,7 @@ exports.encryptMessage = async (message, boxPub) => {
     }
 }
 
-export function pad(message) {
+function pad(message) {
     return padEnd(
         message,
         Math.ceil(message.length / BLOCK_SIZE) * BLOCK_SIZE,
