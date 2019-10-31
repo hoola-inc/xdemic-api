@@ -35,7 +35,7 @@ app.use(morgan('dev'));
 
 // default api route
 app.get("/", (req, res, next) => {
-    return res.status(200).json({ message: "Welcome to XdemiC api", cheers: cool() });
+    return res.status(200).json({ message: "Welcome to XdemiC api ", cheers: cool() });
 });
 
 

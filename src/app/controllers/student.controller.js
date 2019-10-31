@@ -11,6 +11,7 @@ const courseSchema = require('../models/course.model');
 const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const saveCredentials = require('../../utilities/save-credentials');
+const encryptMessage = require('../../utilities/encryption.utility');
 
 exports.addStudent = async (req, res, next) => {
     try {

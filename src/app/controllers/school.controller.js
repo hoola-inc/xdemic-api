@@ -14,7 +14,7 @@ exports.createSchool = async (req, res, next) => {
 
     try {
         // TODO change here for req timeout...
-        req.setTimeout(500000);
+        req.connection.setTimeout(500000);
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
@@ -43,6 +43,7 @@ exports.createSchool = async (req, res, next) => {
             }
         }
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
