@@ -11,6 +11,7 @@ exports.saveNewCredentials = async () => {
             });
             const createNewCredentials = await saveNewCredentials.save();
             if (createNewCredentials) {
+                console.log('New credentials created ...');
                 return {
                     did: did,
                     privateKey: privateKey

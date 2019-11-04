@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const StudentSchema = mongoose.Schema({
+const PersonSchema = mongoose.Schema({
 
     fullName: String,
     givenName: String,
@@ -32,11 +32,6 @@ const StudentSchema = mongoose.Schema({
     type: {
         type: String,
         default: 'Person'
-    },
-    
-    courseId: {
-        type: String,
-        default: ''
     }
 }, {
     timestamps: true
@@ -44,10 +39,10 @@ const StudentSchema = mongoose.Schema({
 
 
 
-StudentSchema.pre("save", function (next) {
+PersonSchema.pre("save", function (next) {
     const self = this;
 
-    mongoose.models["Student"].findOne({ did: this.did }, function (err, results) {
+    mongoose.models["Person"].findOne({ did: this.did }, function (err, results) {
         if (err) {
             next(err);
         } else if (results) {
@@ -60,4 +55,4 @@ StudentSchema.pre("save", function (next) {
     });
 });
 
-module.exports = mongoose.model('Student', StudentSchema);
+module.exports = mongoose.model('Person', PersonSchema);
