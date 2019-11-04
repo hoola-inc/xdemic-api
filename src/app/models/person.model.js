@@ -29,6 +29,10 @@ const PersonSchema = mongoose.Schema({
         unique: true,
         index: true
     },
+    gender: {
+        type: String,
+        required: [true, 'Why no gender?']
+    },
     type: {
         type: String,
         default: 'Person'

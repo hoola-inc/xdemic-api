@@ -133,7 +133,7 @@ exports.sendCredentials = (req, res, next) => {
             const newData = data.reverse();
             const pushToken = newData[0].pushToken;
             const boxPub = newData[0].boxPub;
-            const courseUrl = courseDocumentData();
+            const courseUrl = '123';
 
             const studentDID = newData[0].did;
 
@@ -336,51 +336,35 @@ exports.sendTranscript = (req, res, next) => {
     });
 }
 
-function courseDocumentData() {
-    return {
-        "status": true,
-        "data": {
-            "context": {
-                "ceterms": "http://purl.org/ctdl/terms/",
-                "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-                "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-                "res": "http://example.org/resources/",
-                "xsd": "http://www.w3.org/2001/XMLSchema#"
-            },
-            "graph": [
-                {
-                    "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
-                    "type": "ceterms:Course",
-                    "creditUnitType": "school",
-                    "ceterms:creditUnitValue": "123",
-                    "ceterms:ctid": "4321",
-                    "ceterms:prerequisite": "qweqwe",
-                    "ceasn:hasChild": "String",
-                    "ceterms:name": {
-                        "language": "en-US",
-                        "value": "schaool"
-                    },
-                    "ceterms:subjectWebpage": {
-                        "id": "qweqw"
-                    }
-                },
-                {
-                    "id": "did:ethr:0x47968f7416ee34f62550fedf4cb8252439ac22d7",
-                    "type": "ceterms:Course",
-                    "creditUnitType": "school",
-                    "ceterms:creditUnitValue": "123",
-                    "ceterms:ctid": "4321",
-                    "ceterms:prerequisite": "qweqwe",
-                    "ceasn:hasChild": "String",
-                    "ceterms:name": {
-                        "language": "en-US",
-                        "value": "schaaool"
-                    },
-                    "ceterms:subjectWebpage": {
-                        "id": "qweqw"
-                    }
-                }
-            ]
+
+exports.sendTranscriptToDashboard = (req, res, next) => {
+    const targetEmail = req.body.email;
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
         }
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: targetEmail,
+        subject: 'Transcript',
+        text: req.body
     };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            next(error);
+        }
+        else {
+
+            console.log('email sent successfully...');
+            return res.status(200).send({
+                status: true,
+                message: 'Email sent '
+            })
+        }
+    });
 }
