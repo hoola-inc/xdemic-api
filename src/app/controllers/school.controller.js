@@ -212,13 +212,15 @@ exports.getSchool = async(req, res, next) => {
 
 
 exports.getSchoolWithStudent = (req, res, next) => {
-    console.log(req.params.did);
 
     // todo cahnge here 
     // SchoolSchema.find({
     //     "student.studentDID": req.params.did
     // })
-    SchoolSchema.find()
+    const schoolDID = req.params.did;
+    SchoolSchema.find({
+        did: schoolDID
+    })
         .then(data => {
             console.log(data);
             if (data.length > 0) {
@@ -263,27 +265,3 @@ exports.getSchoolWithSignedJWT = (req, res, next) => {
             next(err.message);
         })
 }
-
-function createNewSchool(req, schoolDid, res, next) {
-    const newSchool = new SchoolSchema({
-        name: req.body.name,
-        address: req.body.address,
-        email: req.body.email,
-        subjectWebpage: req.body.subjectWebpage,
-        agentSectorType: req.body.agentSectorType,
-        agentType: req.body.agentType,
-        description: req.body.description,
-        did: schoolDid
-    });
-    newSchool.save()
-        .then(data => {
-            return res.status(200).json({
-                status: true,
-                data: data
-            });
-        })
-        .catch(err => {
-            next(err.message);
-        });
-}
-
