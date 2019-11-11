@@ -72,16 +72,14 @@ exports.getSchool = async (req, res, next) => {
 exports.getfavoriteSchools = (req, res, next) => {
     const did = req.params.did;
     SchoolSchema.find({
-        'favoriteSchools.schoolDID': did
-    }).exec((data, err) => {
+        'schoolDID': {
+            $in: did
+        }
+    }).exec((err, data) => {
         if (err) {
             next(err);
-        } else {
-            return res.status(200).json({
-                status: true,
-                data: data
-            });
         }
+        next(data);
     });
 }
 

@@ -48,7 +48,8 @@ app.use(express.static(publicDir));
 require('./src/utilities/routes.utility')(app);
 
 // Handling non-existing routes
-require('./src/utilities/error-handler.utility')(app);
+// Handling non-existing routes
+require('./src/utilities/response-handler.utility')(app);
 
 // db config
 require('./src/config/db.config');
