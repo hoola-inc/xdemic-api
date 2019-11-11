@@ -8,4 +8,6 @@ module.exports = app => {
     app.get('/schoolwithjwt', schoolController.getSchoolWithSignedJWT);
 
     app.get('/schoolwithstudentenroll/:did', schoolController.getSchoolWithStudent);
+
+    app.put('/favschool/:did', schoolController.updateFavSchoolArray);
 };
