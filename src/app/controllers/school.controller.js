@@ -9,6 +9,7 @@ const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const jwtSignature = require('../../utilities/jwt-signature-generator');
 const fs = require('fs');
+const updateArrayHelper = require('../../utilities/helpers/update-array.helper');
 
 exports.createSchool = async (req, res, next) => {
 
@@ -67,6 +68,21 @@ exports.getSchool = async(req, res, next) => {
         next(error);
     }
 };
+
+exports.updateFavSchoolArray = async (req, res, next) => {
+    try {
+        const schoolDID = req.params.did;
+        const schoolUpdated = updateArrayHelper.favoriteSchool(schoolDID);
+        if(schoolUpdated) {
+            return res.status(200).json({
+                status: true,
+                message: 'Fav School Added'
+            })
+        }
+    } catch (error) {
+        next(error);
+    }
+}
 
 // exports.createSchool = async (req, res, next) => {
 //     const school = await schoolExist(req);

@@ -102,6 +102,13 @@ const SchoolRegSchema = mongoose.Schema({
         startsWith: [String],
         verificationProperty: String
     },
+    schoolRanking: String,
+    enrollment: String,
+    deadLine: String,
+    schoolLocation: String,
+    favoriteSchool: [{
+        schoolDID: String
+    }],
     students: [{
         studentDID: String
     }],
