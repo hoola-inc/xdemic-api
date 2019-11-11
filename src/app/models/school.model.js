@@ -106,7 +106,7 @@ const SchoolRegSchema = mongoose.Schema({
     enrollment: String,
     deadLine: String,
     schoolLocation: String,
-    favoriteSchool: [{
+    favoriteSchools: [{
         schoolDID: String
     }],
     students: [{

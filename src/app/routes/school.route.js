@@ -10,4 +10,6 @@ module.exports = app => {
     app.get('/schoolwithstudentenroll/:did', schoolController.getSchoolWithStudent);
 
     app.put('/favschool/:did', schoolController.updateFavSchoolArray);
+
+    app.get('/favschools/:did', schoolController.getfavoriteSchools);
 };

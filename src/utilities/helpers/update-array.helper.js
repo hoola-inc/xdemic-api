@@ -94,21 +94,25 @@ exports.updateStudentArrayInCourse = (studentDID, courseId) => {
     })
 }
 
-exports.favoriteSchool = (schoolDID) => {
+exports.favoriteSchools = (schoolDID) => {
     return new Promise((resolve, reject) => {
+        console.log(schoolDID);
         schoolSchema.update({
             did: schoolDID
         }, {
             $push: {
-                schoolDID: schoolDID
+                favoriteSchools: {
+                    schoolDID: schoolDID
+                }
             }
         })
         .then(schoolUpdated => {
+            console.log('Fav school added');
             resolve('Fav school array updated');
         })
         .catch(err => {
+            console.log(err.message);
             reject(err);
-            return;
         })
     })
-}
+};

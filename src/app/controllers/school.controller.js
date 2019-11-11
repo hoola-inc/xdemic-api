@@ -49,10 +49,10 @@ exports.createSchool = async (req, res, next) => {
     }
 };
 
-exports.getSchool = async(req, res, next) => {
+exports.getSchool = async (req, res, next) => {
     try {
         const getSchools = await SchoolSchema.find();
-        if(getSchools.length > 0) {
+        if (getSchools.length > 0) {
             const schoolDataHash = await jwtSignature.jwtSchema(process.env.SERVER_DID, getSchools);
             return res.status(200).json({
                 status: true,
@@ -69,11 +69,27 @@ exports.getSchool = async(req, res, next) => {
     }
 };
 
+exports.getfavoriteSchools = (req, res, next) => {
+    const did = req.params.did;
+    SchoolSchema.find({
+        'favoriteSchools.schoolDID': did
+    }).exec((data, err) => {
+        if (err) {
+            next(err);
+        } else {
+            return res.status(200).json({
+                status: true,
+                data: data
+            });
+        }
+    });
+}
+
 exports.updateFavSchoolArray = async (req, res, next) => {
     try {
         const schoolDID = req.params.did;
-        const schoolUpdated = updateArrayHelper.favoriteSchool(schoolDID);
-        if(schoolUpdated) {
+        const schoolUpdated = await updateArrayHelper.favoriteSchools(schoolDID);
+        if (schoolUpdated) {
             return res.status(200).json({
                 status: true,
                 message: 'Fav School Added'
