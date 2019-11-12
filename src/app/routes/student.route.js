@@ -9,17 +9,21 @@ module.exports = app => {
 
     app.get('/studentjwt', studentController.getAllStudentsJWT);
 
-    app.post('/credentials', studentController.sendCredentials);
+    app.put('/favschool/:id', studentController.updateFavSchoolArray);
 
-    app.post('/studentmobile', studentController.addStudentFromMobile);
+    app.get('/favschools/:did', studentController.getfavoriteSchools);
 
-    app.get('/student/:id', studentController.getStudentById);
+    // app.post('/credentials', studentController.sendCredentials);
 
-    app.put('/student/:id', studentController.updateStudents);
+    // app.post('/studentmobile', studentController.addStudentFromMobile);
 
-    app.get('/enrollstudents/:id', studentController.getEnrollStudents);
+    // app.get('/student/:id', studentController.getStudentById);
 
-    app.post('/transscipt', studentController.sendTranscript);
+    // app.put('/student/:id', studentController.updateStudents);
 
-    app.post('/sendtranscript', studentController.sendTranscriptToDashboard);
+    // app.get('/enrollstudents/:id', studentController.getEnrollStudents);
+
+    // app.post('/transscipt', studentController.sendTranscript);
+
+    // app.post('/sendtranscript', studentController.sendTranscriptToDashboard);
 };

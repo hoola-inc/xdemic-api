@@ -6,10 +6,12 @@ module.exports = app => {
     });
 
     app.use((obj, req, res, next) => {
-        // Any request to this server will get here, and will send an HTTP
-        // response with the error message 'woops'
-        // res.status(error.status || 500);
-        if(obj instanceof Error) {
+
+        if (obj instanceof Error) {
+            // Any request to this server will get here, and will send an HTTP
+            // response with the error message 'woops'
+            // res.status(error.status || 500);
+
             const error = obj;
             return res.status(500).send({
                 status: false,
@@ -17,12 +19,12 @@ module.exports = app => {
                     message: error.message,
                     detail: error
                 }
-            })
+            });
         } else {
             return res.status(200).json({
                 status: true,
                 data: obj
-            })
+            });
         }
     })
 }

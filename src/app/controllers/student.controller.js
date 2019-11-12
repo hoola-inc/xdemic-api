@@ -12,6 +12,7 @@ const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const saveCredentials = require('../../utilities/save-credentials');
 const encryptMessage = require('../../utilities/encryption.utility');
+const updateArrayHelper = require('../../utilities/helpers/update-array.helper');
 
 exports.addStudent = async (req, res, next) => {
     try {
@@ -22,7 +23,7 @@ exports.addStudent = async (req, res, next) => {
         const did = newCredentials.did;
 
 
-        const addNewStudent = new studentModel(req.body);
+        const addNewStudent = new studentModel(req.body, true);
         addNewStudent.did = did;
 
         const createStudent = await addNewStudent.save();
@@ -117,254 +118,285 @@ exports.getAllStudentsJWT = async (req, res, next) => {
     }
 }
 
-
-
-const credentials = new Credentials({
-    appName: 'Xdemic',
-    did: 'did:ethr:0xd741a6dd2711521e8798fbe92c12fcb9d2f43cf1',
-    privateKey: '8986bea04ec687c45be90c5a6e259dbf125291f3a8ede0b595442c39d3322875'
-});
-
-
-exports.sendCredentials = (req, res, next) => {
-
-    studentModel.find()
-        .then(data => {
-            const newData = data.reverse();
-            const pushToken = newData[0].pushToken;
-            const boxPub = newData[0].boxPub;
-            const courseUrl = '123';
-
-            const studentDID = newData[0].did;
-
-            const push = transports.push.send(pushToken, boxPub);
-
-            credentials.createVerification({
-                sub: 'Course Credentials',
-                exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                claim: courseUrl
-                // Note, the above is a complex (nested) claim. 
-                // Also supported are simple claims:  claim: {'Key' : 'Value'}
-            }).then(attestation => {
-                console.log(`Encoded JWT sent to user: ${attestation}`);
-                // console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
-                return push(attestation); // *push* the notification to the user's mobile app.
-            }).then(not => {
-                console.log(not);
-                console.log(`Notification sent to user ::: ${newData[0].name}`)
-                console.log('Push notification sent and should be recieved any moment...');
-                console.log('Accept the push notification in the xdemic mobile application');
-                updateStudentArray(studentDID)
-                    .then(updateStudent => {
-                        return res.status(200).json({
-                            status: true,
-                            message: "Notification sent"
-                        })
-                    })
-                    .catch(err => {
-                        console.log(err.message);
-                    })
+exports.getfavoriteSchools = async (req, res, next) => {
+    try {
+        const did = req.params.did;
+        const stdFavSchool = await studentModel.find({
+            favoriteSchools: did
+        });
+        if (stdFavSchool.length > 0) {
+            next(stdFavSchool);
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'no record found'
             })
-                .catch(err => {
-                    console.log(err);
-                });
-
-        })
-        .catch(err => {
-            console.log(err);
-            next(err.message);
-        })
-}
-
-function updateStudentArray(studentDID) {
-    return new Promise((resolve, reject) => {
-        courseSchema.find()
-            .then(data => {
-                if (data.length > 0) {
-                    const courseID = data[0]._id;
-                    console.log('School Id ::: ', courseID);
-                    courseSchema.update({
-                        _id: courseID
-                    }, {
-                        $push: {
-                            students: {
-                                'studentDID': studentDID
-                            }
-                        }
-                    })
-                        .then(school => {
-                            resolve('course student updated');
-                        })
-                        .catch(err => {
-                            reject('school not updated');
-                            return;
-                        })
-                }
-            })
-            .catch(err => {
-                throw new Error('erorr while finding school')
-            })
-    })
-}
-
-exports.addStudentFromMobile = (req, res, next) => {
-
-    const schoolName = req.body.schoolName;
-    const studentName = req.body.studentName;
-
-    if (typeof schoolName == 'string' && typeof studentName == 'string') {
-        const create = new StudentSchooolModel(req.body);
-
-        create.save()
-            .then(data => {
-                return res.status(200).json({
-                    status: true,
-                    data: data
-                })
-            })
-            .catch(err => {
-                next(err.message);
-            })
-    } else {
-        throw new Error('String required');
+        }
+    } catch (error) {
+        next(error);
     }
-
 }
 
-exports.getStudentById = (req, res, next) => {
-    studentModel.find({
-        _id: req.params.id
-    })
-        .then(data => {
-            if (data.length > 0) {
-                return res.status(200).json({
-                    status: true,
-                    data: data
-                })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'no record found'
-                })
-            }
-        })
-        .catch(err => {
-            next(err.message);
-        })
-}
-
-exports.updateStudents = (req, res, next) => {
-    console.log(req.body.courseId);
-    studentModel.update({
-        _id: req.params.id
-    },
-        {
-            $set: {
-                courseId: req.body.courseId
-            }
-        })
-        .then(data => {
-            if (data) {
-                return res.status(200).json({
-                    status: true,
-                    message: 'user updated successfully'
-                })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'user not updated'
-                })
-            }
-        })
-        .catch(err => {
-            next(err.message);
-        })
+exports.updateFavSchoolArray = async (req, res, next) => {
+    try {
+        const schoolDID = req.body.did;
+        const studentId = req.params.id;
+        const schoolUpdated = await updateArrayHelper.favoriteSchools(studentId, schoolDID);
+        if (schoolUpdated) {
+            next(schoolUpdated);
+        }
+    } catch (error) {
+        next(error);
+    }
 }
 
 
-exports.getEnrollStudents = (req, res, next) => {
-    studentModel.find({
-        courseId: req.params.id
-    })
-        .then(data => {
-            if (data.length > 0) {
-                return res.status(200).json({
-                    status: true,
-                    data: data
-                })
-            } else {
-                return res.status(200).json({
-                    status: false,
-                    message: 'no enroll student'
-                })
-            }
-        })
-        .catch(err => {
-            next(err.message)
-        })
-}
-
-exports.sendTranscript = (req, res, next) => {
-    const targetEmail = req.body.email;
-    const transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.PASSWORD
-        }
-    });
-
-    const mailOptions = {
-        from: process.env.EMAIL,
-        to: targetEmail,
-        subject: 'Transcript',
-        text: process.env.Student_Transcript_URL + ', Code: 95942'
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            next(error);
-        }
-        else {
-
-            console.log('email sent successfully...');
-            return res.status(200).send({
-                status: true,
-                message: 'Email sent '
-            })
-        }
-    });
-}
+// const credentials = new Credentials({
+//     appName: 'Xdemic',
+//     did: 'did:ethr:0xd741a6dd2711521e8798fbe92c12fcb9d2f43cf1',
+//     privateKey: '8986bea04ec687c45be90c5a6e259dbf125291f3a8ede0b595442c39d3322875'
+// });
 
 
-exports.sendTranscriptToDashboard = (req, res, next) => {
-    const targetEmail = req.body.email;
-    const transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.PASSWORD
-        }
-    });
+// exports.sendCredentials = (req, res, next) => {
 
-    const mailOptions = {
-        from: process.env.EMAIL,
-        to: targetEmail,
-        subject: 'Transcript',
-        text: req.body
-    };
+//     studentModel.find()
+//         .then(data => {
+//             const newData = data.reverse();
+//             const pushToken = newData[0].pushToken;
+//             const boxPub = newData[0].boxPub;
+//             const courseUrl = '123';
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            next(error);
-        }
-        else {
+//             const studentDID = newData[0].did;
 
-            console.log('email sent successfully...');
-            return res.status(200).send({
-                status: true,
-                message: 'Email sent '
-            })
-        }
-    });
-}
+//             const push = transports.push.send(pushToken, boxPub);
+
+//             credentials.createVerification({
+//                 sub: 'Course Credentials',
+//                 exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+//                 claim: courseUrl
+//                 // Note, the above is a complex (nested) claim. 
+//                 // Also supported are simple claims:  claim: {'Key' : 'Value'}
+//             }).then(attestation => {
+//                 console.log(`Encoded JWT sent to user: ${attestation}`);
+//                 // console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
+//                 return push(attestation); // *push* the notification to the user's mobile app.
+//             }).then(not => {
+//                 console.log(not);
+//                 console.log(`Notification sent to user ::: ${newData[0].name}`)
+//                 console.log('Push notification sent and should be recieved any moment...');
+//                 console.log('Accept the push notification in the xdemic mobile application');
+//                 updateStudentArray(studentDID)
+//                     .then(updateStudent => {
+//                         return res.status(200).json({
+//                             status: true,
+//                             message: "Notification sent"
+//                         })
+//                     })
+//                     .catch(err => {
+//                         console.log(err.message);
+//                     })
+//             })
+//                 .catch(err => {
+//                     console.log(err);
+//                 });
+
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             next(err.message);
+//         })
+// }
+
+// function updateStudentArray(studentDID) {
+//     return new Promise((resolve, reject) => {
+//         courseSchema.find()
+//             .then(data => {
+//                 if (data.length > 0) {
+//                     const courseID = data[0]._id;
+//                     console.log('School Id ::: ', courseID);
+//                     courseSchema.update({
+//                         _id: courseID
+//                     }, {
+//                         $push: {
+//                             students: {
+//                                 'studentDID': studentDID
+//                             }
+//                         }
+//                     })
+//                         .then(school => {
+//                             resolve('course student updated');
+//                         })
+//                         .catch(err => {
+//                             reject('school not updated');
+//                             return;
+//                         })
+//                 }
+//             })
+//             .catch(err => {
+//                 throw new Error('erorr while finding school')
+//             })
+//     })
+// }
+
+// exports.addStudentFromMobile = (req, res, next) => {
+
+//     const schoolName = req.body.schoolName;
+//     const studentName = req.body.studentName;
+
+//     if (typeof schoolName == 'string' && typeof studentName == 'string') {
+//         const create = new StudentSchooolModel(req.body);
+
+//         create.save()
+//             .then(data => {
+//                 return res.status(200).json({
+//                     status: true,
+//                     data: data
+//                 })
+//             })
+//             .catch(err => {
+//                 next(err.message);
+//             })
+//     } else {
+//         throw new Error('String required');
+//     }
+
+// }
+
+// exports.getStudentById = (req, res, next) => {
+//     studentModel.find({
+//         _id: req.params.id
+//     })
+//         .then(data => {
+//             if (data.length > 0) {
+//                 return res.status(200).json({
+//                     status: true,
+//                     data: data
+//                 })
+//             } else {
+//                 return res.status(200).json({
+//                     status: false,
+//                     message: 'no record found'
+//                 })
+//             }
+//         })
+//         .catch(err => {
+//             next(err.message);
+//         })
+// }
+
+// exports.updateStudents = (req, res, next) => {
+//     console.log(req.body.courseId);
+//     studentModel.update({
+//         _id: req.params.id
+//     },
+//         {
+//             $set: {
+//                 courseId: req.body.courseId
+//             }
+//         })
+//         .then(data => {
+//             if (data) {
+//                 return res.status(200).json({
+//                     status: true,
+//                     message: 'user updated successfully'
+//                 })
+//             } else {
+//                 return res.status(200).json({
+//                     status: false,
+//                     message: 'user not updated'
+//                 })
+//             }
+//         })
+//         .catch(err => {
+//             next(err.message);
+//         })
+// }
+
+
+// exports.getEnrollStudents = (req, res, next) => {
+//     studentModel.find({
+//         courseId: req.params.id
+//     })
+//         .then(data => {
+//             if (data.length > 0) {
+//                 return res.status(200).json({
+//                     status: true,
+//                     data: data
+//                 })
+//             } else {
+//                 return res.status(200).json({
+//                     status: false,
+//                     message: 'no enroll student'
+//                 })
+//             }
+//         })
+//         .catch(err => {
+//             next(err.message)
+//         })
+// }
+
+// exports.sendTranscript = (req, res, next) => {
+//     const targetEmail = req.body.email;
+//     const transporter = nodemailer.createTransport({
+//         service: 'Gmail',
+//         auth: {
+//             user: process.env.EMAIL,
+//             pass: process.env.PASSWORD
+//         }
+//     });
+
+//     const mailOptions = {
+//         from: process.env.EMAIL,
+//         to: targetEmail,
+//         subject: 'Transcript',
+//         text: process.env.Student_Transcript_URL + ', Code: 95942'
+//     };
+
+//     transporter.sendMail(mailOptions, (error, info) => {
+//         if (error) {
+//             next(error);
+//         }
+//         else {
+
+//             console.log('email sent successfully...');
+//             return res.status(200).send({
+//                 status: true,
+//                 message: 'Email sent '
+//             })
+//         }
+//     });
+// }
+
+
+// exports.sendTranscriptToDashboard = (req, res, next) => {
+//     const targetEmail = req.body.email;
+//     const transporter = nodemailer.createTransport({
+//         service: 'Gmail',
+//         auth: {
+//             user: process.env.EMAIL,
+//             pass: process.env.PASSWORD
+//         }
+//     });
+
+//     const mailOptions = {
+//         from: process.env.EMAIL,
+//         to: targetEmail,
+//         subject: 'Transcript',
+//         text: req.body
+//     };
+
+//     transporter.sendMail(mailOptions, (error, info) => {
+//         if (error) {
+//             next(error);
+//         }
+//         else {
+
+//             console.log('email sent successfully...');
+//             return res.status(200).send({
+//                 status: true,
+//                 message: 'Email sent '
+//             })
+//         }
+//     });
+// }

@@ -20,7 +20,7 @@ exports.createSchool = async (req, res, next) => {
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
 
-        const newSchool = new SchoolSchema(req.body);
+        const newSchool = new SchoolSchema(req.body, true);
 
         // setting school did
         newSchool.did = did;
@@ -69,34 +69,7 @@ exports.getSchool = async (req, res, next) => {
     }
 };
 
-exports.getfavoriteSchools = (req, res, next) => {
-    const did = req.params.did;
-    SchoolSchema.find({
-        'schoolDID': {
-            $in: did
-        }
-    }).exec((err, data) => {
-        if (err) {
-            next(err);
-        }
-        next(data);
-    });
-}
 
-exports.updateFavSchoolArray = async (req, res, next) => {
-    try {
-        const schoolDID = req.params.did;
-        const schoolUpdated = await updateArrayHelper.favoriteSchools(schoolDID);
-        if (schoolUpdated) {
-            return res.status(200).json({
-                status: true,
-                message: 'Fav School Added'
-            })
-        }
-    } catch (error) {
-        next(error);
-    }
-}
 
 // exports.createSchool = async (req, res, next) => {
 //     const school = await schoolExist(req);

@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 
 const SchoolRegSchema = mongoose.Schema({
     did: {
-        type: String
+        type: String,
+        unique: true,
+        index: true
     },
     type: {
         type: String,
@@ -106,9 +108,6 @@ const SchoolRegSchema = mongoose.Schema({
     enrollment: String,
     deadLine: String,
     schoolLocation: String,
-    favoriteSchools: [{
-        schoolDID: String
-    }],
     students: [{
         studentDID: String
     }],

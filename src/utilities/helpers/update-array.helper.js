@@ -1,5 +1,6 @@
 const courseModel = require('../../app/models/course.model');
 const schoolSchema = require('../../app/models/school.model');
+const studentSchema = require('../../app/models/student.model');
 
 
 exports.addStudentInSchool = (studentDID) => {
@@ -94,25 +95,18 @@ exports.updateStudentArrayInCourse = (studentDID, courseId) => {
     })
 }
 
-exports.favoriteSchools = (schoolDID) => {
+
+exports.favoriteSchools = (studentId, schoolDID) => {
     return new Promise((resolve, reject) => {
-        console.log(schoolDID);
-        schoolSchema.update({
-            did: schoolDID
+        studentSchema.update({
+            _id: studentId
         }, {
-            $push: {
-                favoriteSchools: {
-                    schoolDID: schoolDID
-                }
+            $addToSet: { favoriteSchools: schoolDID } 
+        }).exec((err, data) => {
+            if(err) {
+                reject(err);
             }
-        })
-        .then(schoolUpdated => {
-            console.log('Fav school added');
-            resolve('Fav school array updated');
-        })
-        .catch(err => {
-            console.log(err.message);
-            reject(err);
+            resolve(data);
         })
     })
 };

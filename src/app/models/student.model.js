@@ -37,7 +37,8 @@ const StudentSchema = mongoose.Schema({
     courseId: {
         type: String,
         default: ''
-    }
+    },
+    favoriteSchools: [String]
 }, {
     timestamps: true
 });
