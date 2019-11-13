@@ -13,6 +13,7 @@ const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const saveCredentials = require('../../utilities/save-credentials');
 const encryptMessage = require('../../utilities/encryption.utility');
 const updateArrayHelper = require('../../utilities/helpers/update-array.helper');
+const schoolSchema = require('../models/school.model');
 
 exports.addStudent = async (req, res, next) => {
     try {
@@ -121,11 +122,20 @@ exports.getAllStudentsJWT = async (req, res, next) => {
 exports.getfavoriteSchools = async (req, res, next) => {
     try {
         const did = req.params.did;
-        const stdFavSchool = await studentModel.find({
-            favoriteSchools: did
+        const stdFavSchools = await studentModel.findOne({
+            did: did
         });
-        if (stdFavSchool.length > 0) {
-            next(stdFavSchool);
+        if (stdFavSchools) {
+            const schoolDidArr = stdFavSchools.favoriteSchools;
+            console.log(schoolDidArr);
+            schoolSchema.find({
+                'did': {
+                    $in: schoolDidArr
+                }
+            })
+            .then(data => {
+                next(data);
+            })
         } else {
             return res.status(200).json({
                 status: false,
@@ -140,8 +150,8 @@ exports.getfavoriteSchools = async (req, res, next) => {
 exports.updateFavSchoolArray = async (req, res, next) => {
     try {
         const schoolDID = req.body.did;
-        const studentId = req.params.id;
-        const schoolUpdated = await updateArrayHelper.favoriteSchools(studentId, schoolDID);
+        const studentDID = req.params.id;
+        const schoolUpdated = await updateArrayHelper.favoriteSchools(studentDID, schoolDID);
         if (schoolUpdated) {
             next(schoolUpdated);
         }
