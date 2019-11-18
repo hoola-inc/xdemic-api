@@ -23,24 +23,19 @@ exports.addStudent = async (req, res, next) => {
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
 
-
         const addNewStudent = new studentModel(req.body, true);
         addNewStudent.did = did;
 
         const createStudent = await addNewStudent.save();
-        if (createStudent) {
-            const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
-            if (isWritten) {
-                const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
-                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+        const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
+        const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
+        const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
 
-                return res.status(200).json({
-                    status: true,
-                    data: createStudent,
-                    ipfs: ipfsLink.ipfsURL + ipfsFileHash
-                });
-            }
-        }
+        return res.status(200).json({
+            status: true,
+            data: createStudent,
+            ipfs: ipfsLink.ipfsURL + ipfsFileHash
+        });
 
     } catch (error) {
         next(error);
@@ -133,9 +128,9 @@ exports.getfavoriteSchools = async (req, res, next) => {
                     $in: schoolDidArr
                 }
             })
-            .then(data => {
-                next(data);
-            })
+                .then(data => {
+                    next(data);
+                })
         } else {
             return res.status(200).json({
                 status: false,
