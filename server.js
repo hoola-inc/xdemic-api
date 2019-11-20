@@ -56,4 +56,4 @@ require('./src/config/db.config');
 
 
 const port = process.env.PORT || 5500;
-app.listen(port, () => console.log(`%s Server is listening on port ${port}`, chalk.green('✓')));
+app.listen(port, () => console.log(`%s 🚀 Server is listening on port ${port}`, chalk.green('✓')));
