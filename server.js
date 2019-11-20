@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const multer = require('multer');
 const app = express();
+const webPush = require('web-push');
 // const winston = require('./src/config/winston-stream.config');
 const cool = require('cool-ascii-faces');
 require('dotenv').config();
@@ -53,7 +54,6 @@ require('./src/utilities/response-handler.utility')(app);
 
 // db config
 require('./src/config/db.config');
-
 
 const port = process.env.PORT || 5500;
 app.listen(port, () => console.log(`%s 🚀 Server is listening on port ${port}`, chalk.green('✓')));
