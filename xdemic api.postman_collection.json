@@ -19,16 +19,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"ho la la\",\n    \"subjectWebpage\": \"bar\",\n    \"address\": \"asdas\",\n    \"offers\": \"asdas\",\n    \"agentSectorType\": \"asdasd\",\n    \"agentType\": \"asdasd\",\n    \"email\": \"asdasd\",\n    \"telephone\": \"123123\"\n}"
+					"raw": "{\n\t\"name\": \"bc\",\n\t\"yo\": \"asdsa\"\n}"
 				},
 				"url": {
-					"raw": "https://xdemic-api.herokuapp.com/school",
-					"protocol": "https",
+					"raw": "http://localhost:8300/school",
+					"protocol": "http",
 					"host": [
-						"xdemic-api",
-						"herokuapp",
-						"com"
+						"localhost"
 					],
+					"port": "8300",
 					"path": [
 						"school"
 					]
@@ -353,13 +352,12 @@
 					"raw": "{\n    \"fullName\": \"Madison Williams\",\n    \"givenName\": \"Madison\",\n    \"familyName\": \"Williams\",\n    \"email\": \"mwilliams@example.org\",\n    \"mobile\": \"0000000000\",\n    \"URL\": \"http://example.org/mwilliams\",\n    \"studentId\": \"123456789\",\n    \"birthDate\": \"1989-01-01\",\n    \"sourcedId\": \"0123456789\"\n}"
 				},
 				"url": {
-					"raw": "https://xdemic-api.herokuapp.com/student",
-					"protocol": "https",
+					"raw": "http://localhost:8300/student",
+					"protocol": "http",
 					"host": [
-						"xdemic-api",
-						"herokuapp",
-						"com"
+						"localhost"
 					],
+					"port": "8300",
 					"path": [
 						"student"
 					]
@@ -417,6 +415,62 @@
 					"port": "8300",
 					"path": [
 						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Favorite Schools",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"did\": \"did:ethr:aasdfsdh7d\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8200/favschool/did:ethr:0x7e4b4c61d7dc9e2da53375e92cc75888dddeaf79",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"favschool",
+						"did:ethr:0x7e4b4c61d7dc9e2da53375e92cc75888dddeaf79"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Fav Schools",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/favschools/did:ethr:0x7e4b4c61d7dc9e2da53375e92cc75888dddeaf79",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"favschools",
+						"did:ethr:0x7e4b4c61d7dc9e2da53375e92cc75888dddeaf79"
 					]
 				}
 			},
