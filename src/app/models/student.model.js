@@ -38,7 +38,15 @@ const StudentSchema = mongoose.Schema({
         type: String,
         default: ''
     },
-    favoriteSchools: [String]
+    favoriteSchools: [
+        {
+            schoolDID: String,
+            isFavorite: {
+                type: Boolean,
+                default: false
+            }
+        }
+    ]
 }, {
     timestamps: true
 });

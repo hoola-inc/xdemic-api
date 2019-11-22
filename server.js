@@ -13,7 +13,7 @@ const webPush = require('web-push');
 // const winston = require('./src/config/winston-stream.config');
 const cool = require('cool-ascii-faces');
 require('dotenv').config();
- // slack working 
+// slack working 
 
 // providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(cors());
@@ -39,8 +39,7 @@ app.get("/", (req, res, next) => {
     return res.status(200).json({ message: "Welcome to XdemiC api ", cheers: cool() });
 });
 
-
-const publicDir = require('path').join(__dirname,'./public');
+const publicDir = require('path').join(__dirname, './public');
 // console.log(publicDir);
 app.use(express.static(publicDir));
 

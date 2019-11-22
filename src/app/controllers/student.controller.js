@@ -145,11 +145,10 @@ exports.getfavoriteSchools = async (req, res, next) => {
 exports.updateFavSchoolArray = async (req, res, next) => {
     try {
         const schoolDID = req.body.did;
+        const isFavorite = req.body.isFavorite;
         const studentDID = req.params.id;
         const schoolUpdated = await updateArrayHelper.favoriteSchools(studentDID, schoolDID);
-        if (schoolUpdated) {
-            next(schoolUpdated);
-        }
+        next(schoolUpdated);
     } catch (error) {
         next(error);
     }

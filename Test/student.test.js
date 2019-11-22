@@ -24,7 +24,7 @@ describe('Stuents', () => {
     describe('/GET student', () => {
         it('it should GET all the books', (done) => {
             chai.request(server)
-                .get('/book')
+                .get('/students')
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('array');

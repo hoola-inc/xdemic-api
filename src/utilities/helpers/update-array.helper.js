@@ -95,32 +95,21 @@ exports.updateStudentArrayInCourse = (studentDID, courseId) => {
     })
 }
 
-// TODO better approach to update an array
 exports.favoriteSchools = (studentDID, schoolDID) => {
     return new Promise((resolve, reject) => {
         studentSchema.update({
             did: studentDID
         }, {
-            $addToSet: { favoriteSchools: schoolDID }
+            $set: {
+                isFavorite: true
+            }
         })
             .then(data => {
-                resolve('updated');
+                resolve(data);
             })
             .catch(err => {
                 reject(err);
             })
-
-        // studentSchema.findOne({ did: studentDID }, function (err, doc) {
-        //     console.log('here ... ');
-        //     doc.favoriteSchools.push(schoolDID);
-        //     doc.save()
-        //         .then(data => {
-        //             resolve(data);
-        //         })
-        //         .catch(err => {
-        //             reject(err);
-        //         })
-        // });
 
     })
 };
