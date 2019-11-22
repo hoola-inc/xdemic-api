@@ -44,3 +44,14 @@ exports.createPerson = async (req, res, next) => {
         next(error);
     }
 }
+
+exports.csvFile = (req, res, next) => {
+    console.log('here ');
+    console.log(req.file)
+    if(req.file) {
+        res.status(200).json({
+            status: true,
+            message: 'file uploaded successfully'
+        })
+    }
+}
