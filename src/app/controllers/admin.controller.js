@@ -20,7 +20,7 @@ exports.adminQRCode = async (req, res, next) => {
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
             const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
             console.log(qr);
-            res.send(`<div><img src="${qr}"/></div>`);
+            res.send(qr);
         }
     } catch (error) {
         next(error);
