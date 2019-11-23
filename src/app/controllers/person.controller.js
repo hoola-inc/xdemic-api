@@ -12,6 +12,7 @@ const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const saveCredentials = require('../../utilities/save-credentials');
 const encryptMessage = require('../../utilities/encryption.utility');
+const csvReader = require('../../utilities/csv.utility');
 
 exports.createPerson = async (req, res, next) => {
     try {
@@ -45,13 +46,12 @@ exports.createPerson = async (req, res, next) => {
     }
 }
 
-exports.csvFile = (req, res, next) => {
-    console.log('here ');
-    console.log(req.file)
-    if(req.file) {
-        res.status(200).json({
-            status: true,
-            message: 'file uploaded successfully'
-        })
+exports.csvFile = async (req, res, next) => {
+    try {
+        const fileName = req.file.filename;
+        const csvData = await csvReader.readCSV(fileName);
+        next(csvData);
+    } catch (error) {
+        next(error);
     }
 }

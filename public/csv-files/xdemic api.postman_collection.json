@@ -1,0 +1,480 @@
+{
+	"info": {
+		"_postman_id": "8784f285-cb53-46ca-bcb8-f2a58a58fb10",
+		"name": "xdemic api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add New School",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"bc\",\n\t\"yo\": \"asdsa\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8300/school",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8300",
+					"path": [
+						"school"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Schools Record",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/schools",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"schools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Schools in Signed JWT Form",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/schoolwithjwt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"schoolwithjwt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sent Email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"bamboowaddle@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8200/email",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all student in json form",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "student as signed jwt",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/student/did:ethr:0xfc25e43135508354a6d0bbc73b3003b60c37f8fa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"student",
+						"did:ethr:0xfc25e43135508354a6d0bbc73b3003b60c37f8fa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "couse http url",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/httpcourse",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"httpcourse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new course",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"name\": \"Physics 101\"\n}"
+				},
+				"url": {
+					"raw": "https://xdemic-api.herokuapp.com/course",
+					"protocol": "https",
+					"host": [
+						"xdemic-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"course"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Courses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8300/courses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8300",
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Course with jwt",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8300/course/did:ethr:0x23b95212868e76a7300e8ca75bb2d90c6097f226",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8300",
+					"path": [
+						"course",
+						"did:ethr:0x23b95212868e76a7300e8ca75bb2d90c6097f226"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Display school on http",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/httpschool",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"httpschool"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update student by id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"courseId\": \"5d8626221da4cb001719c8ac\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8200/student/5d87b43d255ab400173caf8d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"student",
+						"5d87b43d255ab400173caf8d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get enroll students",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8200/enrollstudents/5d8626221da4cb001719c8ac",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"enrollstudents",
+						"5d8626221da4cb001719c8ac"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get school with student did",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8300/schoolwithstudentenroll/did:ethr:0xaa95572757a15e8546106f071664aa1b8ef605c0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8300",
+					"path": [
+						"schoolwithstudentenroll",
+						"did:ethr:0xaa95572757a15e8546106f071664aa1b8ef605c0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Student and Credentials",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"Madison Williams\",\n    \"givenName\": \"Madison\",\n    \"familyName\": \"Williams\",\n    \"email\": \"mwilliams@example.org\",\n    \"mobile\": \"0000000000\",\n    \"URL\": \"http://example.org/mwilliams\",\n    \"studentId\": \"123456789\",\n    \"birthDate\": \"1989-01-01\",\n    \"sourcedId\": \"0123456789\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8300/student",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8300",
+					"path": [
+						"student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Student Record",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8300/student/did:ethr:0xe716d0047fc20211a73eed92345b4194eec15a19",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8300",
+					"path": [
+						"student",
+						"did:ethr:0xe716d0047fc20211a73eed92345b4194eec15a19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Person",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fullName\": \"Madison Williams\",\n    \"givenName\": \"Madison\",\n    \"familyName\": \"Williams\",\n    \"email\": \"mwilliams@example.org\",\n    \"mobile\": \"0000000000\",\n    \"URL\": \"http://example.org/mwilliams\",\n    \"studentId\": \"123456789\",\n    \"birthDate\": \"1989-01-01\",\n    \"sourcedId\": \"0123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8300/person",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8300",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Favorite Schools",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"did\": \"did:ethr:aasdfsdh7d\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8200/favschool/did:ethr:0x7e4b4c61d7dc9e2da53375e92cc75888dddeaf79",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"favschool",
+						"did:ethr:0x7e4b4c61d7dc9e2da53375e92cc75888dddeaf79"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Fav Schools",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/favschools/did:ethr:0x7e4b4c61d7dc9e2da53375e92cc75888dddeaf79",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"favschools",
+						"did:ethr:0x7e4b4c61d7dc9e2da53375e92cc75888dddeaf79"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
