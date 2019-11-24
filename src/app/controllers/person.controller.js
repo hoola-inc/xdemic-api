@@ -46,6 +46,25 @@ exports.createPerson = async (req, res, next) => {
     }
 }
 
+exports.getAllPersons = async (req, res, next) => {
+    try {
+        const persons = await PersonSchema.find();
+        if(persons.length > 0) {
+            return res.status(200).json({
+                status: true,
+                data: persons
+            })
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'no record found'
+            })
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
 exports.csvFile = async (req, res, next) => {
     try {
         const fileName = req.file.filename;
