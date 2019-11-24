@@ -31,7 +31,7 @@ const StudentSchema = mongoose.Schema({
     },
     type: {
         type: String,
-        default: 'Person'
+        default: 'Student'
     },
     
     courseId: {
