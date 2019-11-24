@@ -37,20 +37,9 @@ app.get("/", (req, res, next) => {
     return res.status(200).json({ message: "Welcome to XdemiC api ", cheers: cool() });
 });
 
-const publicDir = require('path').join(__dirname, './public');
-// console.log(publicDir);
-app.use(express.static(publicDir));
 
 
-// import all routes at once
-require('./src/utilities/routes.utility')(app);
 
-// Handling non-existing routes
-// Handling non-existing routes
-require('./src/utilities/response-handler.utility')(app);
-
-// db config
-require('./src/config/db.config');
 
 
 const webPush = require('web-push');
@@ -75,6 +64,31 @@ app.post('/notifications/subscribe', (req, res) => {
 
     res.status(200).json({ 'success': true })
 });
+
+
+
+
+
+
+
+
+
+
+
+const publicDir = require('path').join(__dirname, './public');
+// console.log(publicDir);
+app.use(express.static(publicDir));
+
+
+// import all routes at once
+require('./src/utilities/routes.utility')(app);
+
+// Handling non-existing routes
+// Handling non-existing routes
+require('./src/utilities/response-handler.utility')(app);
+
+// db config
+require('./src/config/db.config');
 
 
 
