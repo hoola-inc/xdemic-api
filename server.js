@@ -7,9 +7,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const multer = require('multer');
 const app = express();
-const webPush = require('web-push');
 // const winston = require('./src/config/winston-stream.config');
 const cool = require('cool-ascii-faces');
 require('dotenv').config();
@@ -53,6 +51,32 @@ require('./src/utilities/response-handler.utility')(app);
 
 // db config
 require('./src/config/db.config');
+
+
+const webPush = require('web-push');
+
+webPush.setGCMAPIKey(process.env.GOOGLE_API_KEY);
+webPush.setVapidDetails(process.env.WEB_PUSH_CONTACT, process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY);
+
+
+app.post('/notifications/subscribe', (req, res) => {
+    const subscription = req.body
+
+    console.log(subscription)
+
+    const payload = JSON.stringify({
+        title: 'Hello!',
+        body: 'It works.',
+    });
+
+    webPush.sendNotification(subscription, payload)
+        .then(result => console.log(result))
+        .catch(e => console.log(e.stack))
+
+    res.status(200).json({ 'success': true })
+});
+
+
 
 const port = process.env.PORT || 5500;
 app.listen(port, () => console.log(`%s 🚀 Server is listening on port ${port}`, chalk.green('✓')));
