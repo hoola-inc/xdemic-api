@@ -10,9 +10,7 @@
     "start": "node server.js",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
-    "test": "mocha",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

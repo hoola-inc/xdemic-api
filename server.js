@@ -78,7 +78,7 @@ const getApiAndEmit = async socket => {
     try {
 
         socket.emit("StudentRequest", {
-            'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
+            text: "Bugti Bhai Socket hian BSDK"
         }); // Emitting a new message. It will be consumed by the client
     } catch (error) {
         console.error(`Error: ${error.message}`);
