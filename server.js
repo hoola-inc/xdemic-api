@@ -75,7 +75,8 @@ const getApiAndEmit = async socket => {
     try {
 
         socket.emit("StudentRequest", {
-            text: "Testing again!"
+            status: true,
+            data: "i am working!"
         }); // Emitting a new message. It will be consumed by the client
 
 
