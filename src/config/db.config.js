@@ -16,7 +16,7 @@ mongoose
         }
     )
     .then(() => {
-        console.log("%s Successfully connected to the database", chalk.green('✓'));
+        console.log("%s 🚀 Successfully connected to the database", chalk.green('✓'));
     })
     .catch(err => {
         console.log("Could not connect to the database", chalk.red(err.message));

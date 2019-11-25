@@ -11,7 +11,6 @@ const app = express();
 // const winston = require('./src/config/winston-stream.config');
 const cool = require('cool-ascii-faces');
 require('dotenv').config();
-// slack working 
 
 // providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(cors());
@@ -43,6 +42,8 @@ app.get("/", (req, res, next) => {
 
 
 const webPush = require('web-push');
+
+// console.log(webPush.generateVAPIDKeys());
 
 webPush.setGCMAPIKey(process.env.GOOGLE_API_KEY);
 webPush.setVapidDetails(process.env.WEB_PUSH_CONTACT, process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY);

@@ -53,10 +53,10 @@ exports.getSchool = async (req, res, next) => {
     try {
         const getSchools = await SchoolSchema.find();
         if (getSchools.length > 0) {
-            // const schoolDataHash = await jwtSignature.jwtSchema(process.env.SERVER_DID, getSchools);
+            const schoolDataHash = await jwtSignature.jwtSchema(process.env.SERVER_DID, getSchools);
             return res.status(200).json({
                 status: true,
-                data: getSchools
+                data: schoolDataHash
             });
         } else {
             return res.status(200).json({
