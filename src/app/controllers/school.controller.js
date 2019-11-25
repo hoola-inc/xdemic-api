@@ -25,24 +25,18 @@ exports.createSchool = async (req, res, next) => {
         // setting school did
         newSchool.did = did;
         const createNewSchool = await newSchool.save();
-        if (createNewSchool) {
-            console.log('School created');
+        console.log('School created');
 
-            // waiting to write file with new school data
-            const isWritten = await writeFile.writeToFile(did, 'schools', createNewSchool);
-            if (isWritten) {
-                // hosting to ipfs 
-                const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
-                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
-                if (ipfsFileHash) {
-                    return res.status(200).json({
-                        status: true,
-                        data: createNewSchool,
-                        ipfs: ipfsLink.ipfsURL + ipfsFileHash
-                    });
-                }
-            }
-        }
+        // waiting to write file with new school data
+        const isWritten = await writeFile.writeToFile(did, 'schools', createNewSchool);
+        // hosting to ipfs 
+        // const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
+        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+        return res.status(200).json({
+            status: true,
+            data: createNewSchool,
+            // ipfs: ipfsLink.ipfsURL + ipfsFileHash
+        });
     } catch (error) {
         console.log(error);
         next(error);
