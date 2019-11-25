@@ -69,17 +69,16 @@ io.on("connection", socket => {
     if (interval) {
         clearInterval(interval);
     }
-    interval = setInterval(() => getApiAndEmit(socket), 10000);
-    socket.on("disconnect", () => {
-        console.log("Client disconnected");
-    });
+    getApiAndEmit(socket);
 });
 const getApiAndEmit = async socket => {
     try {
 
         socket.emit("StudentRequest", {
-            text: "Bugti Bhai Socket hian BSDK"
+            text: "Testing again!"
         }); // Emitting a new message. It will be consumed by the client
+
+
     } catch (error) {
         console.error(`Error: ${error.message}`);
     }
