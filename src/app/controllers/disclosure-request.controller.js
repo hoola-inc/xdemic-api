@@ -11,7 +11,7 @@ const credentials = new Credentials(serverCredentials);
 exports.showQRCode = async (req, res, next) => {
     try {
         const requestToken = await credentials.createDisclosureRequest({
-            requested: ["fullName", "givenName", "familyName", "email", "mobile", "birthDate"],
+            requested: ["name", "email", "phone", "birthDate"],
             notifications: true,
             callbackUrl: process.env.BASE_URL.concat('callback'),
             callback_url: process.env.BASE_URL.concat('callback')
@@ -40,6 +40,8 @@ exports.verifyClaims = async (req, res, next) => {
             // push token and public encryption key (boxPub)
             const push = transports.push.send(creds.pushToken, creds.boxPub);
             const newStudent = new StudentSchema(creds);
+            newStudent.fullName = creds.name;
+            newStudent.mobile = creds.phone;
             const createStudent = await newStudent.save();
             if (createStudent) {
                 console.log('Student Created');
