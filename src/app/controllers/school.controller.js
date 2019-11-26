@@ -15,7 +15,9 @@ exports.createSchool = async (req, res, next) => {
 
     try {
         // TODO change here for req timeout...
-        req.connection.setTimeout(500000);
+
+        req.setTimeout(40000000000000000000);
+        
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
@@ -30,8 +32,8 @@ exports.createSchool = async (req, res, next) => {
         // waiting to write file with new school data
         const isWritten = await writeFile.writeToFile(did, 'schools', createNewSchool);
         // hosting to ipfs 
-        // const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
-        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+        const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
+        const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
         return res.status(200).json({
             status: true,
             data: createNewSchool,

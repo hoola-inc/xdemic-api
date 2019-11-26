@@ -22,7 +22,16 @@ exports.showQRCode = async (req, res, next) => {
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
             const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
             console.log(qr);
-            res.send(`<div><img src="${qr}" /></div>`);
+            const logoPath = `${process.env.BASE_URL}img/logo.png`;
+            const htmlNode = `<div style="width: 100%;display: flex;justify-content:center ;align-items: center;height: 100vh;">
+                        <div style=" width: 1000px; display: block;">
+                        <img src="${logoPath}" style=" width: 100%; display: block;"/>
+                        </div>
+                        <div className="qr_code">
+                            <img src="${qr}" width='400' height='400' />
+                        </div>
+                    </div>`;
+            res.send(htmlNode);
         }
     } catch (error) {
         next(error);
