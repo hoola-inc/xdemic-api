@@ -30,6 +30,8 @@ const CourseSchema = mongoose.Schema({
                         }
                 }
         }],
+        courseCode: String,
+        prerequisites: String,
         creditsAvailable: Number,
         name: {
                 type: String,
