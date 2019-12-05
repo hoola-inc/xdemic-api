@@ -28,19 +28,15 @@ exports.createPerson = async (req, res, next) => {
         addNewPerson.did = did;
 
         const createNewPerson = await addNewPerson.save();
-        if (createNewPerson) {
-            const isWritten = await writeFile.writeToFile(did, 'persons', createNewPerson);
-            if (isWritten) {
-                const path = require('path').join(__dirname, `../../../public/files/persons/${did}.json`);
-                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+        const isWritten = await writeFile.writeToFile(did, 'persons', createNewPerson);
+        // const path = require('path').join(__dirname, `../../../public/files/persons/${did}.json`);
+        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
 
-                return res.status(200).json({
-                    status: true,
-                    data: createNewPerson,
-                    ipfs: ipfsLink.ipfsURL + ipfsFileHash
-                });
-            }
-        }
+        return res.status(200).json({
+            status: true,
+            data: createNewPerson,
+            // ipfs: ipfsLink.ipfsURL + ipfsFileHash
+        });
     } catch (error) {
         next(error);
     }
@@ -49,7 +45,7 @@ exports.createPerson = async (req, res, next) => {
 exports.getAllPersons = async (req, res, next) => {
     try {
         const persons = await PersonSchema.find();
-        if(persons.length > 0) {
+        if (persons.length > 0) {
             return res.status(200).json({
                 status: true,
                 data: persons

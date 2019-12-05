@@ -11,6 +11,7 @@ exports.addFileIPFS = async (fileName, filePath) => {
             content: file
         });
         const fileHash = fileAdded[0].hash;
+        console.log(fileHash);
         if (fileHash) {
             const createIPFSFileHash = new ipfsModel({
                 did: fileName,
@@ -24,7 +25,7 @@ exports.addFileIPFS = async (fileName, filePath) => {
             throw new Error('IPFS Hash not found');
         }
         // console.log(fileHash);
-        return fileHash;
+        // return fileHash;
     } catch (error) {
         // console.log(error);
         throw new Error(error);

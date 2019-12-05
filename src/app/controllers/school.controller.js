@@ -14,33 +14,27 @@ const updateArrayHelper = require('../../utilities/helpers/update-array.helper')
 exports.createSchool = async (req, res, next) => {
 
     try {
-        // TODO change here for req timeout...
-
-        req.setTimeout(40000000000000000000);
         
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
 
-        const newSchool = new SchoolSchema(req.body, true);
-
+        const newSchool = new SchoolSchema(req.body);
         // setting school did
         newSchool.did = did;
         const createNewSchool = await newSchool.save();
-        console.log('School created');
 
         // waiting to write file with new school data
-        const isWritten = await writeFile.writeToFile(did, 'schools', createNewSchool);
+        await writeFile.writeToFile(did, 'schools', createNewSchool);
         // hosting to ipfs 
-        const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
-        const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+        // const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
+        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
         return res.status(200).json({
             status: true,
             data: createNewSchool,
             // ipfs: ipfsLink.ipfsURL + ipfsFileHash
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
