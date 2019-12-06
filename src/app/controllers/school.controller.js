@@ -9,49 +9,40 @@ const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const jwtSignature = require('../../utilities/jwt-signature-generator');
 const fs = require('fs');
+const updateArrayHelper = require('../../utilities/helpers/update-array.helper');
 
 exports.createSchool = async (req, res, next) => {
 
     try {
-        // TODO change here for req timeout...
-        req.connection.setTimeout(500000);
+        
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
 
         const newSchool = new SchoolSchema(req.body);
-
         // setting school did
         newSchool.did = did;
         const createNewSchool = await newSchool.save();
-        if (createNewSchool) {
-            console.log('School created');
 
-            // waiting to write file with new school data
-            const isWritten = await writeFile.writeToFile(did, 'schools', createNewSchool);
-            if (isWritten) {
-                // hosting to ipfs 
-                const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
-                const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
-                if (ipfsFileHash) {
-                    return res.status(200).json({
-                        status: true,
-                        data: createNewSchool,
-                        ipfs: ipfsLink.ipfsURL + ipfsFileHash
-                    });
-                }
-            }
-        }
+        // waiting to write file with new school data
+        await writeFile.writeToFile(did, 'schools', createNewSchool);
+        // hosting to ipfs 
+        // const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
+        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+        return res.status(200).json({
+            status: true,
+            data: createNewSchool,
+            // ipfs: ipfsLink.ipfsURL + ipfsFileHash
+        });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
 
-exports.getSchool = async(req, res, next) => {
+exports.getSchool = async (req, res, next) => {
     try {
         const getSchools = await SchoolSchema.find();
-        if(getSchools.length > 0) {
+        if (getSchools.length > 0) {
             const schoolDataHash = await jwtSignature.jwtSchema(process.env.SERVER_DID, getSchools);
             return res.status(200).json({
                 status: true,
@@ -67,6 +58,8 @@ exports.getSchool = async(req, res, next) => {
         next(error);
     }
 };
+
+
 
 // exports.createSchool = async (req, res, next) => {
 //     const school = await schoolExist(req);
@@ -212,13 +205,15 @@ exports.getSchool = async(req, res, next) => {
 
 
 exports.getSchoolWithStudent = (req, res, next) => {
-    console.log(req.params.did);
 
     // todo cahnge here 
     // SchoolSchema.find({
     //     "student.studentDID": req.params.did
     // })
-    SchoolSchema.find()
+    const schoolDID = req.params.did;
+    SchoolSchema.find({
+        did: schoolDID
+    })
         .then(data => {
             console.log(data);
             if (data.length > 0) {
@@ -263,27 +258,3 @@ exports.getSchoolWithSignedJWT = (req, res, next) => {
             next(err.message);
         })
 }
-
-function createNewSchool(req, schoolDid, res, next) {
-    const newSchool = new SchoolSchema({
-        name: req.body.name,
-        address: req.body.address,
-        email: req.body.email,
-        subjectWebpage: req.body.subjectWebpage,
-        agentSectorType: req.body.agentSectorType,
-        agentType: req.body.agentType,
-        description: req.body.description,
-        did: schoolDid
-    });
-    newSchool.save()
-        .then(data => {
-            return res.status(200).json({
-                status: true,
-                data: data
-            });
-        })
-        .catch(err => {
-            next(err.message);
-        });
-}
-

@@ -9,7 +9,7 @@ exports.adminQRCode = async (req, res, next) => {
 
     try {
         const requestToken = await serverCredentials.createDisclosureRequest({
-            requested: ["fullName", "givenName", "familyName", "email", "mobile", "birthDate"],
+            requested: ["name", "email", "phone", "birthDate"],
             notifications: true,
             callbackUrl: process.env.BASE_URL.concat('callback'),
             callback_url: process.env.BASE_URL.concat('callback')
@@ -18,9 +18,9 @@ exports.adminQRCode = async (req, res, next) => {
         if (requestToken) {
             console.log(decodeJWT(requestToken));  //log request token to console
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
-            const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
+            const qr = transports.ui.getImageDataURI(uri); // TODO change here with google playstore link ...
             console.log(qr);
-            res.send(`<div><img src="${qr}"/></div>`);
+            res.send(qr);
         }
     } catch (error) {
         next(error);
@@ -43,6 +43,8 @@ exports.createAdmin = async (req, res, next) => {
         if (creds) {
             const push = transports.push.send(creds.pushToken, creds.boxPub);
             const newAdmin = new AdminModel(creds);
+            newAdmin.fullName = creds.name;
+            newAdmin.mobile = creds.phone;
             const createNewAdmin = await newAdmin.save();
             if (createNewAdmin) {
                 console.log('Admin created successfully...');

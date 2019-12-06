@@ -4,14 +4,14 @@ const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
 const serverCredentials = require('../../constants/main.constant').credentials;
-const updateStudentArray = require('../../utilities/helpers/update-array.helper');
+const updateArrayInSchoolSchema = require('../../utilities/helpers/update-array.helper');
 
 const credentials = new Credentials(serverCredentials);
 
 exports.showQRCode = async (req, res, next) => {
     try {
         const requestToken = await credentials.createDisclosureRequest({
-            requested: ["fullName", "givenName", "familyName", "email", "mobile", "birthDate"],
+            requested: ["name", "email", "phone", "birthDate"],
             notifications: true,
             callbackUrl: process.env.BASE_URL.concat('callback'),
             callback_url: process.env.BASE_URL.concat('callback')
@@ -22,7 +22,16 @@ exports.showQRCode = async (req, res, next) => {
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
             const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
             console.log(qr);
-            res.send(`<div><img src="${qr}"/></div>`);
+            const logoPath = `${process.env.BASE_URL}img/logo.png`;
+            const htmlNode = `<div style="width: 100%;display: flex;justify-content:center ;align-items: center;height: 100vh;">
+                        <div style=" width: 1000px; display: block;">
+                        <img src="${logoPath}" style=" width: 100%; display: block;"/>
+                        </div>
+                        <div className="qr_code">
+                            <img src="${qr}" width='400' height='400' />
+                        </div>
+                    </div>`;
+            res.send(htmlNode);
         }
     } catch (error) {
         next(error);
@@ -40,13 +49,15 @@ exports.verifyClaims = async (req, res, next) => {
             // push token and public encryption key (boxPub)
             const push = transports.push.send(creds.pushToken, creds.boxPub);
             const newStudent = new StudentSchema(creds);
+            newStudent.fullName = creds.name;
+            newStudent.mobile = creds.phone;
             const createStudent = await newStudent.save();
             if (createStudent) {
                 console.log('Student Created');
                 // update student array
 
-                const updateStudentArray = await updateStudentArray.addStudentInSchool(creds.did);
-                if (updateStudentArray) {
+                const updated = await updateArrayInSchoolSchema.addStudentInSchool(creds.did);
+                if (updated) {
                     createVerification(creds, push, next);
                 }
             }

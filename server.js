@@ -7,8 +7,10 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const multer = require('multer');
-const app = express();
+const socket = require('socket.io');
+const app = express()
+    , server = require('http').createServer(app)
+    , io = socket.listen(server);
 // const winston = require('./src/config/winston-stream.config');
 const cool = require('cool-ascii-faces');
 require('dotenv').config();
@@ -39,7 +41,9 @@ app.get("/", (req, res, next) => {
 });
 
 
-const publicDir = require('path').join(__dirname,'./public');
+
+
+const publicDir = require('path').join(__dirname, './public');
 // console.log(publicDir);
 app.use(express.static(publicDir));
 
@@ -48,11 +52,37 @@ app.use(express.static(publicDir));
 require('./src/utilities/routes.utility')(app);
 
 // Handling non-existing routes
-require('./src/utilities/error-handler.utility')(app);
+// Handling non-existing routes
+require('./src/utilities/response-handler.utility')(app);
 
 // db config
 require('./src/config/db.config');
 
 
+
 const port = process.env.PORT || 5500;
-app.listen(port, () => console.log(`%s Server is listening on port ${port}`, chalk.green('✓')));
+server.listen(port, () => console.log(`%s 🚀 Server is listening on port ${port}`, chalk.green('✓')));
+server.timeout = 240000;
+
+// socket io connection 
+let interval;
+io.on("connection", socket => {
+    console.log("New client connected");
+    if (interval) {
+        clearInterval(interval);
+    }
+    getApiAndEmit(socket);
+});
+const getApiAndEmit = async socket => {
+    try {
+
+        socket.emit("StudentRequest", {
+            status: true,
+            data: "i am working!"
+        }); // Emitting a new message. It will be consumed by the client
+
+
+    } catch (error) {
+        console.error(`Error: ${error.message}`);
+    }
+};

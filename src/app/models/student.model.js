@@ -31,13 +31,22 @@ const StudentSchema = mongoose.Schema({
     },
     type: {
         type: String,
-        default: 'Person'
+        default: 'Student'
     },
-
+    
     courseId: {
         type: String,
         default: ''
-    }
+    },
+    favoriteSchools: [
+        {
+            schoolDID: String,
+            isFavorite: {
+                type: Boolean,
+                default: false
+            }
+        }
+    ]
 }, {
     timestamps: true
 });
@@ -46,7 +55,7 @@ const StudentSchema = mongoose.Schema({
 
 StudentSchema.pre("save", function (next) {
     const self = this;
-
+    console.log(this);
     mongoose.models["Student"].findOne({ did: this.did }, function (err, results) {
         if (err) {
             next(err);
