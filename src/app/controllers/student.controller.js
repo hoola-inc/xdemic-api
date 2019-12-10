@@ -17,24 +17,27 @@ const schoolSchema = require('../models/school.model');
 
 exports.addStudent = async (req, res, next) => {
     try {
-        // TODO change here for req timeout...
-        req.setTimeout(120000);
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
 
+        // add new student
         const addNewStudent = new studentModel(req.body, true);
         addNewStudent.did = did;
-
         const createStudent = await addNewStudent.save();
-        const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
-        // const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
-        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
 
+        // write to file
+        await writeFile.writeToFile(did, 'students', createStudent);
+
+        // ipfs
+        const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
+        const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+
+        // return reponse
         return res.status(200).json({
             status: true,
             data: createStudent,
-            // ipfs: ipfsLink.ipfsURL + ipfsFileHash
+            ipfs: ipfsLink.ipfsURL + ipfsFileHash
         });
 
     } catch (error) {
