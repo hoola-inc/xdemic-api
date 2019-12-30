@@ -16,7 +16,7 @@ ENV DB_URL=mongodb+srv://xdemic:xdemic123@api-dev-cnwch.mongodb.net/test?retryWr
 ENV EMAIL=incxdemic@gmail.com
 ENV PASSWORD=123Xdemic123
 # change when deploy on server
-ENV BASE_URL=http://localhost:8300/
+ENV BASE_URL=http://localhost:8080/
 # web push notifications key
 ENV Student_Transcript_URL=https://xdemic-student-transcrip-cde91.firebaseapp.com
 # JWT secret
