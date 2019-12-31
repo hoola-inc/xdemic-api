@@ -51,16 +51,17 @@ exports.verifyClaims = async (req, res, next) => {
             const newStudent = new StudentSchema(creds);
             newStudent.fullName = creds.name;
             newStudent.mobile = creds.phone;
-            const createStudent = await newStudent.save();
-            if (createStudent) {
-                console.log('Student Created');
-                // update student array
+            createVerification(creds, push, next);
+            // const createStudent = await newStudent.save();
+            // if (createStudent) {
+            //     console.log('Student Created');
+            //     // update student array
 
-                const updated = await updateArrayInSchoolSchema.addStudentInSchool(creds.did);
-                if (updated) {
-                    createVerification(creds, push, next);
-                }
-            }
+            //     const updated = await updateArrayInSchoolSchema.addStudentInSchool(creds.did);
+            //     if (updated) {
+            //         createVerification(creds, push, next);
+            //     }
+            // }
         }
     } catch (error) {
         next(error);
