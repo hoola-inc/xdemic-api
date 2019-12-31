@@ -113,7 +113,10 @@ const SchoolRegSchema = mongoose.Schema({
     }],
     courses: [{
         courseDID: String
-    }]
+    }],
+    privileges: {
+        type: String
+    }
 }, {
     timestamps: true
 });

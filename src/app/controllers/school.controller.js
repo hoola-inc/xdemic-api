@@ -14,26 +14,38 @@ const updateArrayHelper = require('../../utilities/helpers/update-array.helper')
 exports.createSchool = async (req, res, next) => {
 
     try {
-        
-        //saving did and prvKey in credentials collection
-        const newCredentials = await saveCredentials.saveNewCredentials();
-        const did = newCredentials.did;
+        if (req.file) {
+            console.log('with file ... ');
+            //saving did and prvKey in credentials collection
+            const newCredentials = await saveCredentials.saveNewCredentials();
+            const did = newCredentials.did;
 
-        const newSchool = new SchoolSchema(req.body);
-        // setting school did
-        newSchool.did = did;
-        const createNewSchool = await newSchool.save();
+            const newSchool = new SchoolSchema(req.body);
+            // setting school did
+            newSchool.did = did;
+            newSchool.logo = req.file.name
 
-        // waiting to write file with new school data
-        // await writeFile.writeToFile(did, 'schools', createNewSchool);
-        // hosting to ipfs 
-        // const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
-        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
-        return res.status(200).json({
-            status: true,
-            data: createNewSchool
-            // ipfs: ipfsLink.ipfsURL + ipfsFileHash
-        });
+            const createNewSchool = await newSchool.save();
+            return res.status(200).json({
+                status: true,
+                data: createNewSchool
+            });
+        } else {
+            console.log('without file ...');
+            //saving did and prvKey in credentials collection
+            const newCredentials = await saveCredentials.saveNewCredentials();
+            const did = newCredentials.did;
+
+            const newSchool = new SchoolSchema(req.body);
+            // setting school did
+            newSchool.did = did;
+
+            const createNewSchool = await newSchool.save();
+            return res.status(200).json({
+                status: true,
+                data: createNewSchool
+            });
+        }
     } catch (error) {
         next(error);
     }
