@@ -11,7 +11,7 @@ const credentials = new Credentials(serverCredentials);
 exports.showQRCode = async (req, res, next) => {
     try {
         const requestToken = await credentials.createDisclosureRequest({
-            requested: ["name", "email", "phone", "birthDate"],
+            requested: ["name", "did", "department", "birthDate", "gender", "email", "phone", "avatar"],
             notifications: true,
             callbackUrl: process.env.BASE_URL.concat('callback'),
             callback_url: process.env.BASE_URL.concat('callback')
