@@ -9,7 +9,7 @@ exports.adminQRCode = async (req, res, next) => {
 
     try {
         const requestToken = await serverCredentials.createDisclosureRequest({
-            requested: ["full_name", "id", "department", "dob", "gender", "email", "mobile_number", "image_url"],
+            requested: ["name", "id", "department", "birthDate", "gender", "email", "phone", "avatar"],
             notifications: true,
             callbackUrl: process.env.BASE_URL.concat('callback'),
             callback_url: process.env.BASE_URL.concat('callback')

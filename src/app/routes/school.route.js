@@ -1,7 +1,8 @@
 module.exports = app => {
     const schoolController = require('../controllers/school.controller');
+    const uploadImage = require('../../utilities/multer.utilituy');
 
-    app.post('/school', schoolController.createSchool);
+    app.post('/school', uploadImage, schoolController.createSchool);
 
     app.get('/schools', schoolController.getSchool);
 

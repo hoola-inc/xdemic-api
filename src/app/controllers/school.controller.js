@@ -25,13 +25,13 @@ exports.createSchool = async (req, res, next) => {
         const createNewSchool = await newSchool.save();
 
         // waiting to write file with new school data
-        await writeFile.writeToFile(did, 'schools', createNewSchool);
+        // await writeFile.writeToFile(did, 'schools', createNewSchool);
         // hosting to ipfs 
         // const path = require('path').join(__dirname, `../../../public/files/schools/${did}.json`);
         // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
         return res.status(200).json({
             status: true,
-            data: createNewSchool,
+            data: createNewSchool
             // ipfs: ipfsLink.ipfsURL + ipfsFileHash
         });
     } catch (error) {
