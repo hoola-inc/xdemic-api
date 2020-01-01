@@ -24,10 +24,12 @@
   },
   "homepage": "https://github.com/HamzaBinSarfraz/Xdemic-api#readme",
   "dependencies": {
+    "acl": "^0.4.11",
     "app-root-path": "^2.2.1",
     "async": "^3.1.0",
     "blakejs": "^1.1.0",
     "body-parser": "^1.19.0",
+    "casbin": "^3.0.8",
     "chalk": "^2.4.2",
     "clf-date": "^0.1.0",
     "compression": "^1.7.4",

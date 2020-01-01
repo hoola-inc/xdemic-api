@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise;
 mongoose.set("useCreateIndex", true);
 
 // Connecting to the database
-mongoose
+const dbInstance = mongoose
     .connect(
         dbUrl,
         {
@@ -22,3 +22,7 @@ mongoose
         console.log("Could not connect to the database", chalk.red(err.message));
         process.exit();
     });
+
+module.exports = {
+    dbInstance: dbInstance
+}
