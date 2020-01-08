@@ -30,24 +30,17 @@ exports.createNewCourse = async (req, res, next) => {
         if (courseProofSignature) {
             // saving new course
             const createNewCourse = await newCourse.save();
-            if (createNewCourse) {
 
-                // waiting to write file with new course data
-                const isWritten = await writeFile.writeToFile(did, 'courses', createNewCourse);
-                if (isWritten) {
-                    // hosting to ipfs 
-                    // const path = require('path').join(__dirname, `../../../public/files/courses/${did}.json`);
-                    // // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
-                    // if (ipfsFileHash) {
-                    return res.status(200).json({
-                        status: true,
-                        data: createNewCourse,
-                        // ipfs: ipfsLink.ipfsURL + ipfsFileHash
-                    });
-                    // }
-                }
-
-            }
+            // waiting to write file with new course data
+            // const isWritten = await writeFile.writeToFile(did, 'courses', createNewCourse);
+            // hosting to ipfs 
+            // const path = require('path').join(__dirname, `../../../public/files/courses/${did}.json`);
+            // // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+            return res.status(200).json({
+                status: true,
+                data: createNewCourse,
+                // ipfs: ipfsLink.ipfsURL + ipfsFileHash
+            });
         }
     } catch (error) {
         next(error);

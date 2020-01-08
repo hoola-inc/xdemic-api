@@ -28,17 +28,17 @@ exports.addStudent = async (req, res, next) => {
         const createStudent = await addNewStudent.save();
 
         // write to file
-        await writeFile.writeToFile(did, 'students', createStudent);
+        // await writeFile.writeToFile(did, 'students', createStudent);
 
         // ipfs
-        const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
-        const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+        // const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
+        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
 
         // return reponse
         return res.status(200).json({
             status: true,
             data: createStudent,
-            ipfs: ipfsLink.ipfsURL + ipfsFileHash
+            // ipfs: ipfsLink.ipfsURL + ipfsFileHash
         });
 
     } catch (error) {
