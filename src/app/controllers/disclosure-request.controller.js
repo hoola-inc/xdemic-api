@@ -18,10 +18,10 @@ exports.showQRCode = async (req, res, next) => {
         });
 
         if (requestToken) {
-            console.log(decodeJWT(requestToken));  //log request token to console
+            // console.log(decodeJWT(requestToken));  //log request token to console
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
             const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
-            console.log(qr);
+            // console.log(qr);
             const logoPath = `${process.env.BASE_URL}img/logo.png`;
             const htmlNode = `<div style="width: 100%;display: flex;justify-content:center ;align-items: center;height: 100vh;">
                         <div style=" width: 1000px; display: block;">
@@ -88,7 +88,7 @@ function createVerification(creds, push, next) {
         })
         .catch(err => {
             console.log(err);
-            next(err.message);
+            next(err);
         });
 }
 

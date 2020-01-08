@@ -53,7 +53,7 @@ require('./src/utilities/routes.utility')(app);
 
 // Handling non-existing routes
 // Handling non-existing routes
-require('./src/utilities/response-handler.utility')(app);
+require('./src/utilities/error-handler.utility')(app);
 
 // db config
 require('./src/config/db.config');
@@ -62,27 +62,29 @@ require('./src/config/db.config');
 
 const port = process.env.PORT || 5500;
 server.listen(port, () => console.log(`%s 🚀 Server is listening on port ${port}`, chalk.green('✓')));
-server.timeout = 240000;
-
-// socket io connection 
-let interval;
-io.on("connection", socket => {
-    console.log("New client connected");
-    if (interval) {
-        clearInterval(interval);
-    }
-    getApiAndEmit(socket);
-});
-const getApiAndEmit = async socket => {
-    try {
-
-        socket.emit("StudentRequest", {
-            status: true,
-            data: "i am working!"
-        }); // Emitting a new message. It will be consumed by the client
 
 
-    } catch (error) {
-        console.error(`Error: ${error.message}`);
-    }
-};
+// server.timeout = 240000;
+
+// // socket io connection 
+// let interval;
+// io.on("connection", socket => {
+//     console.log("New client connected");
+//     if (interval) {
+//         clearInterval(interval);
+//     }
+//     getApiAndEmit(socket);
+// });
+// const getApiAndEmit = async socket => {
+//     try {
+
+//         socket.emit("StudentRequest", {
+//             status: true,
+//             data: "i am working!"
+//         }); // Emitting a new message. It will be consumed by the client
+
+
+//     } catch (error) {
+//         console.error(`Error: ${error.message}`);
+//     }
+// };

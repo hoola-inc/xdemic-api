@@ -14,6 +14,7 @@ const saveCredentials = require('../../utilities/save-credentials');
 const encryptMessage = require('../../utilities/encryption.utility');
 const updateArrayHelper = require('../../utilities/helpers/update-array.helper');
 const schoolSchema = require('../models/school.model');
+const response = require('../../utilities/response.utils');
 
 exports.addStudent = async (req, res, next) => {
     try {
@@ -132,7 +133,7 @@ exports.getfavoriteSchools = async (req, res, next) => {
                 }
             })
                 .then(data => {
-                    next(data);
+                    response.SUCCESS(res, data);
                 })
         } else {
             return res.status(200).json({

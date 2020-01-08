@@ -118,7 +118,7 @@ exports.getCourseById = (req, res, next) => {
             }
         })
         .catch(err => {
-            next(err.message);
+            next(err);
         })
 }
 
@@ -145,7 +145,7 @@ exports.updateCourseGrade = (req, res, next) => {
             }
         })
         .catch(err => {
-            next(err.message);
+            next(err);
         })
 }
 

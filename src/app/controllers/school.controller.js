@@ -241,7 +241,7 @@ exports.getSchoolWithStudent = (req, res, next) => {
             }
         })
         .catch(err => {
-            next(err.message);
+            next(err);
         })
 }
 
@@ -257,7 +257,7 @@ exports.getSchoolWithSignedJWT = (req, res, next) => {
                         })
                     })
                     .catch(err => {
-                        next(err.message)
+                        next(err)
                     })
             } else {
                 return res.status(200).json({
@@ -267,6 +267,6 @@ exports.getSchoolWithSignedJWT = (req, res, next) => {
             }
         })
         .catch(err => {
-            next(err.message);
+            next(err);
         })
 }

@@ -13,6 +13,8 @@ const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const saveCredentials = require('../../utilities/save-credentials');
 const encryptMessage = require('../../utilities/encryption.utility');
 const csvReader = require('../../utilities/csv.utility');
+const response = require('../../utilities/response.utils');
+
 
 exports.createPerson = async (req, res, next) => {
     try {
@@ -65,7 +67,21 @@ exports.csvFile = async (req, res, next) => {
     try {
         const fileName = req.file.filename;
         const csvData = await csvReader.readCSV(fileName);
-        next(csvData);
+        response.SUCCESS(res, csvData);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.blockPerson = async (req, res, next) => {
+    try {
+        const did = req.params.did;
+        const updateObject = {
+            isBlocked: req.body.isBlocked
+        };
+        await PersonSchema.updateOne({ did: did }, { $set: updateObject }, { runValidators: true });
+        const data = await PersonSchema.findOne({ did: did });
+        response.SUCCESS(res, data);
     } catch (error) {
         next(error);
     }
