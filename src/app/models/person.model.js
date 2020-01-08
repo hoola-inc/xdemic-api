@@ -5,7 +5,10 @@ const PersonSchema = mongoose.Schema({
     fullName: String,
     givenName: String,
     familyName: String,
-    URL: String,
+    URL: {
+        type: String,
+        default: ''
+    },
     pushToken: String,
     boxPub: String,
     birthDate: String,
