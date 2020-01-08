@@ -38,7 +38,8 @@ const PersonSchema = mongoose.Schema({
         default: 'Person'
     },
     isBlocked: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true

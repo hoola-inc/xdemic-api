@@ -5,4 +5,5 @@ module.exports = app => {
     app.post('/person', personController.createPerson);
     app.get('/persons', personController.getAllPersons);
     app.post('/person/csv', uploadImage, personController.csvFile);
+    app.put('/person/:did', personController.blockPerson);
 };
