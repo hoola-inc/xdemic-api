@@ -6,7 +6,12 @@ const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const jwtSigner = require('../../utilities/jwt-signature-generator');
+const response = require('../../utilities/response.utils');
 
+
+/**
+ * create new course
+ */
 
 exports.createNewCourse = async (req, res, next) => {
     try {
@@ -47,21 +52,16 @@ exports.createNewCourse = async (req, res, next) => {
     }
 };
 
+
+/**
+ * Find all courses
+ */
+
 exports.getAllCourses = async (req, res, next) => {
     try {
-        const allCourses = await CourseSchema.find();
-        if (allCourses.length > 0) {
-            return res.status(200).json({
-                status: true,
-                length: allCourses.length,
-                data: allCourses.reverse()
-            });
-        } else {
-            return res.status(200).json({
-                status: false,
-                message: 'no record found'
-            });
-        }
+        const getAllCourses = await CourseSchema.find().lean();
+        if (allCourses.length > 0) response.GETSUCCESS(res, getAllCourses.reverse());
+        else response.NOTFOUND(res);
     } catch (error) {
         next(error);
     }

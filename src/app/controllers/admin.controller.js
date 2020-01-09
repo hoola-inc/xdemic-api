@@ -5,6 +5,10 @@ const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
 
 
+/**
+ * Create QR Code
+ */
+
 exports.adminQRCode = async (req, res, next) => {
 
     try {
@@ -53,6 +57,10 @@ exports.createAdmin = async (req, res, next) => {
         next(error);
     }
 }
+
+/**
+ * create verification and send notification to xdemic mobile app
+ */
 
 function createVerification(creds, push, next) {
     serverCredentials.createVerification({

@@ -11,4 +11,6 @@ mongoose.model('OAuthToken', new Schema({
     refreshTokenExpiresOn: { type: Date },
     user: { type: Object },
     userId: { type: String },
-}));
+}, { timestamps: true }));
+
+module.exports = mongoose.model('OAuthToken', CourseSchema);
