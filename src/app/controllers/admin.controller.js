@@ -19,13 +19,11 @@ exports.adminQRCode = async (req, res, next) => {
             console.log(decodeJWT(requestToken));  //log request token to console
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
             const qr = transports.ui.getImageDataURI(uri); // TODO change here with google playstore link ...
-            console.log(qr);
             res.send(qr);
         }
     } catch (error) {
         next(error);
     }
-
 }
 
 exports.createAdmin = async (req, res, next) => {
