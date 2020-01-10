@@ -114,6 +114,7 @@ function createVerification(creds, push, next) {
 
 function socketSignal() {
     let interval;
+    console.log('io ::: ', io);
     io.on("connection", socket => {
         console.log("New client connected");
         if (interval) {
