@@ -73,24 +73,9 @@ server.listen(port, () => console.log(`%s 🚀 Server is listening on port ${por
 // server.timeout = 240000;
 
 // // socket io connection 
-// let interval;
-// io.on("connection", socket => {
-//     console.log("New client connected");
-//     if (interval) {
-//         clearInterval(interval);
-//     }
-//     getApiAndEmit(socket);
-// });
-// const getApiAndEmit = async socket => {
-//     try {
-
-//         socket.emit("StudentRequest", {
-//             status: true,
-//             data: "i am working!"
-//         }); // Emitting a new message. It will be consumed by the client
 
 
-//     } catch (error) {
-//         console.error(`Error: ${error.message}`);
-//     }
-// };
+module.exports = {
+    io: io,
+    socket: socket
+}

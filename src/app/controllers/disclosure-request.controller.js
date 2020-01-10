@@ -5,6 +5,9 @@ const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
 const serverCredentials = require('../../constants/main.constant').credentials;
 const updateArrayInSchoolSchema = require('../../utilities/helpers/update-array.helper');
+const io = require('../../../server').io;
+const socket = require('../../../server').socket;
+const AdminModel = require('../models/admin.model');
 
 const credentials = new Credentials(serverCredentials);
 
@@ -48,9 +51,10 @@ exports.verifyClaims = async (req, res, next) => {
             // set up a push transport with the provided 
             // push token and public encryption key (boxPub)
             const push = transports.push.send(creds.pushToken, creds.boxPub);
-            const newStudent = new StudentSchema(creds);
-            newStudent.fullName = creds.name;
-            newStudent.mobile = creds.phone;
+            console.log(creds);
+            // const createAdmin = new AdminModel(creds);
+            // createAdmin.fullName = creds.name;
+            // createAdmin.mobile = creds.phone;
             createVerification(creds, push, next);
             // const createStudent = await newStudent.save();
             // if (createStudent) {
@@ -85,6 +89,10 @@ function createVerification(creds, push, next) {
             console.log(res);
             console.log('Push notification sent and should be recieved any moment...');
             console.log('Accept the push notification in the xdemic mobile application');
+
+            socketSignal();
+
+
         })
         .catch(err => {
             console.log(err);
@@ -95,6 +103,28 @@ function createVerification(creds, push, next) {
 
 
 
+
+function socketSignal() {
+    let interval;
+    io.on("connection", socket => {
+        console.log("New client connected");
+        if (interval) {
+            clearInterval(interval);
+        }
+        getApiAndEmit(socket);
+    });
+    const getApiAndEmit = async (socket) => {
+        try {
+            socket.emit("QRCodeSuccess", {
+                status: true,
+                data: "good to go!"
+            }); // Emitting a new message. It will be consumed by the client
+        }
+        catch (error) {
+            console.error(`Error: ${error.message}`);
+        }
+    };
+}
 // function sendNotification(creds) {
 
 //     const io = require('../../../server').io;
