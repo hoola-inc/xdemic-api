@@ -5,8 +5,6 @@ const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
 const serverCredentials = require('../../constants/main.constant').credentials;
 const updateArrayInSchoolSchema = require('../../utilities/helpers/update-array.helper');
-// const io = require('../../../server').io;
-const socket = require('../../../server').socket;
 const AdminModel = require('../models/admin.model');
 
 const credentials = new Credentials(serverCredentials);
@@ -41,7 +39,7 @@ exports.showQRCode = async (req, res, next) => {
     }
 };
 
-exports.verifyClaims = async (req, res, next) => {
+exports.verifyClaims = async (req, res, next, io) => {
 
     try {
         const jwt = req.body.access_token;
@@ -62,8 +60,8 @@ exports.verifyClaims = async (req, res, next) => {
             createAdmin.email = creds.email;
             createAdmin.did = creds.did;
             createAdmin.pushToken = creds.pushToken;
-            await createAdmin.save();
-            createVerification(creds, push, next);
+            const data = await createAdmin.save();
+            createVerification(creds, push, next, data);
             // const createStudent = await newStudent.save();
             // if (createStudent) {
             //     console.log('Student Created');
@@ -80,7 +78,7 @@ exports.verifyClaims = async (req, res, next) => {
     }
 }
 
-function createVerification(creds, push, next) {
+function createVerification(creds, push, next, data) {
     credentials.createVerification({
         sub: creds.did,
         exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
@@ -98,7 +96,7 @@ function createVerification(creds, push, next) {
             console.log('Push notification sent and should be recieved any moment...');
             console.log('Accept the push notification in the xdemic mobile application');
 
-            socketSignal();
+            global.io.emit('QRCodeSuccess', data);
 
 
         })
@@ -108,55 +106,3 @@ function createVerification(creds, push, next) {
         });
 }
 
-
-
-
-
-function socketSignal() {
-    let interval;
-    console.log('io ::: ', io);
-    require('../../../server').io().on("connection", socket => {
-        console.log("New client connected");
-        if (interval) {
-            clearInterval(interval);
-        }
-        getApiAndEmit(socket);
-    });
-    const getApiAndEmit = async (socket) => {
-        try {
-            socket.emit("QRCodeSuccess", {
-                status: true,
-                data: "good to go!"
-            }); // Emitting a new message. It will be consumed by the client
-        }
-        catch (error) {
-            console.error(`Error: ${error.message}`);
-        }
-    };
-}
-// function sendNotification(creds) {
-
-//     const io = require('../../../server').io;
-//     console.log('sending push notification using socket io');
-//     let interval;
-//     io.on("connection", socket => {
-//         console.log("New client connected");
-//         if (interval) {
-//             clearInterval(interval);
-//         }
-//         interval = setInterval(() => getApiAndEmit(socket), 10000);
-//         socket.on("disconnect", () => {
-//             console.log("Client disconnected");
-//         });
-//     });
-//     const getApiAndEmit = async socket => {
-//         try {
-
-//             socket.emit("StudentRequest", {
-//                 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
-//             }); // Emitting a new message. It will be consumed by the client
-//         } catch (error) {
-//             console.error(`Error: ${error.message}`);
-//         }
-//     };
-// }

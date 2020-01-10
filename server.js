@@ -8,9 +8,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const socket = require('socket.io');
-const app = express()
-    , server = require('http').createServer(app)
-    , io = socket.listen(server);
+const app = express();
+const server = require('http').createServer(app)
+const io = socket.listen(server);
+global.io = io;
 // const winston = require('./src/config/winston-stream.config');
 const cool = require('cool-ascii-faces');
 const OAuthServer = require('express-oauth-server');
@@ -53,7 +54,6 @@ const publicDir = require('path').join(__dirname, './public');
 // console.log(publicDir);
 app.use(express.static(publicDir));
 
-
 // import all routes at once
 require('./src/utilities/routes.utility')(app);
 
@@ -74,7 +74,16 @@ server.listen(port, () => console.log(`%s 🚀 Server is listening on port ${por
 // // socket io connection 
 
 
-module.exports = {
-    io: io,
-    socket: socket
-}
+// opening Socket Connection.
+io.sockets.on('connection', socket => {
+    // console.log(socket.id);
+
+    connections.push(socket);
+    console.log('connected: %s socket connected', connections.length)
+
+    // Disconnect the socket
+    socket.on('disconnect', data => {
+        connections.splice(connections.indexOf(socket), 1)
+        console.log('Disconnected: %s socket connected', connections.length)
+    });
+});
