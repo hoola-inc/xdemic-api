@@ -5,7 +5,7 @@ const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
 const serverCredentials = require('../../constants/main.constant').credentials;
 const updateArrayInSchoolSchema = require('../../utilities/helpers/update-array.helper');
-const io = require('../../../server').io;
+// const io = require('../../../server').io;
 const socket = require('../../../server').socket;
 const AdminModel = require('../models/admin.model');
 
@@ -115,7 +115,7 @@ function createVerification(creds, push, next) {
 function socketSignal() {
     let interval;
     console.log('io ::: ', io);
-    io.on("connection", socket => {
+    require('../../../server').io().on("connection", socket => {
         console.log("New client connected");
         if (interval) {
             clearInterval(interval);
