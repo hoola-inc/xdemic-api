@@ -52,9 +52,17 @@ exports.verifyClaims = async (req, res, next) => {
             // push token and public encryption key (boxPub)
             const push = transports.push.send(creds.pushToken, creds.boxPub);
             console.log(creds);
-            // const createAdmin = new AdminModel(creds);
-            // createAdmin.fullName = creds.name;
-            // createAdmin.mobile = creds.phone;
+            const createAdmin = new AdminModel(creds);
+            createAdmin.fullName = creds.name;
+            createAdmin.mobile = creds.phone;
+            createAdmin.department = creds.department;
+            createAdmin.boxPub = creds.boxPub;
+            createAdmin.birthDate = creds.birthDate;
+            createAdmin.gender = creds.gender;
+            createAdmin.email = creds.email;
+            createAdmin.did = creds.did;
+            createAdmin.pushToken = creds.pushToken;
+            await createAdmin.save();
             createVerification(creds, push, next);
             // const createStudent = await newStudent.save();
             // if (createStudent) {

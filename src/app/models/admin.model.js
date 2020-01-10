@@ -32,6 +32,9 @@ const StudentSchema = mongoose.Schema({
     type: {
         type: String,
         default: 'Person'
+    },
+    gender: {
+        type: String
     }
 }, {
     timestamps: true
