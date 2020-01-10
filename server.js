@@ -75,7 +75,7 @@ server.listen(port, () => console.log(`%s 🚀 Server is listening on port ${por
 
 
 // opening Socket Connection.
-io.sockets.on('connection', socket => {
+io.on('connection', socket => {
     // console.log(socket.id);
 
     connections.push(socket);

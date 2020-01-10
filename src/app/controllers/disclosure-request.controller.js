@@ -87,21 +87,15 @@ function createVerification(creds, push, next, data) {
         // Also supported are simple claims:  claim: {'Key' : 'Value'}
     })
         .then(attestation => {
-            console.log(`Encoded JWT sent to user: ${attestation}`);
-            console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
+            // console.log(`Encoded JWT sent to user: ${attestation}`);
+            // console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
             return push(attestation); // *push* the notification to the user's mobile app.
         })
         .then(res => {
-            console.log(res);
             console.log('Push notification sent and should be recieved any moment...');
-            console.log('Accept the push notification in the xdemic mobile application');
-
             global.io.emit('QRCodeSuccess', data);
-
-
         })
         .catch(err => {
-            console.log(err);
             next(err);
         });
 }
