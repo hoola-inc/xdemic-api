@@ -39,7 +39,7 @@ exports.showQRCode = async (req, res, next) => {
     }
 };
 
-exports.verifyClaims = async (req, res, next, io) => {
+exports.verifyClaims = async (req, res, next) => {
 
     try {
         const jwt = req.body.access_token;
