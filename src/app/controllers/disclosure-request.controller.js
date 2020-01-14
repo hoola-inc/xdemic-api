@@ -93,7 +93,10 @@ function createVerification(creds, push, next, data) {
         })
         .then(res => {
             console.log('Push notification sent and should be recieved any moment...');
-            global.io.emit('QRCodeSuccess', data);
+            global.io.emit('QRCodeSuccess', {
+                status: true,
+                data: data
+            });
         })
         .catch(err => {
             next(err);
