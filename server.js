@@ -74,16 +74,12 @@ server.listen(port, () => console.log(`%s 🚀 Server is listening on port ${por
 // // socket io connection 
 
 
-// opening Socket Connection.
-io.on('connection', socket => {
-    // console.log(socket.id);
 
-    connections.push(socket);
-    console.log('connected: %s socket connected', connections.length)
-
-    // Disconnect the socket
-    socket.on('disconnect', data => {
-        connections.splice(connections.indexOf(socket), 1)
-        console.log('Disconnected: %s socket connected', connections.length)
-    });
+// socket io connection 
+let interval;
+io.on("connection", socket => {
+    console.log("New client connected");
+    if (interval) {
+        clearInterval(interval);
+    }
 });
