@@ -17,12 +17,12 @@ exports.createSchool = async (req, res, next) => {
         if (req.file) {
             console.log('with file ... ');
             //saving did and prvKey in credentials collection
-            const newCredentials = await saveCredentials.saveNewCredentials();
-            const did = newCredentials.did;
+            // const newCredentials = await saveCredentials.saveNewCredentials();
+            // const did = newCredentials.did;
 
             const newSchool = new SchoolSchema(req.body);
             // setting school did
-            newSchool.did = did;
+            // newSchool.did = did;
             newSchool.logo = req.file.name
 
             const createNewSchool = await newSchool.save();

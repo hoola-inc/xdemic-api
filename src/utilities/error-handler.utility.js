@@ -5,16 +5,40 @@ module.exports = app => {
         setImmediate(() => { next(new Error('Woops! route not found...')); });
     });
 
-    app.use((error, req, res, next) => {
+    app.use((err, req, res, next) => {
         // Any request to this server will get here, and will send an HTTP
         // response with the error message 'woops'
         // res.status(error.status || 500);
-        return res.status(500).send({
+
+        if (typeof (err) === 'string') {
+            // custom application error
+            return res.status(400).json({
+                status: false,
+                error: {
+                    message: err.message,
+                    detail: err
+                }
+            });
+        }
+
+        if (err.name === 'UnauthorizedError') {
+            // jwt authentication error
+            return res.status(401). json({
+                status: false,
+                error: {
+                    message: "Invalid Token",
+                    detail: err
+                }
+            });
+        }
+
+        // default to 500 server error
+        return res.status(500).json({
             status: false,
             error: {
-                message: error.message,
-                detail: error
+                message: err.message,
+                detail: err
             }
-        })
+        });
     });
 }

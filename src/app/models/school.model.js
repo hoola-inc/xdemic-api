@@ -59,7 +59,7 @@ const SchoolRegSchema = mongoose.Schema({
         default: 'secretariat(at)google.org'
     },
     phone: {
-        type: Number,
+        type: String,
         default: '0000000000'
     },
     logo: {

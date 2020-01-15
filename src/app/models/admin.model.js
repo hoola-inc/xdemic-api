@@ -5,7 +5,10 @@ const StudentSchema = mongoose.Schema({
     fullName: String,
     givenName: String,
     familyName: String,
-    URL: String,
+    URL: {
+        type: String,
+        default: ''
+    },
     pushToken: String,
     boxPub: String,
     birthDate: String,
@@ -34,6 +37,9 @@ const StudentSchema = mongoose.Schema({
         default: 'Person'
     },
     gender: {
+        type: String
+    },
+    department: {
         type: String
     }
 }, {
