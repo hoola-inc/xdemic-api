@@ -6,6 +6,7 @@ const StudentSchema = require('../models/student.model');
 const serverCredentials = require('../../constants/main.constant').credentials;
 const updateArrayInSchoolSchema = require('../../utilities/helpers/update-array.helper');
 const AdminModel = require('../models/admin.model');
+const encryption = require('../../utilities/encryption.utility').encryptMessage;
 
 const credentials = new Credentials(serverCredentials);
 
@@ -93,6 +94,8 @@ function createVerification(creds, push, next, data) {
         })
         .then(res => {
             console.log('Push notification sent and should be recieved any moment...');
+            const encrytData = encryption(data, data.boxPub);
+            console.log(encrytData);
             global.io.emit('QRCodeSuccess', {
                 status: true,
                 data: data
