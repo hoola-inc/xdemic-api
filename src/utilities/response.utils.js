@@ -27,3 +27,10 @@ module.exports.NOTFOUND = (res) => {
         message: 'no record found'
     });
 }
+
+module.exports.DELETE = (res) => {
+    return res.status(200).json({
+        status: true,
+        message: 'deleted successfully'
+    });
+}

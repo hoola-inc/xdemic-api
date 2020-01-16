@@ -86,3 +86,24 @@ exports.blockPerson = async (req, res, next) => {
         next(error);
     }
 }
+
+exports.editPerson = async (req, res, next) => {
+    try {
+        const did = req.params.did;
+        await PersonSchema.updateOne({ did: did }, { $set: req.body });
+        const data = await PersonSchema.findOne({ did: did });
+        response.SUCCESS(res, data);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.deletePerson = async (req, res, next) => {
+    try {
+        const did = req.params.did;
+        await PersonSchema.deleteOne({ did: did });
+        response.DELETE(res);
+    } catch (error) {
+        next(error);
+    }
+}

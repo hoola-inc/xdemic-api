@@ -5,7 +5,7 @@ const PersonSchema = mongoose.Schema({
     fullName: String,
     givenName: String,
     familyName: String,
-    URL: {
+    url: {
         type: String,
         default: ''
     },
