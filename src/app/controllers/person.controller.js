@@ -11,9 +11,10 @@ const courseSchema = require('../models/course.model');
 const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const saveCredentials = require('../../utilities/save-credentials');
-const encryptMessage = require('../../utilities/encryption.utility');
+const encryption = require('../../utilities/encryption.utility');
 const csvReader = require('../../utilities/csv.utility');
 const response = require('../../utilities/response.utils');
+
 
 
 exports.createPerson = async (req, res, next) => {
@@ -47,17 +48,7 @@ exports.createPerson = async (req, res, next) => {
 exports.getAllPersons = async (req, res, next) => {
     try {
         const persons = await PersonSchema.find();
-        if (persons.length > 0) {
-            return res.status(200).json({
-                status: true,
-                data: persons
-            })
-        } else {
-            return res.status(200).json({
-                status: false,
-                message: 'no record found'
-            })
-        }
+        persons.length > 0 ? response.SUCCESS(res, persons) : response.NOTFOUND(res);
     } catch (error) {
         next(error);
     }
@@ -81,6 +72,8 @@ exports.blockPerson = async (req, res, next) => {
         };
         await PersonSchema.updateOne({ did: did }, { $set: updateObject }, { runValidators: true });
         const data = await PersonSchema.findOne({ did: did });
+        const encryptedData = await encryption.encryptMessage('data', 'R/eYP0EyEBo5EpKEt6DpGEFGWwd17MQznB0YmW3b3kU=');
+        console.log(encryptedData);
         response.SUCCESS(res, data);
     } catch (error) {
         next(error);

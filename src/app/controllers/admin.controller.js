@@ -3,7 +3,8 @@ const decodeJWT = require('did-jwt').decodeJWT;
 const serverCredentials = require('../../utilities/create-credentials.utility').credentials;
 const transports = require('uport-transports').transport;
 const message = require('uport-transports').message.util;
-
+const response = require('../../utilities/response.utils');
+const encrption = require('../../utilities/encryption.utility');
 
 /**
  * Create QR Code
@@ -84,4 +85,26 @@ function createVerification(creds, push, next) {
         .catch(err => {
             throw new Error(err);
         });
+}
+
+
+exports.getAllAdmins = async (req, res, next) => {
+    try {
+        const adminData = await AdminModel.find();
+        adminData.length > 0 ? response.GETSUCCESS(res, adminData) : response.NOTFOUND(res);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.getSingleAdmin = async (req, res, next) => {
+    try {
+        const did = req.params.did;
+        const adminData = await AdminModel.find({ did: did });
+        const encryptedData = await encrption.encryptMessage(adminData, adminData[0].boxPub);
+        console.log(encryptedData);
+        adminData.length > 0 ? response.GETSUCCESS(res, adminData) : response.NOTFOUND(res);
+    } catch (error) {
+        next(error);
+    }
 }
