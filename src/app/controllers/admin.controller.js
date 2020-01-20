@@ -108,3 +108,12 @@ exports.getSingleAdmin = async (req, res, next) => {
         next(error);
     }
 }
+
+
+// exports.createAdminNew = async (req, res, next) => {
+//     try {
+//         const added = await AdminModel.createAdmin(req.body);
+//     } catch (error) {
+//         next(error);
+//     }
+// }

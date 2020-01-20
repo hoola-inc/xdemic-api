@@ -1,4 +1,3 @@
-'use strict'
 
 const express = require('express');
 const compression = require('compression');
@@ -7,7 +6,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const socket = require('socket.io');
+const socket = require('socket.io');    
 const app = express();
 const server = require('http').createServer(app)
 const io = socket.listen(server);
@@ -44,7 +43,7 @@ app.use(morgan('dev'));
 
 // default api route
 app.get("/", (req, res, next) => {
-    return res.status(200).json({ message: "Welcome to XdemiC api ", cheers: cool() });
+    return res.status(200).json({ message: "Welcome to xDemiC api ", cheers: cool() });
 });
 
 
