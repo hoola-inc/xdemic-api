@@ -5,7 +5,6 @@ const jwtSigner = require('../../utilities/jwt-signature-generator');
 const transports = require('uport-transports').transport;
 const { Credentials } = require('uport-credentials');
 const StudentSchooolModel = require('../models/student-school-bridge.model');
-const nodemailer = require('nodemailer');
 const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const courseSchema = require('../models/course.model');
 const writeFile = require('../../utilities/write-to-file.utility');
@@ -14,6 +13,7 @@ const saveCredentials = require('../../utilities/save-credentials');
 const encryption = require('../../utilities/encryption.utility');
 const csvReader = require('../../utilities/csv.utility');
 const response = require('../../utilities/response.utils');
+const nodemailer = require('nodemailer');
 
 
 
@@ -144,9 +144,54 @@ exports.personRole = async (req, res, next) => {
 }
 
 exports.sendEmail = async (req, res, next) => {
+    try {
+        const phoneArr = req.body.email;
+        const records = await PersonSchema.find({ 'mobile': { $in: phoneArr } }).select('email');
+        if (records.length > 0) {
+            records.map((element, index) => {
+                let targetEmail = element.email;
 
+                const transporter = nodemailer.createTransport({
+                    service: 'Gmail',
+                    auth: {
+                        user: process.env.EMAIL,
+                        pass: process.env.PASSWORD
+                    }
+                });
+
+                const mailOptions = {
+                    from: process.env.EMAIL,
+                    to: targetEmail,
+                    subject: 'Selective Disclosure Request',
+                    text: process.env.BASE_URL.concat('qrcode')
+                };
+
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error)
+                        next(error);
+                    else
+                        console.log('email sent successfully...');
+                });
+
+                if (index + 1 === records.length) {
+                    response.CUSTOM(res, 'email sent successfully')
+                }
+            });
+        } else {
+            response.NOTFOUND(res);
+        }
+
+    } catch (error) {
+        next(error);
+    }
 }
 
 exports.deleteMultiple = async (req, res, next) => {
-
+    try {
+        const mobileArr = req.body.mobile;
+        await PersonSchema.deleteMany({ mobile: { $in: mobileArr } });
+        response.CUSTOM(res, 'record deleted successfully');
+    } catch (error) {
+        next(error);
+    }
 }

@@ -1,7 +1,6 @@
+const personController = require('../controllers/person.controller');
+const uploadCSV = require('../../utilities/upload-csv.utils');
 module.exports = app => {
-    const personController = require('../controllers/person.controller');
-    const uploadCSV = require('../../utilities/upload-csv.utils');
-
     app.post('/person', personController.createPerson);
     app.get('/persons', personController.getAllPersons);
     app.get('/person/:mobile', personController.getSinglePerson);
@@ -11,5 +10,5 @@ module.exports = app => {
     app.put('/person/:mobile', personController.editPerson);
     app.delete('/person/:mobile', personController.deletePerson);
     app.post('/person/email', personController.sendEmail);
-    app.delete('/person/delete', personController.deleteMultiple);
+    app.post('/person/delete', personController.deleteMultiple);
 };
