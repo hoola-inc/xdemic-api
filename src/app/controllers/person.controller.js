@@ -47,7 +47,7 @@ exports.createPerson = async (req, res, next) => {
 
 exports.getAllPersons = async (req, res, next) => {
     try {
-        const persons = await PersonSchema.find();
+        const persons = await PersonSchema.find({ isBlocked: false });
         persons.length > 0 ? response.SUCCESS(res, persons) : response.NOTFOUND(res);
     } catch (error) {
         next(error);
@@ -72,8 +72,8 @@ exports.blockPerson = async (req, res, next) => {
         };
         await PersonSchema.updateOne({ did: did }, { $set: updateObject }, { runValidators: true });
         const data = await PersonSchema.findOne({ did: did });
-        const encryptedData = await encryption.encryptMessage('data', 'R/eYP0EyEBo5EpKEt6DpGEFGWwd17MQznB0YmW3b3kU=');
-        console.log(encryptedData);
+        // const encryptedData = await encryption.encryptMessage('data', 'R/eYP0EyEBo5EpKEt6DpGEFGWwd17MQznB0YmW3b3kU=');
+        // console.log(encryptedData);
         response.SUCCESS(res, data);
     } catch (error) {
         next(error);
