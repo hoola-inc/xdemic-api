@@ -11,4 +11,5 @@ module.exports = app => {
     app.delete('/person/:mobile', personController.deletePerson);
     app.post('/person/email', personController.sendEmail);
     app.post('/person/delete', personController.deleteMultiple);
-};
+    app.get('/person/role/:mobile', personController.getRole);
+};  

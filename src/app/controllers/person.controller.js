@@ -195,3 +195,12 @@ exports.deleteMultiple = async (req, res, next) => {
         next(error);
     }
 }
+
+exports.getRole = async (req, res, next) => {
+    try {
+        const roles = await PersonSchema.find({ mobile: req.params.mobile }).select('role');
+        roles.length > 0 ? response.GETSUCCESS(res, roles) : response.NOTFOUND(res);
+    } catch (error) {
+        next(error);
+    }
+}
