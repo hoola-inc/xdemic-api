@@ -48,7 +48,16 @@ exports.createPerson = async (req, res, next) => {
 exports.getAllPersons = async (req, res, next) => {
     try {
         const persons = await PersonSchema.find({ isBlocked: false });
-        persons.length > 0 ? response.SUCCESS(res, persons) : response.NOTFOUND(res);
+        persons.length > 0 ? response.GETSUCCESS(res, persons.reverse()) : response.NOTFOUND(res);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.getSinglePerson = async (req, res, next) => {
+    try {
+        const person = await PersonSchema.find({ mobile: req.params.mobile });
+        person.length > 0 ? response.SUCCESS(res, person) : response.NOTFOUND(res);
     } catch (error) {
         next(error);
     }
@@ -58,7 +67,22 @@ exports.csvFile = async (req, res, next) => {
     try {
         const fileName = req.file.filename;
         const csvData = await csvReader.readCSV(fileName);
-        response.SUCCESS(res, csvData);
+
+        csvData.map(async (element, index) => {
+            console.log(element.phone);
+            const newPerson = new PersonSchema({
+                fullName: element.name,
+                birthDate: element.dob,
+                email: element.email,
+                mobile: element.phone,
+                gender: element.gender
+            });
+            console.log('saving...', index);
+            await newPerson.save();
+
+            if (index + 1 === csvData.length)
+                response.CUSTOM(res, 'csv records added successfully');
+        });
     } catch (error) {
         next(error);
     }
@@ -66,12 +90,12 @@ exports.csvFile = async (req, res, next) => {
 
 exports.blockPerson = async (req, res, next) => {
     try {
-        const did = req.params.did;
+        const mobile = req.params.mobile;
         const updateObject = {
             isBlocked: req.body.isBlocked
         };
-        await PersonSchema.updateOne({ did: did }, { $set: updateObject }, { runValidators: true });
-        const data = await PersonSchema.findOne({ did: did });
+        await PersonSchema.updateOne({ mobile: mobile }, { $set: updateObject }, { runValidators: true });
+        const data = await PersonSchema.findOne({ mobile: mobile });
         // const encryptedData = await encryption.encryptMessage('data', 'R/eYP0EyEBo5EpKEt6DpGEFGWwd17MQznB0YmW3b3kU=');
         // console.log(encryptedData);
         response.SUCCESS(res, data);
@@ -82,10 +106,10 @@ exports.blockPerson = async (req, res, next) => {
 
 exports.editPerson = async (req, res, next) => {
     try {
-        const did = req.params.did;
-        await PersonSchema.updateOne({ did: did }, { $set: req.body });
-        const data = await PersonSchema.findOne({ did: did });
-        response.SUCCESS(res, data);
+        const mobile = req.params.mobile;
+        await PersonSchema.updateOne({ mobile: mobile }, { $set: req.body }, { runValidators: true });
+        console.log(foo);
+        response.CUSTOM(res, 'record updated successfully');
     } catch (error) {
         next(error);
     }
@@ -93,10 +117,25 @@ exports.editPerson = async (req, res, next) => {
 
 exports.deletePerson = async (req, res, next) => {
     try {
-        const did = req.params.did;
-        await PersonSchema.deleteOne({ did: did });
+        const mobile = req.params.mobile;
+        await PersonSchema.deleteOne({ mobile: mobile });
         response.DELETE(res);
     } catch (error) {
         next(error);
     }
 }
+
+// async function saveCsvData(csvData) {
+//     csvData.map(async (element, index) => {
+//         console.log(element.phone);
+//         const newPerson = new PersonSchema({
+//             fullName: element.name,
+//             birthDate: element.dob,
+//             email: element.email,
+//             mobile: element.phone,
+//             gender: element.gender
+//         });
+//         console.log('saving...', index);
+//         await newPerson.save();
+//     });
+// };

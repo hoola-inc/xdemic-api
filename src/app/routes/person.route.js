@@ -4,8 +4,9 @@ module.exports = app => {
 
     app.post('/person', personController.createPerson);
     app.get('/persons', personController.getAllPersons);
+    app.get('/person/:mobile', personController.getSinglePerson);
     app.post('/person/csv', uploadCSV, personController.csvFile);
-    app.patch('/person/:did', personController.blockPerson);
-    app.put('/person/:did', personController.editPerson);
-    app.delete('/person/:did', personController.deletePerson);
+    app.patch('/person/:mobile', personController.blockPerson);
+    app.put('/person/:mobile', personController.editPerson);
+    app.delete('/person/:mobile', personController.deletePerson);
 };

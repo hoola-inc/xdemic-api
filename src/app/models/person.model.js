@@ -18,23 +18,27 @@ const PersonSchema = mongoose.Schema({
     },
     mobile: {
         type: String,
-        required: [true, 'Why no mobile?']
+        required: [true, 'Why no mobile?'],
+        trim: true,
+        unique: true,
+        index: true
     },
     email: {
         type: String,
         lowercase: true,
         trim: true,
-        required: [true, 'Why no email?']
+        // required: [true, 'Why no email?']
     },
     did: {
         type: String,
-        required: [true, 'Why no DID?'],
-        unique: true,
-        index: true
+        default: ''
+        // required: [true, 'Why no DID?'],
+        // unique: true,
+        // index: true
     },
     gender: {
         type: String,
-        required: [true, 'Why no gender?']
+        // required: [true, 'Why no gender?']
     },
     type: {
         type: String,
@@ -53,13 +57,13 @@ const PersonSchema = mongoose.Schema({
 PersonSchema.pre("save", function (next) {
     const self = this;
 
-    mongoose.models["Person"].findOne({ did: this.did }, function (err, results) {
+    mongoose.models["Person"].findOne({ mobile: this.mobile }, function (err, results) {
         if (err) {
             next(err);
         } else if (results) {
-            console.log('did must be unique');
-            self.invalidate("did", "did must be unique");
-            next(new Error("did must be unique"));
+            console.log('mobile number must be unique');
+            self.invalidate("mobile", "mobile number must be unique");
+            next("mobile number must be unique");
         } else {
             next();
         }

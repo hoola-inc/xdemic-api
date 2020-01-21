@@ -34,3 +34,10 @@ module.exports.DELETE = (res) => {
         message: 'deleted successfully'
     });
 }
+
+module.exports.CUSTOM = (res, text) => {
+    return res.status(200).json({
+        status: true,
+        message: text
+    });
+}
