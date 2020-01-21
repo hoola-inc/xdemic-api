@@ -74,13 +74,15 @@ exports.csvFile = async (req, res, next) => {
                     fullName: element.name,
                     birthDate: element.dob,
                     email: element.email,
-                    mobile: element.phone,
+                    mobile: element.phone.replace(/[^+\d]+/g, ""),
                     gender: element.gender
                 });
                 await newPerson.save();
 
-                if (index + 1 === csvData.length)
-                    response.CUSTOM(res, 'csv records added successfully');
+                if (index + 1 === csvData.length) {
+                    const persons = await PersonSchema.find();
+                    response.GETSUCCESS(res, persons);
+                }
             } catch (error) {
                 next(error);
             }
@@ -127,6 +129,24 @@ exports.deletePerson = async (req, res, next) => {
     }
 }
 
+exports.personRole = async (req, res, next) => {
+    try {
+        const mobile = req.params.mobile;
+        const updateObject = {
+            role: req.body.role
+        };
+        await PersonSchema.updateOne({ mobile: mobile }, { $set: updateObject }, { runValidators: true });
+        const data = await PersonSchema.find({ mobile: mobile });
+        response.SUCCESS(res, data);
+    } catch (error) {
+        next(error);
+    }
+}
+
 exports.sendEmail = async (req, res, next) => {
+
+}
+
+exports.deleteMultiple = async (req, res, next) => {
 
 }

@@ -47,6 +47,11 @@ const PersonSchema = mongoose.Schema({
     isBlocked: {
         type: Boolean,
         default: false
+    },
+    role: {
+        type: String,
+        enum: ['Admin', 'Employee'],
+        default: 'Admin'
     }
 }, {
     timestamps: true
