@@ -69,19 +69,21 @@ exports.csvFile = async (req, res, next) => {
         const csvData = await csvReader.readCSV(fileName);
 
         csvData.map(async (element, index) => {
-            console.log(element.phone);
-            const newPerson = new PersonSchema({
-                fullName: element.name,
-                birthDate: element.dob,
-                email: element.email,
-                mobile: element.phone,
-                gender: element.gender
-            });
-            console.log('saving...', index);
-            await newPerson.save();
+            try {
+                const newPerson = new PersonSchema({
+                    fullName: element.name,
+                    birthDate: element.dob,
+                    email: element.email,
+                    mobile: element.phone,
+                    gender: element.gender
+                });
+                await newPerson.save();
 
-            if (index + 1 === csvData.length)
-                response.CUSTOM(res, 'csv records added successfully');
+                if (index + 1 === csvData.length)
+                    response.CUSTOM(res, 'csv records added successfully');
+            } catch (error) {
+                next(error);
+            }
         });
     } catch (error) {
         next(error);
@@ -125,17 +127,6 @@ exports.deletePerson = async (req, res, next) => {
     }
 }
 
-// async function saveCsvData(csvData) {
-//     csvData.map(async (element, index) => {
-//         console.log(element.phone);
-//         const newPerson = new PersonSchema({
-//             fullName: element.name,
-//             birthDate: element.dob,
-//             email: element.email,
-//             mobile: element.phone,
-//             gender: element.gender
-//         });
-//         console.log('saving...', index);
-//         await newPerson.save();
-//     });
-// };
+exports.sendEmail = async (req, res, next) => {
+
+}

@@ -9,4 +9,5 @@ module.exports = app => {
     app.patch('/person/:mobile', personController.blockPerson);
     app.put('/person/:mobile', personController.editPerson);
     app.delete('/person/:mobile', personController.deletePerson);
+    app.post('/person/sendemail', personController.sendEmail);
 };
