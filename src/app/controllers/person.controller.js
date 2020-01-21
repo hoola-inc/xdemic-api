@@ -95,7 +95,7 @@ exports.blockPerson = async (req, res, next) => {
             isBlocked: req.body.isBlocked
         };
         await PersonSchema.updateOne({ mobile: mobile }, { $set: updateObject }, { runValidators: true });
-        const data = await PersonSchema.findOne({ mobile: mobile });
+        const data = await PersonSchema.find({ mobile: mobile });
         // const encryptedData = await encryption.encryptMessage('data', 'R/eYP0EyEBo5EpKEt6DpGEFGWwd17MQznB0YmW3b3kU=');
         // console.log(encryptedData);
         response.SUCCESS(res, data);
@@ -108,8 +108,8 @@ exports.editPerson = async (req, res, next) => {
     try {
         const mobile = req.params.mobile;
         await PersonSchema.updateOne({ mobile: mobile }, { $set: req.body }, { runValidators: true });
-        console.log(foo);
-        response.CUSTOM(res, 'record updated successfully');
+        const data = await PersonSchema.find({ mobile: mobile });
+        response.SUCCESS(res, data);
     } catch (error) {
         next(error);
     }
