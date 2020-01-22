@@ -6,6 +6,7 @@ const StudentSchema = require('../models/student.model');
 const serverCredentials = require('../../constants/main.constant').credentials;
 const updateArrayInSchoolSchema = require('../../utilities/helpers/update-array.helper');
 const AdminModel = require('../models/admin.model');
+const PersonModel = require('../models/person.model');
 const encryption = require('../../utilities/encryption.utility').encryptMessage;
 
 const credentials = new Credentials(serverCredentials);
@@ -50,18 +51,17 @@ exports.verifyClaims = async (req, res, next) => {
             // set up a push transport with the provided 
             // push token and public encryption key (boxPub)
             const push = transports.push.send(creds.pushToken, creds.boxPub);
-            console.log(creds);
-            const createAdmin = new AdminModel(creds);
-            createAdmin.fullName = creds.name;
-            createAdmin.mobile = creds.phone;
-            createAdmin.department = creds.department;
-            createAdmin.boxPub = creds.boxPub;
-            createAdmin.birthDate = creds.birthDate;
-            createAdmin.gender = creds.gender;
-            createAdmin.email = creds.email;
-            createAdmin.did = creds.did;
-            createAdmin.pushToken = creds.pushToken;
-            const data = await createAdmin.save();
+            const createPerson = new PersonModel(creds);
+            createPerson.fullName = creds.name;
+            createPerson.mobile = creds.phone;
+            createPerson.department = creds.department;
+            createPerson.boxPub = creds.boxPub;
+            createPerson.birthDate = creds.birthDate;
+            createPerson.gender = creds.gender;
+            createPerson.email = creds.email;
+            createPerson.did = creds.did;
+            createPerson.pushToken = creds.pushToken;
+            const data = await createPerson.save();
             createVerification(creds, push, next, data);
             // const createStudent = await newStudent.save();
             // if (createStudent) {

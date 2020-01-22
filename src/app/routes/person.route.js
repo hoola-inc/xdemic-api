@@ -12,4 +12,4 @@ module.exports = app => {
     app.post('/person/email', personController.sendEmail);
     app.post('/person/delete', personController.deleteMultiple);
     app.get('/person/role/:mobile', personController.getRole);
-};  
+};

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+// TODO maybe depricated
+
 const AdminSchema = mongoose.Schema({
 
     fullName: String,
