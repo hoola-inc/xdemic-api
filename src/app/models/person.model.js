@@ -52,7 +52,8 @@ const PersonSchema = mongoose.Schema({
         type: String,
         enum: ['Admin', 'Employee'],
         default: 'Admin'
-    }
+    },
+    department: String
 }, {
     timestamps: true
 });
