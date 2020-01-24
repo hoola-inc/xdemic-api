@@ -47,7 +47,7 @@ exports.createPerson = async (req, res, next) => {
 
 exports.getAllPersons = async (req, res, next) => {
     try {
-        const persons = await PersonSchema.find({ isBlocked: false });
+        const persons = await PersonSchema.find();
         persons.length > 0 ? response.GETSUCCESS(res, persons.reverse()) : response.NOTFOUND(res);
     } catch (error) {
         next(error);
