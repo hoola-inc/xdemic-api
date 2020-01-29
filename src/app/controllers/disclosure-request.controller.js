@@ -100,6 +100,7 @@ function createVerification(creds, push, next, data) {
                 status: true,
                 data: data
             });
+            
         })
         .catch(err => {
             next(err);
