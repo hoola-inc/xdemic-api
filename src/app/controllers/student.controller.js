@@ -14,23 +14,27 @@ const saveCredentials = require('../../utilities/save-credentials');
 const encryptMessage = require('../../utilities/encryption.utility');
 const updateArrayHelper = require('../../utilities/helpers/update-array.helper');
 const schoolSchema = require('../models/school.model');
+const response = require('../../utilities/response.utils');
 
 exports.addStudent = async (req, res, next) => {
     try {
-        // TODO change here for req timeout...
-        req.setTimeout(120000);
         //saving did and prvKey in credentials collection
         const newCredentials = await saveCredentials.saveNewCredentials();
         const did = newCredentials.did;
 
+        // add new student
         const addNewStudent = new studentModel(req.body, true);
         addNewStudent.did = did;
-
         const createStudent = await addNewStudent.save();
-        const isWritten = await writeFile.writeToFile(did, 'students', createStudent);
+
+        // write to file
+        // await writeFile.writeToFile(did, 'students', createStudent);
+
+        // ipfs
         // const path = require('path').join(__dirname, `../../../public/files/students/${did}.json`);
         // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
 
+        // return reponse
         return res.status(200).json({
             status: true,
             data: createStudent,
@@ -129,7 +133,7 @@ exports.getfavoriteSchools = async (req, res, next) => {
                 }
             })
                 .then(data => {
-                    next(data);
+                    response.SUCCESS(res, data);
                 })
         } else {
             return res.status(200).json({

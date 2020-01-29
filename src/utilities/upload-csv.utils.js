@@ -1,7 +1,7 @@
 'use strict'
 
 const multer = require('multer');
-const path = require('path').join(__dirname, '../../public/img');
+const path = require('path').join(__dirname, '../../public/csv-files');
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -17,6 +17,6 @@ const upload = multer({
 }, {
     limits: 1024 * 1024 * 5
 });
-const uploadImage = upload.single('logo');
+const uploadCSV = upload.single('csv');
 
-module.exports = uploadImage;
+module.exports = uploadCSV;

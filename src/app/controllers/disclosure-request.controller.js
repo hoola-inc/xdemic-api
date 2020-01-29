@@ -5,23 +5,26 @@ const message = require('uport-transports').message.util;
 const StudentSchema = require('../models/student.model');
 const serverCredentials = require('../../constants/main.constant').credentials;
 const updateArrayInSchoolSchema = require('../../utilities/helpers/update-array.helper');
+const AdminModel = require('../models/admin.model');
+const PersonModel = require('../models/person.model');
+const encryption = require('../../utilities/encryption.utility').encryptMessage;
 
 const credentials = new Credentials(serverCredentials);
 
 exports.showQRCode = async (req, res, next) => {
     try {
         const requestToken = await credentials.createDisclosureRequest({
-            requested: ["name", "email", "phone", "birthDate"],
+            requested: ["name", "did", "department", "birthDate", "gender", "email", "phone", "avatar"],
             notifications: true,
             callbackUrl: process.env.BASE_URL.concat('callback'),
             callback_url: process.env.BASE_URL.concat('callback')
         });
 
         if (requestToken) {
-            console.log(decodeJWT(requestToken));  //log request token to console
+            // console.log(decodeJWT(requestToken));  //log request token to console
             const uri = message.paramsToQueryString(message.messageToURI(requestToken), { callback_type: 'post' });
             const qr = transports.ui.getImageDataURI(uri); // todo cahnge here with google playstore link ...
-            console.log(qr);
+            // console.log(qr);
             const logoPath = `${process.env.BASE_URL}img/logo.png`;
             const htmlNode = `<div style="width: 100%;display: flex;justify-content:center ;align-items: center;height: 100vh;">
                         <div style=" width: 1000px; display: block;">
@@ -48,26 +51,35 @@ exports.verifyClaims = async (req, res, next) => {
             // set up a push transport with the provided 
             // push token and public encryption key (boxPub)
             const push = transports.push.send(creds.pushToken, creds.boxPub);
-            const newStudent = new StudentSchema(creds);
-            newStudent.fullName = creds.name;
-            newStudent.mobile = creds.phone;
-            const createStudent = await newStudent.save();
-            if (createStudent) {
-                console.log('Student Created');
-                // update student array
+            const createPerson = new PersonModel(creds);
+            createPerson.fullName = creds.name;
+            createPerson.mobile = creds.phone;
+            createPerson.department = creds.department;
+            createPerson.boxPub = creds.boxPub;
+            createPerson.birthDate = creds.birthDate;
+            createPerson.gender = creds.gender;
+            createPerson.email = creds.email;
+            createPerson.did = creds.did;
+            createPerson.pushToken = creds.pushToken;
+            const data = await createPerson.save();
+            createVerification(creds, push, next, data);
+            // const createStudent = await newStudent.save();
+            // if (createStudent) {
+            //     console.log('Student Created');
+            //     // update student array
 
-                const updated = await updateArrayInSchoolSchema.addStudentInSchool(creds.did);
-                if (updated) {
-                    createVerification(creds, push, next);
-                }
-            }
+            //     const updated = await updateArrayInSchoolSchema.addStudentInSchool(creds.did);
+            //     if (updated) {
+            //         createVerification(creds, push, next);
+            //     }
+            // }
         }
     } catch (error) {
         next(error);
     }
 }
 
-function createVerification(creds, push, next) {
+function createVerification(creds, push, next, data) {
     credentials.createVerification({
         sub: creds.did,
         exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
@@ -76,47 +88,21 @@ function createVerification(creds, push, next) {
         // Also supported are simple claims:  claim: {'Key' : 'Value'}
     })
         .then(attestation => {
-            console.log(`Encoded JWT sent to user: ${attestation}`);
-            console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
+            // console.log(`Encoded JWT sent to user: ${attestation}`);
+            // console.log(`Decodeded JWT sent to user: ${JSON.stringify(decodeJWT(attestation))}`);
             return push(attestation); // *push* the notification to the user's mobile app.
         })
         .then(res => {
-            console.log(res);
             console.log('Push notification sent and should be recieved any moment...');
-            console.log('Accept the push notification in the xdemic mobile application');
+            const encrytData = encryption(data, data.boxPub);
+            console.log(encrytData);
+            global.io.emit('QRCodeSuccess', {
+                status: true,
+                data: data
+            });
         })
         .catch(err => {
-            console.log(err);
-            next(err.message);
+            next(err);
         });
 }
 
-
-
-
-// function sendNotification(creds) {
-
-//     const io = require('../../../server').io;
-//     console.log('sending push notification using socket io');
-//     let interval;
-//     io.on("connection", socket => {
-//         console.log("New client connected");
-//         if (interval) {
-//             clearInterval(interval);
-//         }
-//         interval = setInterval(() => getApiAndEmit(socket), 10000);
-//         socket.on("disconnect", () => {
-//             console.log("Client disconnected");
-//         });
-//     });
-//     const getApiAndEmit = async socket => {
-//         try {
-
-//             socket.emit("StudentRequest", {
-//                 'name': creds.name, 'dob': creds.dob, 'phone': creds.phone, 'email': creds.email
-//             }); // Emitting a new message. It will be consumed by the client
-//         } catch (error) {
-//             console.error(`Error: ${error.message}`);
-//         }
-//     };
-// }

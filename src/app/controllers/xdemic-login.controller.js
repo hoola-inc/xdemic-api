@@ -66,7 +66,7 @@ exports.sendEmail = (req, res, next) => {
         from: process.env.EMAIL,
         to: targetEmail,
         subject: 'Selective Disclosure Request',
-        text: process.env.BASE_URL.concat('qrcode')
+        text: process.env.DASHBOARD_URL.concat('qrcode')
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

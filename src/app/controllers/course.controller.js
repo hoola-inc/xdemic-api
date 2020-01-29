@@ -6,7 +6,12 @@ const writeFile = require('../../utilities/write-to-file.utility');
 const addToIPFS = require('../../utilities/ipfs-add-file.utility');
 const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const jwtSigner = require('../../utilities/jwt-signature-generator');
+const response = require('../../utilities/response.utils');
 
+
+/**
+ * create new course
+ */
 
 exports.createNewCourse = async (req, res, next) => {
     try {
@@ -30,45 +35,33 @@ exports.createNewCourse = async (req, res, next) => {
         if (courseProofSignature) {
             // saving new course
             const createNewCourse = await newCourse.save();
-            if (createNewCourse) {
 
-                // waiting to write file with new course data
-                const isWritten = await writeFile.writeToFile(did, 'courses', createNewCourse);
-                if (isWritten) {
-                    // hosting to ipfs 
-                    // const path = require('path').join(__dirname, `../../../public/files/courses/${did}.json`);
-                    // // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
-                    // if (ipfsFileHash) {
-                    return res.status(200).json({
-                        status: true,
-                        data: createNewCourse,
-                        // ipfs: ipfsLink.ipfsURL + ipfsFileHash
-                    });
-                    // }
-                }
-
-            }
+            // waiting to write file with new course data
+            // const isWritten = await writeFile.writeToFile(did, 'courses', createNewCourse);
+            // hosting to ipfs 
+            // const path = require('path').join(__dirname, `../../../public/files/courses/${did}.json`);
+            // // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
+            return res.status(200).json({
+                status: true,
+                data: createNewCourse,
+                // ipfs: ipfsLink.ipfsURL + ipfsFileHash
+            });
         }
     } catch (error) {
         next(error);
     }
 };
 
+
+/**
+ * Find all courses
+ */
+
 exports.getAllCourses = async (req, res, next) => {
     try {
-        const allCourses = await CourseSchema.find();
-        if (allCourses.length > 0) {
-            return res.status(200).json({
-                status: true,
-                length: allCourses.length,
-                data: allCourses.reverse()
-            });
-        } else {
-            return res.status(200).json({
-                status: false,
-                message: 'no record found'
-            });
-        }
+        const getAllCourses = await CourseSchema.find().lean();
+        if (allCourses.length > 0) response.GETSUCCESS(res, getAllCourses.reverse());
+        else response.NOTFOUND(res);
     } catch (error) {
         next(error);
     }
@@ -118,7 +111,7 @@ exports.getCourseById = (req, res, next) => {
             }
         })
         .catch(err => {
-            next(err.message);
+            next(err);
         })
 }
 
@@ -145,7 +138,7 @@ exports.updateCourseGrade = (req, res, next) => {
             }
         })
         .catch(err => {
-            next(err.message);
+            next(err);
         })
 }
 

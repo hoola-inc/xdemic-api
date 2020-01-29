@@ -4,7 +4,7 @@ const Grid = require('gridfs');
 
 mongo.MongoClient.connect(process.env.DB_URL, (err, db) => {
     if(err) {
-        console.log(err.message);
+        console.log(err);
     }
     console.log('Database ::: ', db);
     const gfs = Grid(db, mongo);

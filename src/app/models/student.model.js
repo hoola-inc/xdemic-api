@@ -55,7 +55,6 @@ const StudentSchema = mongoose.Schema({
 
 StudentSchema.pre("save", function (next) {
     const self = this;
-    console.log(this);
     mongoose.models["Student"].findOne({ did: this.did }, function (err, results) {
         if (err) {
             next(err);
