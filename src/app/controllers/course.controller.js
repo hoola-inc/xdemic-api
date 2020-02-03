@@ -2,9 +2,6 @@
 const CourseSchema = require('../models/course.model');
 const schoolSchema = require('../models/school.model');
 const saveCredentials = require('../../utilities/save-credentials');
-const writeFile = require('../../utilities/write-to-file.utility');
-const addToIPFS = require('../../utilities/ipfs-add-file.utility');
-const ipfsLink = require('../../constants/main.constant').ipfsLink;
 const jwtSigner = require('../../utilities/jwt-signature-generator');
 const response = require('../../utilities/response.utils');
 

@@ -58,11 +58,24 @@ const PersonSchema = mongoose.Schema({
     timestamps: true
 });
 
+class PersonModel {
+    static async createPerson(data) {
+        return await this.create(data);
+    }
+
+    static async getAllPersons() {
+        return await this.find();
+    }
+
+    static async getSinglePerson(obj) {
+        return await this.find(obj);
+    }
+}
+
 
 
 PersonSchema.pre("save", function (next) {
     const self = this;
-
     mongoose.models["Person"].findOne({ mobile: this.mobile }, function (err, results) {
         if (err) {
             next(err);
@@ -76,4 +89,5 @@ PersonSchema.pre("save", function (next) {
     });
 });
 
+PersonSchema.loadClass(PersonModel);
 module.exports = mongoose.model('Person', PersonSchema);

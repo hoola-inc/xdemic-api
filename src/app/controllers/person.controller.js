@@ -1,16 +1,6 @@
 'use strict'
 
 const PersonSchema = require('../models/person.model');
-const jwtSigner = require('../../utilities/jwt-signature-generator');
-const transports = require('uport-transports').transport;
-const { Credentials } = require('uport-credentials');
-const StudentSchooolModel = require('../models/student-school-bridge.model');
-const ipfsLink = require('../../constants/main.constant').ipfsLink;
-const courseSchema = require('../models/course.model');
-const writeFile = require('../../utilities/write-to-file.utility');
-const addToIPFS = require('../../utilities/ipfs-add-file.utility');
-const saveCredentials = require('../../utilities/save-credentials');
-const encryption = require('../../utilities/encryption.utility');
 const csvReader = require('../../utilities/csv.utility');
 const response = require('../../utilities/response.utils');
 const nodemailer = require('nodemailer');
@@ -19,27 +9,9 @@ const nodemailer = require('nodemailer');
 
 exports.createPerson = async (req, res, next) => {
     try {
-        // TODO change here for req timeout...
-        req.setTimeout(120000);
+        const person = await PersonSchema.createPerson(req.body);
+        response.SUCCESS(res, person);
 
-        //saving did and prvKey in credentials collection
-        const newCredentials = await saveCredentials.saveNewCredentials();
-        const did = newCredentials.did;
-
-
-        const addNewPerson = new PersonSchema(req.body);
-        addNewPerson.did = did;
-
-        const createNewPerson = await addNewPerson.save();
-        const isWritten = await writeFile.writeToFile(did, 'persons', createNewPerson);
-        // const path = require('path').join(__dirname, `../../../public/files/persons/${did}.json`);
-        // const ipfsFileHash = await addToIPFS.addFileIPFS(did, path);
-
-        return res.status(200).json({
-            status: true,
-            data: createNewPerson,
-            // ipfs: ipfsLink.ipfsURL + ipfsFileHash
-        });
     } catch (error) {
         next(error);
     }
@@ -47,7 +19,7 @@ exports.createPerson = async (req, res, next) => {
 
 exports.getAllPersons = async (req, res, next) => {
     try {
-        const persons = await PersonSchema.find();
+        const persons = await PersonSchema.getAllPersons();
         persons.length > 0 ? response.GETSUCCESS(res, persons.reverse()) : response.NOTFOUND(res);
     } catch (error) {
         next(error);
@@ -56,7 +28,7 @@ exports.getAllPersons = async (req, res, next) => {
 
 exports.getSinglePerson = async (req, res, next) => {
     try {
-        const person = await PersonSchema.find({ mobile: req.params.mobile });
+        const person = await PersonSchema.getSinglePerson({ mobile: req.params.mobile });
         person.length > 0 ? response.SUCCESS(res, person) : response.NOTFOUND(res);
     } catch (error) {
         next(error);

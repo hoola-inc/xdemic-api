@@ -32,14 +32,6 @@ exports.adminQRCode = async (req, res, next) => {
 }
 
 exports.createAdmin = async (req, res, next) => {
-
-    if (Object.keys(req.body).length === 0) {
-        return res.status(200).json({
-            status: false,
-            message: 'Request body is null'
-        });
-    }
-
     try {
         const jwt = req.body.access_token
         const creds = await serverCredentials.authenticateDisclosureResponse(jwt);
