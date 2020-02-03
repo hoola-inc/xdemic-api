@@ -6,6 +6,9 @@ ignore:
     - swagger > lodash:
         reason: waiting for package update
         expires: '2019-10-07T18:16:21.764Z'
+      express-oauth-server > oauth2-server > lodash:
+        reason: no patch or upgrade available
+        expires: '2020-03-04T10:04:59.891Z'
     - swagger > inquirer > lodash:
         reason: waiting for package update
         expires: '2019-10-07T18:16:21.764Z'
@@ -19,25 +22,31 @@ ignore:
     - swagger > lodash:
         reason: waiting for package update
         expires: '2019-10-07T18:16:21.764Z'
+      express-oauth-server > oauth2-server > lodash:
+        reason: no patch or upgrade available
+        expires: '2020-03-04T10:04:59.891Z'
     - swagger > swagger-test-templates > lodash:
         reason: None given
         expires: '2019-09-18T21:30:40.419Z'
-      swagger > inquirer > lodash:
-        reason: None given
-        expires: '2019-10-07T18:16:21.764Z'
     - swagger-node-express > lodash:
         reason: None given
         expires: '2019-09-18T21:30:40.419Z'
-      swagger > swagger-test-templates > lodash:
+    - swagger-node-express > lodash:
         reason: None given
         expires: '2019-10-07T18:16:21.765Z'
-    - swagger-node-express > lodash:
+    - swagger > inquirer > lodash:
+        reason: None given
+        expires: '2019-10-07T18:16:21.764Z'
+    - swagger > swagger-test-templates > lodash:
         reason: None given
         expires: '2019-10-07T18:16:21.765Z'
   SNYK-JS-LODASH-73639:
     - swagger > lodash:
         reason: waiting for package update
         expires: '2019-10-07T18:16:21.764Z'
+      express-oauth-server > oauth2-server > lodash:
+        reason: no patch or upgrade available
+        expires: '2020-03-04T10:04:59.891Z'
     - swagger > inquirer > lodash:
         reason: None given
         expires: '2019-10-07T18:16:21.764Z'
@@ -51,9 +60,9 @@ ignore:
     - swagger-node-express > lodash:
         reason: None given
         expires: '2019-09-18T21:30:40.419Z'
-      swagger > swagger-test-templates > lodash:
-        reason: waitinf for package update
-        expires: '2019-10-07T18:16:21.761Z'
+      express-oauth-server > oauth2-server > lodash:
+        reason: no patch or upgrade available
+        expires: '2020-03-04T10:04:59.891Z'
     - swagger > inquirer > lodash:
         reason: waitinf for package update
         expires: '2019-10-07T18:16:21.761Z'
@@ -63,20 +72,23 @@ ignore:
     - swagger-node-express > lodash:
         reason: None given
         expires: '2019-10-07T18:16:21.765Z'
+    - swagger > swagger-test-templates > lodash:
+        reason: waitinf for package update
+        expires: '2019-10-07T18:16:21.761Z'
   SNYK-JS-MARKED-174116:
     - uport-transports > did-jwt > jsdoc-to-markdown > dmd > marked:
-        reason: None given
-        expires: '2019-10-07T18:16:21.765Z'
+        reason: no patch or upgrade available
+        expires: '2020-03-04T10:04:59.891Z'
     - uport-transports > did-jwt > jsdoc-to-markdown > jsdoc-api > jsdoc > marked:
-        reason: None given
-        expires: '2019-10-07T18:16:21.765Z'
+        reason: no patch or upgrade available
+        expires: '2020-03-04T10:04:59.891Z'
   SNYK-JS-MARKED-451540:
     - uport-transports > did-jwt > jsdoc-to-markdown > dmd > marked:
-        reason: None given
-        expires: '2019-10-07T18:16:21.765Z'
+        reason: no patch or upgrade available
+        expires: '2020-03-04T10:04:59.891Z'
     - uport-transports > did-jwt > jsdoc-to-markdown > jsdoc-api > jsdoc > marked:
-        reason: None given
-        expires: '2019-10-07T18:16:21.765Z'
+        reason: no patch or upgrade available
+        expires: '2020-03-04T10:04:59.891Z'
   'npm:growl:20160721':
     - swagger > mocha > growl:
         reason: None given
@@ -129,6 +141,10 @@ ignore:
     - swagger-ui > remarkable > autolinker:
         reason: waiting for package update
         expires: '2019-10-07T18:16:21.762Z'
+  SNYK-JS-DOTPROP-543489:
+    - nodemon > update-notifier > configstore > dot-prop:
+        reason: None given
+        expires: '2020-03-04T10:04:59.891Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:debug:20170905':
