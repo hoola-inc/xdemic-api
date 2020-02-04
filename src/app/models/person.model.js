@@ -63,7 +63,7 @@ class PersonModel {
         return await this.create(data);
     }
 
-    static async getAllPersons() {
+    static async getAllPersons(obj) {
         return await this.find();
     }
 

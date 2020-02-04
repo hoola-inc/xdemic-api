@@ -11,7 +11,6 @@ const encrption = require('../../utilities/encryption.utility');
  */
 
 exports.adminQRCode = async (req, res, next) => {
-
     try {
         const requestToken = await serverCredentials.createDisclosureRequest({
             requested: ["name", "did", "department", "birthDate", "gender", "email", "phone", "avatar"],
@@ -100,12 +99,3 @@ exports.getSingleAdmin = async (req, res, next) => {
         next(error);
     }
 }
-
-
-// exports.createAdminNew = async (req, res, next) => {
-//     try {
-//         const added = await AdminModel.createAdmin(req.body);
-//     } catch (error) {
-//         next(error);
-//     }
-// }
