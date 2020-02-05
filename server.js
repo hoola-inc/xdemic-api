@@ -58,7 +58,7 @@ require('./src/utilities/error-handler.utility')(app);
 // db config
 require('./src/config/db.config');
 
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 8081;
 server.listen(port, () => console.log(`%s 🚀 Server is listening on port ${port}`, chalk.green('✓')));
 
 // socket io connection 
