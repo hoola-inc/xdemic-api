@@ -41,7 +41,7 @@ app.use(morgan('dev'));
 
 // default api route
 app.get("/", (req, res, next) => {
-    return res.status(200).json({ message: "Welcome to xDemiC api ", cheers: cool() });
+    return res.status(200).json({ message: "Welcome to xDemiC api from AWS", cheers: cool() });
 });
 
 const publicDir = require('path').join(__dirname, './public');
