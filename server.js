@@ -41,7 +41,7 @@ app.use(morgan('dev'));
 
 // default api route
 app.get("/", (req, res, next) => {
-    return res.status(200).json({ status: true, message: "Welcome to xDemiC api aws elasticbeanstalk", cheers: cool() });
+    return res.status(200).json({ status: true, message: "Welcome to xDemiC api aws elasticbeans", cheers: cool() });
 });
 
 const publicDir = require('path').join(__dirname, './public');
