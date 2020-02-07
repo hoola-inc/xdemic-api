@@ -1,59 +1,58 @@
 const mongoose = require('mongoose');
 
 const PersonSchema = mongoose.Schema({
-
-    fullName: String,
-    givenName: String,
-    familyName: String,
-    url: {
+    id: String,
+    type: String,
+    address: {
+        id: String,
         type: String,
-        default: ''
+        addressCountry: String,
+        addressLocality: String,
+        addressRegion: String,
+        postalCode: String,
+        postOfficeBoxNumber: String,
+        streetAddress: String,
     },
-    pushToken: String,
-    boxPub: String,
-    birthDate: String,
-    sourcedId: {
+    description: String,
+    endorsements: {
+        id: String,
         type: String,
-        default: ''
+        claim: String,
+        issuedOn: String,
+        issuer: String,
+        revocationReason: String,
+        revoked: String,
+        verification: String,
     },
-    mobile: {
+    email: String,
+    image: String,
+    name: String,
+    publicKey: {
+        id: String,
         type: String,
-        required: [true, 'Why no mobile?'],
-        trim: true,
-        unique: true,
-        index: true
+        owner: String,
+        publicKeyPem: String,
     },
-    email: {
+    revocationList: String,
+    sourcedId: String,
+    studentId: String,
+    telephone: String,
+    url: String,
+    verification: {
+        id: String,
         type: String,
-        lowercase: true,
-        trim: true,
-        // required: [true, 'Why no email?']
+        allowedOrigins: String,
+        creator: String,
+        startsWith: String,
+        verificationProperty: String,
     },
-    did: {
-        type: String,
-        default: ''
-        // required: [true, 'Why no DID?'],
-        // unique: true,
-        // index: true
-    },
-    gender: {
-        type: String,
-        // required: [true, 'Why no gender?']
-    },
-    type: {
-        type: String,
-        default: 'Person'
-    },
-    isBlocked: {
-        type: Boolean,
-        default: false
-    },
-    role: {
-        type: String,
-        enum: ['Admin', 'Employee'],
-        default: 'Admin'
-    },
-    department: String
+    extensions: {
+        role: {
+            type: String,
+            enum: ['Employee', 'Admin', 'Student'],
+            default: 'Admin'
+        }
+    }
 }, {
     timestamps: true
 });
