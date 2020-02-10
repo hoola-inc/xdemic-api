@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const uuidv4 = require('uuid/v4');
+
 /**
  * Schema design according to CLR
  * find more here https://www.imsglobal.org/sites/default/files/spec/clr/v1p0/InfoModel/clr_InfoModel.html#Data_Profile
@@ -11,7 +13,8 @@ const PersonSchema = mongoose.Schema({
     },
     address: {
         id: {
-            type: String
+            type: String,
+            default: uuidv4()
         },
         type: {
             type: String,
@@ -44,7 +47,10 @@ const PersonSchema = mongoose.Schema({
     },
     description: String,
     endorsements: {
-        id: String,
+        id: {
+            type: String,
+            default: uuidv4()
+        },
         type: {
             type: String
         },
@@ -78,7 +84,8 @@ const PersonSchema = mongoose.Schema({
     },
     publicKey: {
         id: {
-            type: String
+            type: String,
+            default: uuidv4()
         },
         type: {
             type: String
@@ -109,7 +116,10 @@ const PersonSchema = mongoose.Schema({
         type: String
     },
     verification: {
-        id: String,
+        id: {
+            type: String,
+            default: uuidv4()
+        },
         type: {
             type: String
         },
