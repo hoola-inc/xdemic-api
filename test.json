@@ -1,0 +1,55 @@
+{
+	"type": "",
+    "address": {
+        "id": "",
+        "type": "",
+        "addressCountry": "String",
+        "addressLocality": "String",
+        "addressRegion": "String",
+        "postalCode": "String",
+        "postOfficeBoxNumber": "String",
+        "streetAddress": "String"
+    },
+    "description": "String",
+    "endorsements": {
+        "id": "",
+        "type": "String",
+        "claim": "String",
+        "issuedOn": "String",
+        "issuer": "String",
+        "revocationReason": "String",
+        "revoked": "String",
+        "verification": "String"
+    },
+    "email": "String",
+    "image": "String",
+    "name": "String",
+    "publicKey": {
+        "id": "",
+        "type": "String",
+        "owner": "String",
+        "publicKeyPem": "String",
+    },
+    "revocationList": "String",
+    "sourcedId": {
+        "type": "String",
+        "default": ""
+    },
+    "studentId": {
+        "type": "String",
+        "default": ""
+    },
+    "telephone": "String",
+    "url": "String",
+    "verification": {
+        "id": "",
+        "type": "String",
+        "allowedOrigins": "String",
+        "creator": "String",
+        "startsWith": "String",
+        "verificationProperty": "String",
+    },
+    "extensions": {
+        "role": ""
+    }
+}
