@@ -10,7 +10,9 @@
     "start": "node server.js",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
-    "test": "mocha"
+    "test": "mocha",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -55,7 +57,7 @@
     "oauth2-server": "^3.0.1",
     "passport": "^0.4.1",
     "path": "^0.12.7",
-    "snyk": "^1.235.1",
+    "snyk": "^1.316.1",
     "socket.io": "^2.3.0",
     "tweetnacl": "^1.0.1",
     "tweetnacl-util": "^0.15.0",
