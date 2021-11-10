@@ -59,7 +59,7 @@
     "socket.io": "^2.3.0",
     "tweetnacl": "^1.0.1",
     "tweetnacl-util": "^0.15.0",
-    "uglify-js": "^3.6.9",
+    "uglify-js": "^3.14.3",
     "underscore": "^1.9.1",
     "uport-credentials": "^1.2.3",
     "uport-transports": "^0.2.6",
