@@ -43,7 +43,7 @@
     "gridfs": "^1.0.0",
     "helmet": "^3.21.1",
     "http": "0.0.0",
-    "ipfs": "^0.40.0",
+    "ipfs": "^0.66.1",
     "ipfs-http-client": "^38.2.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
