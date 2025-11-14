@@ -55,7 +55,7 @@
     "oauth2-server": "^3.0.1",
     "passport": "^0.4.1",
     "path": "^0.12.7",
-    "snyk": "^1.235.1",
+    "snyk": "^1.996.0",
     "socket.io": "^2.3.0",
     "tweetnacl": "^1.0.1",
     "tweetnacl-util": "^0.15.0",
